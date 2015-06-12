@@ -2,7 +2,7 @@
 
 Using a framework of your choice, and a language of your choice.
 
-We give bonus points for using PHP and/or one of these frameworks: [Proton](https://github.com/alexbilbie/proton) or [Radar](https://github.com/radarphp/Radar.Project).
+We give bonus points for using PHP and/or one of these frameworks: [Spark](https://github.com/sparkphp/Project), [Radar](https://github.com/radarphp/Radar.Project), or [Proton](https://github.com/alexbilbie/proton).
 
 ## Requirements
 
