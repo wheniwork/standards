@@ -4,7 +4,7 @@ While we will accept a framework of your choice, and a language of your choice, 
 
 If you choose to use another language, please be prepared to show fluency in multiple languages (including at least one [C-family language](https://en.wikipedia.org/wiki/List_of_C-family_programming_languages)), and knowledge of multiple design patterns ([DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself), [Open/Closed](https://en.wikipedia.org/wiki/Open/closed_principle), etc).
 
-<sub><sup>* Our core application is written almost entirely in PHP.</sup></sub>
+<sub><sup>* Our core application is written almost entirely in PHP and JS.</sup></sub>
 
 ## Requirements
 
