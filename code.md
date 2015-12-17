@@ -37,7 +37,7 @@ Briefly, a code review is a discussion between two or more developers about chan
 
 * **Method Arguments:** For the methods and functions, do they have a reasonable number arguments? If there are too many, it is probably a good sign that it could be grouped in a different way.
 
-* **Readability:** Is the code easy to understand? Does it's structure help to explain the purpose?
+* **Readability:** Is the code easy to understand? Does its structure help to explain the purpose?
 
 #### Testing
 
