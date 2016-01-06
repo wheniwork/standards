@@ -1,6 +1,6 @@
 # REST Scheduler API
 
-While we will accept a framework of your choice, and a language of your choice, we _highly_ encourage using **PHP*** and one of the following frameworks: [Spark](https://github.com/sparkphp/Project), [Radar](https://github.com/radarphp/Radar.Project), or [Proton](https://github.com/alexbilbie/proton).
+While we will accept a framework of your choice, and a language of your choice, we _highly_ encourage using **PHP*** and one of the following frameworks: [Equip](https://github.com/equip/framework), [Radar](https://github.com/radarphp/Radar.Project), or [Proton](https://github.com/alexbilbie/proton).
 
 If you choose to use another language, please be prepared to show fluency in multiple languages (including at least one [C-family language](https://en.wikipedia.org/wiki/List_of_C-family_programming_languages)), and knowledge of multiple design principles ([DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself), [Open/Closed](https://en.wikipedia.org/wiki/Open/closed_principle), etc) and patterns ([Factory](https://en.wikipedia.org/wiki/Factory_method_pattern), [DataMapper](https://en.wikipedia.org/wiki/Data_mapper_pattern), etc).
 
