@@ -1,8 +1,8 @@
 # REST Scheduler API
 
-Choose a framework of your choice and a language of your choice. While we encourage using PHP and a framework like [Symfony](http://symfony.com/), [Laravel](https://laravel.com/) or [Kohana](https://kohanaframework.org/), please use whatever framework and language you are most comfortable with. (Our main application is written in PHP and JS with Backbone and React, and we have started builiding some supporting Go services.)
+Choose a framework of your choice and a language of your choice. While we encourage using PHP or Go and a framework like [Symfony](http://symfony.com/) or [Gin](https://github.com/gin-gonic/gin), please use whatever framework and language you are most comfortable with. (Our application backend is written in PHP and Go, with the frontend in Backbone and React.)
 
-If you choose to use another language, please be prepared to show fluency in multiple languages (including at least one [C-family language](https://en.wikipedia.org/wiki/List_of_C-family_programming_languages)), and knowledge of multiple design principles ([DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself), [Open/Closed](https://en.wikipedia.org/wiki/Open/closed_principle), etc) and patterns ([Factory](https://en.wikipedia.org/wiki/Factory_method_pattern), [DataMapper](https://en.wikipedia.org/wiki/Data_mapper_pattern), etc).
+If you choose to use another language, please be prepared to show fluency in multiple languages, and knowledge of multiple design principles ([DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself), [Open/Closed](https://en.wikipedia.org/wiki/Open/closed_principle), etc) and patterns ([Factory](https://en.wikipedia.org/wiki/Factory_method_pattern), [DataMapper](https://en.wikipedia.org/wiki/Data_mapper_pattern), etc).
 
 Please provide a means for someone to checkout your project and run it.
 
