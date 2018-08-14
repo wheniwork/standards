@@ -2,14 +2,50 @@ package Database
 
 import (
 	"testing"
-		_ "github.com/lib/pq"
+	_ "github.com/lib/pq"
 	"database/sql"
 	"os"
 	"github.com/ecourant/standards/Site/conf"
-	)
+)
 
 var (
-	Config conf.Config
+	Config  conf.Config
+	Queries = []struct {
+		Query      string
+		Args       []interface{}
+		ShouldFail bool
+	}{
+		{
+			Query: "INSERT INTO public.users (name, email, phone, role) VALUES($1, $2, $3, $4);",
+			Args: []interface{}{
+				"Billy",
+				"billy@mays.com",
+				nil,
+				"employee",
+			},
+			ShouldFail: false,
+		},
+		{
+			Query: "INSERT INTO public.users (name, email, phone, role) VALUES($1, $2, $3, $4);",
+			Args: []interface{}{
+				"Billy",
+				"billy@mays.com",
+				nil,
+				"admin",
+			},
+			ShouldFail: true,
+		},
+		{
+			Query: "INSERT INTO public.shifts (manager_id,employee_id,start_time,end_time) VALUES($1, $2, $3::timestamp, $4::timestamp);",
+			Args: []interface{}{
+				3,
+				1,
+				"2018-08-13 8:00AM",
+				"2018-08-13 4:00PM",
+			},
+			ShouldFail: false,
+		},
+	}
 )
 
 func TestMain(m *testing.M) {
@@ -23,25 +59,16 @@ func TestMain(m *testing.M) {
 	os.Exit(retCode)
 }
 
-
-func Test_CreateUser(t *testing.T) {
-	if err := runQueryWithRollback(t, "INSERT INTO public.users (name, email, phone, role) VALUES($1, $2, $3, $4);", "Billy", "billy@mays.com", nil, "employee"); err != nil {
-		t.Error(err)
-		t.Fail()
-	}
-}
-
-func Test_CreateUserInvalidRole(t *testing.T) {
-	if err := runQueryWithRollback(t, "INSERT INTO public.users (name, email, phone, role) VALUES($1, $2, $3, $4);", "Billy", "billy@mays.com", nil, "admin"); err == nil {
-		t.Errorf("insert should have failed because of invalid role 'admin'")
-		t.Fail()
-	}
-}
-
-func Test_CreateShiftForUser(t *testing.T) {
-	if err := runQueryWithRollback(t, "INSERT INTO public.shifts (manager_id,employee_id,start_time,end_time) VALUES($1, $2, $3::timestamp, $4::timestamp);", 3, 1, "2018-08-13 8:00AM", "2018-08-13 4:00PM" ); err != nil {
-		t.Error(err)
-		t.Fail()
+func Test_Inserts(t *testing.T) {
+	for _, q := range Queries {
+		err := runQueryWithRollback(t, q.Query, q.Args...)
+		if q.ShouldFail && err == nil {
+			t.Errorf("query `%s` should have failed", q.Query)
+			t.Fail()
+		} else if !q.ShouldFail && err != nil {
+			t.Error(err)
+			t.Fail()
+		}
 	}
 }
 
