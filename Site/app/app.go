@@ -22,12 +22,11 @@ func App() *iris.Application {
 		p.Get("/", func(ctx iris.Context) {
 			ctx.JSON(getEndpointUrls())
 		})
-		p.PartyFunc("/users", controllers.Users)
 		// map the endppints from the endpoints array.
-		//for i, endpoint := range getEndpointUrls() {
-		//	p.PartyFunc(endpoint, Endpoints[i])
-		//	fmt.Printf("Mapped API Endpoint: /api/%s\n", endpoint)
-		//}
+		for i, endpoint := range getEndpointUrls() {
+			p.PartyFunc(endpoint, Endpoints[i])
+			fmt.Printf("Mapped API Endpoint: /api/%s\n", endpoint)
+		}
 	})
 	return app
 }
