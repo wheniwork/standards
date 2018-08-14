@@ -15,8 +15,8 @@ CREATE TABLE public.users (
 INSERT INTO public.users (name, email, phone, role)
 VALUES ('Elliot', 'elliot@elliot.com', null, 'employee'), --1
        ('Jimmy', 'jimmy@johns.com', null, 'employee'),    --2
-       ('Jenny', null, '867-5309', 'manager'),            --3
-       ('Henry', null, '123-4561', 'employee');           --4
+       ('Jenny', null, '1-800-867-5309', 'manager'),      --3
+       ('Henry', null, '1-800-123-4561', 'employee'); --4
 
 DROP TABLE IF EXISTS public.shifts;
 CREATE TABLE public.shifts (
