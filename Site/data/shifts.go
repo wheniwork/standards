@@ -23,10 +23,10 @@ type Shift struct {
 	ManagerID  *int     `json:"manager_id,omitempty" query:"11" name:"Manager ID"`
 	EmployeeID *int     `json:"employee_id,omitempty" query:"11" name:"Employee ID"`
 	Break      *float64 `json:"break,omitempty" query:"11" name:"Break"`
-	StartTimeF  *string  `json:"start_time,omitempty" query:"11" name:"Start Time" range:"starting"`
-	EndTimeF    *string  `json:"end_time,omitempty" query:"11" name:"End Time" range:"ending"`
-	CreatedAtF  *string  `json:"created_at,omitempty" query:"11" name:"Created At"`
-	UpdatedAtF  *string  `json:"updated_at,omitempty" query:"11" name:"Updated At"`
+	StartTime  *string  `json:"start_time,omitempty" query:"11" name:"Start Time" range:"starting"`
+	EndTime   *string  `json:"end_time,omitempty" query:"11" name:"End Time" range:"ending"`
+	CreatedAt  *string  `json:"created_at,omitempty" query:"11" name:"Created At"`
+	UpdatedAt  *string  `json:"updated_at,omitempty" query:"11" name:"Updated At"`
 }
 
 func (ctx DShifts) retrieveShifts(params filtering.RequestParams, view string) ([]Shift, *DError) {
