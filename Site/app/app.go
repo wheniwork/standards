@@ -19,6 +19,7 @@ var (
 func App() *iris.Application {
 	app := iris.Default()
 	app.PartyFunc("/api", func(p iris.Party) {
+		p.Use(APIMiddleware)
 		p.Get("/", func(ctx iris.Context) {
 			ctx.JSON(getEndpointUrls())
 		})

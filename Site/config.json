@@ -1,4 +1,5 @@
 {
   "connection_string": "postgresql://postgres:Spring!2016@localhost:5432/postgres?sslmode=disable",
-  "listen_port": 8080
+  "listen_port": 8080,
+  "rfc_2822_format": "Mon, Jan 02 15:04:05.00000 -0700 2006"
 }

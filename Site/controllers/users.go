@@ -11,7 +11,6 @@ func Users(p iris.Party) {
 		if params, err := filtering.ParseRequestParams(ctx, data.UserConstraints, filtering.StandardRequest); err != nil {
 			ctx.StatusCode(400)
 			ctx.JSON(ErrorAPIResponse{
-				Success:false,
 				Message:err.Error(),
 			})
 		} else if result, err := ctx.Values().Get("Session").(data.DSession).Users().GetUsers(*params); err != nil {

@@ -5,9 +5,14 @@ import (
 	"encoding/json"
 )
 
+var (
+	Cfg Config
+)
+
 type Config struct {
 	ConnectionString string `json:"connection_string"`
 	ListenPort int `json:"listen_port"`
+	RFC2822Format string `json:"rfc_2822_format"`
 }
 
 func LoadConfig(path string) (*Config, error){

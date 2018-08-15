@@ -3,13 +3,13 @@ CREATE TYPE user_role AS ENUM ('employee', 'manager');
 
 DROP TABLE IF EXISTS public.users CASCADE;
 CREATE TABLE public.users (
-  id         SERIAL    NOT NULL PRIMARY KEY,
-  name       TEXT      NOT NULL,
-  email      TEXT      NULL,
-  phone      TEXT      NULL,
-  role       user_role NOT NULL,
-  created_at TIMESTAMP NOT NULL DEFAULT TIMEZONE('utc', NOW()),
-  updated_at TIMESTAMP NOT NULL DEFAULT TIMEZONE('utc', NOW()),
+  id         SERIAL                   NOT NULL PRIMARY KEY,
+  name       TEXT                     NOT NULL,
+  email      TEXT                     NULL,
+  phone      TEXT                     NULL,
+  role       user_role                NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT TIMEZONE('CST', NOW()),
+  updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT TIMEZONE('CST', NOW()),
   CHECK ((email IS NOT NULL AND character_length(email) > 0) OR (phone IS NOT NULL AND character_length(phone) > 0))
 );
 INSERT INTO public.users (name, email, phone, role)
@@ -18,15 +18,41 @@ VALUES ('Elliot', 'elliot@elliot.com', null, 'employee'), --1
        ('Jenny', null, '1-800-867-5309', 'manager'),      --3
        ('Henry', null, '1-800-123-4561', 'employee'); --4
 
-DROP TABLE IF EXISTS public.shifts;
+DROP TABLE IF EXISTS public.shifts CASCADE;
 CREATE TABLE public.shifts (
-  id          SERIAL    NOT NULL PRIMARY KEY,
-  manager_id  INT       NOT NULL REFERENCES public.users (id),
-  employee_id INT       NOT NULL REFERENCES public.users (id),
-  break       FLOAT     NOT NULL DEFAULT 0,
-  start_time  TIMESTAMP NOT NULL,
-  end_time    TIMESTAMP NOT NULL,
-  created_at  TIMESTAMP NOT NULL DEFAULT TIMEZONE('utc', NOW()),
-  updated_at  TIMESTAMP NOT NULL DEFAULT TIMEZONE('utc', NOW())
+  id          SERIAL                   NOT NULL PRIMARY KEY,
+  manager_id  INT                      NOT NULL REFERENCES public.users (id),
+  employee_id INT                      NOT NULL REFERENCES public.users (id),
+  break       FLOAT                    NOT NULL DEFAULT 0,
+  start_time  TIMESTAMP WITH TIME ZONE NOT NULL,
+  end_time    TIMESTAMP WITH TIME ZONE NOT NULL,
+  created_at  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT TIMEZONE('CST', NOW()),
+  updated_at  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT TIMEZONE('CST', NOW())
 );
+INSERT INTO public.shifts (manager_id, employee_id, start_time, end_time)
+VALUES (3, 1, TIMEZONE('CST', NOW()), TIMEZONE('CST', NOW()) + INTERVAL '1 Hour'),
+       (3, 2, TIMEZONE('CST', NOW()), TIMEZONE('CST', NOW()) + INTERVAL '1 Hour');
 
+
+DROP VIEW IF EXISTS public.vw_users_api;
+CREATE VIEW public.vw_users_api AS
+  SELECT id,
+         name,
+         email,
+         phone,
+         role,
+         to_char(created_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS created_at,
+         to_char(updated_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS updated_at
+  FROM public.users;
+
+DROP VIEW IF EXISTS public.vw_shifts_api;
+CREATE VIEW public.vw_shifts_api AS
+  SELECT id,
+         manager_id,
+         employee_id,
+         break,
+         to_char(start_time, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS start_time,
+         to_char(end_time, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY')   AS end_time,
+         to_char(created_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS created_at,
+         to_char(updated_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS updated_at
+  FROM public.shifts;

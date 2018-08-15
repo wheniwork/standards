@@ -9,10 +9,14 @@ type DSessionType interface {
 }
 
 type DSession struct {
-	UserID    int64
+	UserID    int
 	IsManager bool
 }
 
 func (ctx DSession) Users() DUsers {
 	return DUsers{ctx}
+}
+
+func (ctx DSession) Shifts() DShifts {
+	return DShifts{ctx}
 }

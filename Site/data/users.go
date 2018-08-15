@@ -3,7 +3,9 @@ package data
 import (
 	"github.com/jinzhu/gorm"
 	"github.com/ecourant/standards/Site/filtering"
-)
+	_ "github.com/lib/pq"
+	"github.com/ecourant/standards/Site/conf"
+			)
 
 var (
 	UserConstraints = filtering.GenerateConstraints(User{})
@@ -26,21 +28,17 @@ type User struct {
 	UpdatedAt *string `json:"updated_at,omitempty" query:"11" name:"Updated At"`
 }
 
-type userRow struct {
-
-}
-
 func (ctx DUsers) GetUsers(params filtering.RequestParams) ([]User, *DError) {
-	db, err := gorm.Open("postgres", "")
+	db, err := gorm.Open("postgres", conf.Cfg.ConnectionString)
 	if err != nil {
 		return nil, NewServerError("Error, could not retrieve users at this time.", err)
 	}
 	defer db.Close()
 
-	result := make([]userRow, 0)
+	result := make([]User, 0)
 
 	db = db.
-		Table("vw_users_api").
+		Table("public.vw_users_api").
 		Select(params.Fields).
 		Order(params.Sorts).
 		Offset((params.Page * params.PageSize) - params.PageSize).
@@ -51,10 +49,9 @@ func (ctx DUsers) GetUsers(params filtering.RequestParams) ([]User, *DError) {
 	}
 
 	db.Scan(&result)
-
-	return rowToUser(result), nil
+	return result, nil
 }
 
-func rowToUser(rows []userRow) []User {
-	return nil
-}
+
+
+
