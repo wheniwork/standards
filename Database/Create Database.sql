@@ -8,8 +8,8 @@ CREATE TABLE public.users (
   email      TEXT                     NULL,
   phone      TEXT                     NULL,
   role       user_role                NOT NULL,
-  created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT TIMEZONE('CST', NOW()),
-  updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT TIMEZONE('CST', NOW()),
+  created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT TIMEZONE('CDT', NOW()),
+  updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT TIMEZONE('CDT', NOW()),
   CHECK ((email IS NOT NULL AND character_length(email) > 0) OR (phone IS NOT NULL AND character_length(phone) > 0))
 );
 INSERT INTO public.users (name, email, phone, role)
@@ -26,13 +26,13 @@ CREATE TABLE public.shifts (
   break       FLOAT                    NOT NULL DEFAULT 0,
   start_time  TIMESTAMP WITH TIME ZONE NOT NULL,
   end_time    TIMESTAMP WITH TIME ZONE NOT NULL,
-  created_at  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT TIMEZONE('CST', NOW()),
-  updated_at  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT TIMEZONE('CST', NOW())
+  created_at  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT TIMEZONE('CDT', NOW()),
+  updated_at  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT TIMEZONE('CDT', NOW())
 );
 INSERT INTO public.shifts (manager_id, employee_id, start_time, end_time)
-VALUES (3, 1, TIMEZONE('CST', '2018-08-11 8:00AM'), TIMEZONE('CST', '2018-08-11 2:00PM')),
-       (3, 1, TIMEZONE('CST', NOW()), TIMEZONE('CST', NOW()) + INTERVAL '1 Hour'),
-       (3, 2, TIMEZONE('CST', NOW()), TIMEZONE('CST', NOW()) + INTERVAL '1 Hour');
+VALUES (3, 1, TIMEZONE('CDT', '2018-08-11 8:00AM'), TIMEZONE('CDT', '2018-08-11 2:00PM')),
+       (3, 1, TIMEZONE('CDT', NOW()), TIMEZONE('CDT', NOW()) + INTERVAL '1 Hour'),
+       (3, 2, TIMEZONE('CDT', NOW()), TIMEZONE('CDT', NOW()) + INTERVAL '1 Hour');
 
 
 DROP VIEW IF EXISTS public.vw_users_api;

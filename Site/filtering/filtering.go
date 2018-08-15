@@ -37,8 +37,10 @@ type RequestParams struct {
 }
 
 type DateRange struct {
-	Start *string
-	End   *string
+	Start     *string
+	StartTime *string
+	End       *string
+	EndTime   *string
 }
 
 type RequestConstraints struct {
@@ -219,13 +221,23 @@ func ParseRequestParams(ctx iris.Context, constraints RequestConstraints, reques
 		} else {
 			params.Filters = make([]Filter, 0)
 		}
-		start, end := ctx.URLParam("date_from"), ctx.URLParam("date_to")
+		start, start_time, end, end_time :=
+			ctx.URLParam("date_from"),
+			ctx.URLParam("date_time_from"),
+			ctx.URLParam("date_to"),
+			ctx.URLParam("date_time_to")
 		daterange := DateRange{}
 		if start != "" {
 			daterange.Start = &start
 		}
+		if start_time != "" {
+			daterange.StartTime = &start_time
+		}
 		if end != "" {
 			daterange.End = &end
+		}
+		if end_time != "" {
+			daterange.EndTime = &end_time
 		}
 		params.DateRange = &daterange
 	}
@@ -268,10 +280,14 @@ func WhereFilters(db *gorm.DB, params RequestParams, constraints RequestConstrai
 		if params.DateRange != nil && (params.DateRange.Start != nil || params.DateRange.End != nil) {
 			if params.DateRange.Start != nil {
 				db = db.Where(fmt.Sprintf("%s::date >= ?::date", *constraints.StartingRangeField), *params.DateRange.Start)
+			} else if params.DateRange.StartTime != nil {
+				db = db.Where(fmt.Sprintf("%s::timestamp >= ?::timestamp", *constraints.StartingRangeField), *params.DateRange.StartTime)
 			}
 
 			if params.DateRange.End != nil {
 				db = db.Where(fmt.Sprintf("%s::date <= ?::date", *constraints.EndingRangeField), *params.DateRange.End)
+			} else if params.DateRange.EndTime != nil {
+				db = db.Where(fmt.Sprintf("%s::timestamp <= ?::timestamp", *constraints.EndingRangeField), *params.DateRange.EndTime)
 			}
 		}
 	}
