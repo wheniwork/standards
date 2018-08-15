@@ -30,7 +30,8 @@ CREATE TABLE public.shifts (
   updated_at  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT TIMEZONE('CST', NOW())
 );
 INSERT INTO public.shifts (manager_id, employee_id, start_time, end_time)
-VALUES (3, 1, TIMEZONE('CST', NOW()), TIMEZONE('CST', NOW()) + INTERVAL '1 Hour'),
+VALUES (3, 1, TIMEZONE('CST', '2018-08-11 8:00AM'), TIMEZONE('CST', '2018-08-11 2:00PM')),
+       (3, 1, TIMEZONE('CST', NOW()), TIMEZONE('CST', NOW()) + INTERVAL '1 Hour'),
        (3, 2, TIMEZONE('CST', NOW()), TIMEZONE('CST', NOW()) + INTERVAL '1 Hour');
 
 
@@ -47,6 +48,18 @@ CREATE VIEW public.vw_users_api AS
 
 DROP VIEW IF EXISTS public.vw_shifts_api;
 CREATE VIEW public.vw_shifts_api AS
+  SELECT id,
+         manager_id,
+         employee_id,
+         break,
+         to_char(start_time, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS start_time,
+         to_char(end_time, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY')   AS end_time,
+         to_char(created_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS created_at,
+         to_char(updated_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS updated_at
+  FROM public.shifts;
+
+DROP VIEW IF EXISTS public.vw_shifts_summary_api;
+CREATE VIEW public.vw_shifts_summary_api AS
   SELECT id,
          manager_id,
          employee_id,

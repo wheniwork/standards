@@ -29,7 +29,7 @@ func Shifts(p iris.Party) {
 			ctx.JSON(ErrorAPIResponse{
 				Message:err.Error(),
 			})
-		} else if result, err := ctx.Values().Get("Session").(data.DSession).Shifts().GetShifts(*params); err != nil {
+		} else if result, err := ctx.Values().Get("Session").(data.DSession).Shifts().GetMyShifts(*params); err != nil {
 			data.ErrorResponse(ctx, err)
 		} else {
 			ctx.JSON(APIResponse{
