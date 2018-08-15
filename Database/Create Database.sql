@@ -31,8 +31,8 @@ CREATE TABLE public.shifts (
 );
 INSERT INTO public.shifts (manager_id, employee_id, start_time, end_time)
 VALUES (3, 1, TIMEZONE('CDT', '2018-08-11 8:00AM'), TIMEZONE('CDT', '2018-08-11 2:00PM')),
-       (3, 1, TIMEZONE('CDT', NOW()), TIMEZONE('CDT', NOW()) + INTERVAL '1 Hour'),
-       (3, 2, TIMEZONE('CDT', NOW()), TIMEZONE('CDT', NOW()) + INTERVAL '1 Hour');
+       (3, 1, TIMEZONE('CDT', NOW()), TIMEZONE('CDT', NOW()) + INTERVAL '2 Hour'),
+       (3, 2, TIMEZONE('CDT', NOW()) - INTERVAL '1 Hour', TIMEZONE('CDT', NOW()) + INTERVAL '1 Hour');
 
 
 DROP VIEW IF EXISTS public.vw_users_api;
@@ -57,6 +57,21 @@ CREATE VIEW public.vw_shifts_api AS
          to_char(created_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS created_at,
          to_char(updated_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS updated_at
   FROM public.shifts;
+
+DROP VIEW IF EXISTS public.vw_shifts_detailed_api;
+CREATE VIEW public.vw_shifts_detailed_api AS
+  SELECT s.id as group_by_id,
+         s.employee_id as group_by_employee_id,
+         s2.id,
+         s2.manager_id,
+         s2.employee_id,
+         s2.break,
+         to_char(s2.start_time, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS start_time,
+         to_char(s2.end_time, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY')   AS end_time,
+         to_char(s2.created_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS created_at,
+         to_char(s2.updated_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS updated_at
+  FROM public.shifts s
+  INNER JOIN public.shifts s2 ON s2.start_time < s.end_time AND s2.end_time > s.start_time;
 
 DROP VIEW IF EXISTS public.vw_shifts_summary_api;
 CREATE VIEW public.vw_shifts_summary_api AS
