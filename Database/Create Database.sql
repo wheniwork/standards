@@ -42,8 +42,10 @@ CREATE VIEW public.vw_users_api AS
          email,
          phone,
          role,
-         to_char(created_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS created_at,
-         to_char(updated_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS updated_at
+         created_at,
+         updated_at,
+         to_char(created_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS created_at_f,
+         to_char(updated_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS updated_at_f
   FROM public.users;
 
 DROP VIEW IF EXISTS public.vw_shifts_api;
@@ -52,10 +54,14 @@ CREATE VIEW public.vw_shifts_api AS
          manager_id,
          employee_id,
          break,
-         to_char(start_time, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS start_time,
-         to_char(end_time, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY')   AS end_time,
-         to_char(created_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS created_at,
-         to_char(updated_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS updated_at
+         start_time,
+         end_time,
+         created_at,
+         updated_at,
+         to_char(start_time, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS start_time_f,
+         to_char(end_time, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY')   AS end_time_f,
+         to_char(created_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS created_at_f,
+         to_char(updated_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS updated_at_f
   FROM public.shifts;
 
 DROP VIEW IF EXISTS public.vw_shifts_summary_api;
@@ -64,8 +70,8 @@ CREATE VIEW public.vw_shifts_summary_api AS
          manager_id,
          employee_id,
          break,
-         to_char(start_time, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS start_time,
-         to_char(end_time, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY')   AS end_time,
-         to_char(created_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS created_at,
-         to_char(updated_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS updated_at
+         to_char(start_time, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS start_time_f,
+         to_char(end_time, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY')   AS end_time_f,
+         to_char(created_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS created_at_f,
+         to_char(updated_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS updated_at_f
   FROM public.shifts;

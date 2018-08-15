@@ -14,12 +14,13 @@ import (
 type Filter struct {
 	Field      string    `json:"field,omitempty"`
 	Equals     *string   `json:"equals,omitempty"`
-	EqualsInt  *int64    `json:"equals_int,omitempty"`
+	EqualsInt  *int      `json:"equals_int,omitempty"`
 	EqualsBool *bool     `json:"equals_bool,omitempty"`
 	Like       *string   `json:"like,omitempty"`
 	NotLike    *string   `json:"not_like,omitempty"`
 	InInt      *[]int64  `json:"in_int,omitempty"`
 	In         *[]string `json:"in,omitempty"`
+	Between    []string `json:"between,omitempty"`
 }
 
 type Sort struct {
@@ -55,7 +56,7 @@ const (
 	Sortable        QueryType = 2
 	DefaultSortAsc  QueryType = 4
 	DefaultSortDesc QueryType = 16
-	Standard        QueryType = 8 //Next should be 32
+	Standard        QueryType = 8 // Next should be 32
 )
 
 const (
@@ -126,7 +127,6 @@ func ParseRequestParams(ctx iris.Context, constraints RequestConstraints, reques
 	if requestType|StandardRequest == requestType {
 		params.Page = ctx.URLParamIntDefault("page", 1)
 		params.PageSize = ctx.URLParamIntDefault("page_size", 10)
-
 
 		if sorts := strings.Split(ctx.URLParam("order"), ","); len(sorts) > 0 && sorts[0] != "" {
 			if val, ok := constraints.QueryTypeCount[Sortable]; !(ok && val > 0) {
@@ -203,7 +203,25 @@ func ParseRequestParams(ctx iris.Context, constraints RequestConstraints, reques
 		} else {
 			params.Filters = make([]Filter, 0)
 		}
+
+		if start, end := ctx.URLParam("start_time"), ctx.URLParam("end_time"); start != "" && end != "" {
+			params.Filters = append(params.Filters, Filter{
+				Field: "start_time",
+				Between:[]string{
+					start,
+					end,
+				},
+			}, Filter{
+				Field: "end_time",
+				Between:[]string{
+					start,
+					end,
+				},
+			})
+		}
 	}
+
+
 
 	return &params, nil
 }
@@ -212,7 +230,7 @@ func WhereFilters(db *gorm.DB, params RequestParams, constraints RequestConstrai
 	for _, filter := range params.Filters {
 		t := struct {
 			st *string
-			it *int64
+			it *int
 			bo *bool
 		}{}
 		if field, ok := constraints.Fields[filter.Field]; ok && field.Type == reflect.TypeOf(t.st) {
@@ -224,6 +242,8 @@ func WhereFilters(db *gorm.DB, params RequestParams, constraints RequestConstrai
 				db = db.Where(filter.Field+" LIKE ?", filter.Like)
 			} else if filter.NotLike != nil {
 				db = db.Where(filter.Field+" NOT LIKE ?", filter.NotLike)
+			} else if filter.Between != nil && len(filter.Between) == 2 {
+				db = db.Where(fmt.Sprintf("%s BETWEEN %s AND %s", filter.Field, filter.Between[0], filter.Between[1]))
 			}
 		} else if ok && field.Type == reflect.TypeOf(t.it) {
 			if filter.EqualsInt != nil {

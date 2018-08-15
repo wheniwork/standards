@@ -23,14 +23,15 @@ type Shift struct {
 	ManagerID  *int     `json:"manager_id,omitempty" query:"11" name:"Manager ID"`
 	EmployeeID *int     `json:"employee_id,omitempty" query:"11" name:"Employee ID"`
 	Break      *float64 `json:"break,omitempty" query:"11" name:"Break"`
-	StartTime  *string  `json:"start_time,omitempty" query:"11" name:"Start Time"`
-	EndTime    *string  `json:"end_time,omitempty" query:"11" name:"End Time"`
-	CreatedAt  *string  `json:"created_at,omitempty" query:"11" name:"Created At"`
-	UpdatedAt  *string  `json:"updated_at,omitempty" query:"11" name:"Updated At"`
+	StartTimeF  *string  `json:"start_time,omitempty" query:"11" name:"Start Time"`
+	EndTimeF    *string  `json:"end_time,omitempty" query:"11" name:"End Time"`
+	CreatedAtF  *string  `json:"created_at,omitempty" query:"11" name:"Created At"`
+	UpdatedAtF  *string  `json:"updated_at,omitempty" query:"11" name:"Updated At"`
 }
 
-func (ctx DShifts) GetShifts(params filtering.RequestParams) ([]Shift, *DError) {
+func (ctx DShifts) retrieveShifts(params filtering.RequestParams, view string) ([]Shift, *DError) {
 	db, err := gorm.Open("postgres", conf.Cfg.ConnectionString)
+	db.LogMode(true)
 	if err != nil {
 		return nil, NewServerError("Error, could not retrieve shifts at this time.", err)
 	}
@@ -39,7 +40,7 @@ func (ctx DShifts) GetShifts(params filtering.RequestParams) ([]Shift, *DError) 
 	result := make([]Shift, 0)
 
 	db = db.
-		Table("public.vw_shifts_api").
+		Table(view).
 		Select(params.Fields).
 		Order(params.Sorts).
 		Offset((params.Page * params.PageSize) - params.PageSize).
@@ -51,33 +52,18 @@ func (ctx DShifts) GetShifts(params filtering.RequestParams) ([]Shift, *DError) 
 
 	db.Scan(&result)
 	return result, nil
+}
+
+func (ctx DShifts) GetShifts(params filtering.RequestParams) ([]Shift, *DError) {
+	return ctx.retrieveShifts(params, "public.vw_shifts_api")
 }
 
 func (ctx DShifts) GetMyShifts(params filtering.RequestParams) ([]Shift, *DError) {
 	params.Filters = append(params.Filters, filtering.Filter{
-
+		Field: "employee_id",
+		EqualsInt: &ctx.UserID,
 	})
-	db, err := gorm.Open("postgres", conf.Cfg.ConnectionString)
-	if err != nil {
-		return nil, NewServerError("Error, could not retrieve shifts at this time.", err)
-	}
-	defer db.Close()
-
-	result := make([]Shift, 0)
-
-	db = db.
-		Table("public.vw_shifts_api").
-		Select(params.Fields).
-		Order(params.Sorts).
-		Offset((params.Page * params.PageSize) - params.PageSize).
-		Limit(params.PageSize)
-
-	if len(params.Filters) > 0 {
-		db = filtering.WhereFilters(db, params, ctx.Constraints())
-	}
-
-	db.Scan(&result)
-	return result, nil
+	return ctx.GetShifts(params)
 }
 
 func (ctx DShifts) GetMySummary(params filtering.RequestParams) ([]Shift, *DError) {
