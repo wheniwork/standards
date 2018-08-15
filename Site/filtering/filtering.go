@@ -20,7 +20,6 @@ type Filter struct {
 	NotLike    *string   `json:"not_like,omitempty"`
 	InInt      *[]int64  `json:"in_int,omitempty"`
 	In         *[]string `json:"in,omitempty"`
-	Between    []string `json:"between,omitempty"`
 }
 
 type Sort struct {
@@ -29,17 +28,25 @@ type Sort struct {
 }
 
 type RequestParams struct {
-	Page     int
-	PageSize int
-	Fields   string
-	Sorts    string
-	Filters  []Filter
+	Page      int
+	PageSize  int
+	Fields    string
+	Sorts     string
+	Filters   []Filter
+	DateRange *DateRange
+}
+
+type DateRange struct {
+	Start *string
+	End   *string
 }
 
 type RequestConstraints struct {
-	Fields         map[string]RequestQueryField
-	QueryTypeCount map[QueryType]int
-	DefaultSort    string
+	Fields             map[string]RequestQueryField
+	QueryTypeCount     map[QueryType]int
+	DefaultSort        string
+	StartingRangeField *string
+	EndingRangeField   *string
 }
 
 type RequestQueryField struct {
@@ -113,6 +120,15 @@ func GenerateConstraints(T interface{}) RequestConstraints {
 				defaultSorts = append(defaultSorts, fieldName+" ASC")
 			} else if QueryType(q)|DefaultSortDesc == QueryType(q) {
 				defaultSorts = append(defaultSorts, fieldName+" DESC")
+			}
+		}
+
+		if val, ok := f.Tag.Lookup("range"); ok {
+			switch val {
+			case "starting":
+				cons.StartingRangeField = &fieldName
+			case "ending":
+				cons.EndingRangeField = &fieldName
 			}
 		}
 	}
@@ -203,25 +219,16 @@ func ParseRequestParams(ctx iris.Context, constraints RequestConstraints, reques
 		} else {
 			params.Filters = make([]Filter, 0)
 		}
-
-		if start, end := ctx.URLParam("start_time"), ctx.URLParam("end_time"); start != "" && end != "" {
-			params.Filters = append(params.Filters, Filter{
-				Field: "start_time",
-				Between:[]string{
-					start,
-					end,
-				},
-			}, Filter{
-				Field: "end_time",
-				Between:[]string{
-					start,
-					end,
-				},
-			})
+		start, end := ctx.URLParam("date_from"), ctx.URLParam("date_to")
+		daterange := DateRange{}
+		if start != "" {
+			daterange.Start = &start
 		}
+		if end != "" {
+			daterange.End = &end
+		}
+		params.DateRange = &daterange
 	}
-
-
 
 	return &params, nil
 }
@@ -242,8 +249,6 @@ func WhereFilters(db *gorm.DB, params RequestParams, constraints RequestConstrai
 				db = db.Where(filter.Field+" LIKE ?", filter.Like)
 			} else if filter.NotLike != nil {
 				db = db.Where(filter.Field+" NOT LIKE ?", filter.NotLike)
-			} else if filter.Between != nil && len(filter.Between) == 2 {
-				db = db.Where(fmt.Sprintf("%s BETWEEN %s AND %s", filter.Field, filter.Between[0], filter.Between[1]))
 			}
 		} else if ok && field.Type == reflect.TypeOf(t.it) {
 			if filter.EqualsInt != nil {
@@ -259,6 +264,18 @@ func WhereFilters(db *gorm.DB, params RequestParams, constraints RequestConstrai
 			fmt.Println("Type", field.Type)
 		}
 	}
+	if constraints.StartingRangeField != nil && constraints.EndingRangeField != nil {
+		if params.DateRange != nil && (params.DateRange.Start != nil || params.DateRange.End != nil) {
+			if params.DateRange.Start != nil {
+				db = db.Where(fmt.Sprintf("%s::date >= ?::date", *constraints.StartingRangeField), *params.DateRange.Start)
+			}
+
+			if params.DateRange.End != nil {
+				db = db.Where(fmt.Sprintf("%s::date <= ?::date", *constraints.EndingRangeField), *params.DateRange.End)
+			}
+		}
+	}
+
 	return db
 }
 

@@ -60,25 +60,25 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="go" value="7414" />
+          <entry key="go" value="8074" />
           <entry key="json" value="149" />
-          <entry key="sql" value="1847" />
+          <entry key="sql" value="1861" />
           <entry key="txt" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Go" value="7414" />
+          <entry key="Go" value="8074" />
           <entry key="JSON" value="149" />
           <entry key="PLAIN_TEXT" value="2" />
           <entry key="SQL" value="1769" />
-          <entry key="Scratch" value="78" />
+          <entry key="Scratch" value="92" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.23827909">
+    <splitter split-orientation="horizontal" split-proportion="0.4412576">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="false">
@@ -105,8 +105,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Site/data/shifts.go">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="363">
-                  <caret line="39" column="30" lean-forward="true" selection-start-line="39" selection-start-column="30" selection-end-line="39" selection-end-column="30" />
+                <state relative-caret-position="416">
+                  <caret line="45" column="34" lean-forward="true" selection-start-line="45" selection-start-column="34" selection-end-line="45" selection-end-column="34" />
                   <folding>
                     <element signature="e#14#141#0" expanded="true" />
                   </folding>
@@ -135,8 +135,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Database/Create Database.sql">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="382">
-                  <caret line="44" column="20" selection-start-line="44" selection-start-column="20" selection-end-line="44" selection-end-column="20" />
+                <state relative-caret-position="47">
+                  <caret line="29" column="38" lean-forward="true" selection-start-line="29" selection-start-column="14" selection-end-line="29" selection-end-column="38" />
                 </state>
               </provider>
             </entry>
@@ -160,8 +160,11 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Site/filtering/filtering.go">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="806">
-                  <caret line="214" column="32" selection-start-line="214" selection-start-column="32" selection-end-line="214" selection-end-column="32" />
+                <state relative-caret-position="649">
+                  <caret line="273" column="51" selection-start-line="273" selection-start-column="51" selection-end-line="273" selection-end-column="51" />
+                  <folding>
+                    <element signature="e#6586#7718#0" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -178,8 +181,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/b4ffa56c-6fba-4908-a9bc-2a4e43295b27/console_1.sql">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="46">
-                  <caret line="2" column="72" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="72" />
+                <state relative-caret-position="207">
+                  <caret line="9" column="57" selection-start-line="9" selection-start-column="57" selection-end-line="9" selection-end-column="57" />
                 </state>
               </provider>
             </entry>
@@ -215,7 +218,6 @@
         <option value="$PROJECT_DIR$/Site/app/app.go" />
         <option value="$PROJECT_DIR$/Site/main.go" />
         <option value="$PROJECT_DIR$/Site/util/dates/formatter.go" />
-        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/b4ffa56c-6fba-4908-a9bc-2a4e43295b27/console_1.sql" />
         <option value="$PROJECT_DIR$/Site/data/users.go" />
         <option value="$PROJECT_DIR$/Site/app/middleware.go" />
         <option value="$PROJECT_DIR$/Site/data/data.go" />
@@ -223,8 +225,9 @@
         <option value="$PROJECT_DIR$/Site/controllers/shifts.go" />
         <option value="$PROJECT_DIR$/Site/config.json" />
         <option value="$PROJECT_DIR$/Site/conf/config.go" />
-        <option value="$PROJECT_DIR$/Site/data/shifts.go" />
         <option value="$PROJECT_DIR$/Database/Create Database.sql" />
+        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/b4ffa56c-6fba-4908-a9bc-2a4e43295b27/console_1.sql" />
+        <option value="$PROJECT_DIR$/Site/data/shifts.go" />
         <option value="$PROJECT_DIR$/Site/filtering/filtering.go" />
       </list>
     </option>
@@ -444,7 +447,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.4020239" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.22230595" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.22155237" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -466,6 +469,18 @@
         <option value="$PROJECT_DIR$/../../kataras/iris/websocket/client.js" />
       </list>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/Site/filtering/filtering.go</url>
+          <line>29</line>
+          <properties />
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/code.md">
@@ -626,13 +641,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/b4ffa56c-6fba-4908-a9bc-2a4e43295b27/console_1.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="46">
-          <caret line="2" column="72" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="72" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Site/data/users.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-3">
@@ -683,15 +691,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Database/Create Database.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="382">
-          <caret line="44" column="20" selection-start-line="44" selection-start-column="20" selection-end-line="44" selection-end-column="20" />
+        <state relative-caret-position="47">
+          <caret line="29" column="38" lean-forward="true" selection-start-line="29" selection-start-column="14" selection-end-line="29" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/b4ffa56c-6fba-4908-a9bc-2a4e43295b27/console_1.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="9" column="57" selection-start-line="9" selection-start-column="57" selection-end-line="9" selection-end-column="57" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Site/data/shifts.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="363">
-          <caret line="39" column="30" lean-forward="true" selection-start-line="39" selection-start-column="30" selection-end-line="39" selection-end-column="30" />
+        <state relative-caret-position="416">
+          <caret line="45" column="34" lean-forward="true" selection-start-line="45" selection-start-column="34" selection-end-line="45" selection-end-column="34" />
           <folding>
             <element signature="e#14#141#0" expanded="true" />
           </folding>
@@ -700,8 +715,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Site/filtering/filtering.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="806">
-          <caret line="214" column="32" selection-start-line="214" selection-start-column="32" selection-end-line="214" selection-end-column="32" />
+        <state relative-caret-position="649">
+          <caret line="273" column="51" selection-start-line="273" selection-start-column="51" selection-end-line="273" selection-end-column="51" />
+          <folding>
+            <element signature="e#6586#7718#0" />
+          </folding>
         </state>
       </provider>
     </entry>

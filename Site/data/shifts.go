@@ -23,8 +23,8 @@ type Shift struct {
 	ManagerID  *int     `json:"manager_id,omitempty" query:"11" name:"Manager ID"`
 	EmployeeID *int     `json:"employee_id,omitempty" query:"11" name:"Employee ID"`
 	Break      *float64 `json:"break,omitempty" query:"11" name:"Break"`
-	StartTimeF  *string  `json:"start_time,omitempty" query:"11" name:"Start Time"`
-	EndTimeF    *string  `json:"end_time,omitempty" query:"11" name:"End Time"`
+	StartTimeF  *string  `json:"start_time,omitempty" query:"11" name:"Start Time" range:"starting"`
+	EndTimeF    *string  `json:"end_time,omitempty" query:"11" name:"End Time" range:"ending"`
 	CreatedAtF  *string  `json:"created_at,omitempty" query:"11" name:"Created At"`
 	UpdatedAtF  *string  `json:"updated_at,omitempty" query:"11" name:"Updated At"`
 }
@@ -46,7 +46,7 @@ func (ctx DShifts) retrieveShifts(params filtering.RequestParams, view string) (
 		Offset((params.Page * params.PageSize) - params.PageSize).
 		Limit(params.PageSize)
 
-	if len(params.Filters) > 0 {
+	if len(params.Filters) > 0 || params.DateRange != nil {
 		db = filtering.WhereFilters(db, params, ctx.Constraints())
 	}
 
