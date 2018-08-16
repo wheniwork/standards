@@ -39,7 +39,7 @@ func Shifts(p iris.Party) {
 		}
 	})
 
-	p.Get("/mine/{id:int}", func(ctx iris.Context) {
+	p.Get("/overlapping/{id:int}", func(ctx iris.Context) {
 		if params, err := filtering.ParseRequestParams(ctx, data.ShiftConstraints, filtering.StandardRequest); err != nil {
 			ctx.StatusCode(400)
 			ctx.JSON(ErrorAPIResponse{
@@ -51,7 +51,7 @@ func Shifts(p iris.Party) {
 				Success:false,
 				Message:"Error, could not parse shift id.",
 			})
-		} else if result, err := ctx.Values().Get("Session").(data.DSession).Shifts().GetShiftDetails(*params, id, nil); err != nil {
+		} else if result, err := ctx.Values().Get("Session").(data.DSession).Shifts().GetShiftDetails(*params, id); err != nil {
 			data.ErrorResponse(ctx, err)
 		} else {
 			ctx.JSON(APIResponse{

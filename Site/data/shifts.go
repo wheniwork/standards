@@ -104,7 +104,7 @@ func (ctx DShifts) GetMyShifts(params filtering.RequestParams) ([]Shift, *DError
 	return rowsToShifts(result), nil
 }
 
-func (ctx DShifts) GetShiftDetails(params filtering.RequestParams, id int, user_id *int) ([]Shift, *DError) {
+func (ctx DShifts) GetShiftDetails(params filtering.RequestParams, id int) ([]Shift, *DError) {
 	db, err := gorm.Open("postgres", conf.Cfg.ConnectionString)
 	db.LogMode(true)
 	if err != nil {
@@ -114,17 +114,12 @@ func (ctx DShifts) GetShiftDetails(params filtering.RequestParams, id int, user_
 
 	result := make([]shiftRow, 0)
 
-	if user_id == nil {
-		user_id = &ctx.UserID
-	}
-
 	db = db.
 		Table("public.vw_shifts_detailed_api").
 		Select(params.Fields).
 		Order(params.Sorts).
 		Offset((params.Page * params.PageSize) - params.PageSize).
 		Limit(params.PageSize).
-		Where("(group_by_employee_id = ? OR group_by_employee_id IS NULL)", *user_id).
 		Where("group_by_id = ?", id)
 
 	if len(params.Filters) > 0 || params.DateRange != nil {
