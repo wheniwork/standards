@@ -22,12 +22,13 @@ DROP TABLE IF EXISTS public.shifts CASCADE;
 CREATE TABLE public.shifts (
   id          SERIAL                   NOT NULL PRIMARY KEY,
   manager_id  INT                      NOT NULL REFERENCES public.users (id),
-  employee_id INT                      NOT NULL REFERENCES public.users (id),
+  employee_id INT                      NULL REFERENCES public.users (id),
   break       FLOAT                    NOT NULL DEFAULT 0,
   start_time  TIMESTAMP WITH TIME ZONE NOT NULL,
   end_time    TIMESTAMP WITH TIME ZONE NOT NULL,
   created_at  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT TIMEZONE('CDT', NOW()),
-  updated_at  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT TIMEZONE('CDT', NOW())
+  updated_at  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT TIMEZONE('CDT', NOW()),
+  CHECK (start_time < end_time)
 );
 INSERT INTO public.shifts (manager_id, employee_id, start_time, end_time)
 VALUES (3, 1, TIMEZONE('CDT', '2018-08-11 8:00AM'), TIMEZONE('CDT', '2018-08-11 2:00PM')),
