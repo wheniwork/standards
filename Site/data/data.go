@@ -20,3 +20,7 @@ func (ctx DSession) Users() DUsers {
 func (ctx DSession) Shifts() DShifts {
 	return DShifts{ctx}
 }
+
+func (ctx DSession) Summaries() DSummary {
+	return DSummary{ctx}
+}

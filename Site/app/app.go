@@ -13,6 +13,7 @@ var (
 	Endpoints = []func(p iris.Party){
 		controllers.Users,
 		controllers.Shifts,
+		controllers.Summaries,
 	}
 )
 

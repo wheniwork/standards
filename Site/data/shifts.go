@@ -38,6 +38,7 @@ type shiftRow struct {
 	EmployeeUser *string `json:"employee_user,omitempty" query:"11" name:"Employee User"`
 }
 
+
 func rowsToShifts(rows []shiftRow) []Shift {
 	result := make([]Shift, len(rows))
 	for i, row := range rows {
@@ -52,6 +53,8 @@ func rowsToShifts(rows []shiftRow) []Shift {
 	}
 	return result
 }
+
+
 
 func (ctx DShifts) GetShifts(params filtering.RequestParams) ([]Shift, *DError) {
 	db, err := gorm.Open("postgres", conf.Cfg.ConnectionString)
@@ -123,30 +126,6 @@ func (ctx DShifts) GetShiftDetails(params filtering.RequestParams, id int) ([]Sh
 		Where("group_by_id = ?", id)
 
 	if len(params.Filters) > 0 || params.DateRange != nil {
-		db = filtering.WhereFilters(db, params, ctx.Constraints())
-	}
-
-	db.Scan(&result)
-	return rowsToShifts(result), nil
-}
-
-func (ctx DShifts) GetMySummary(params filtering.RequestParams) ([]Shift, *DError) {
-	db, err := gorm.Open("postgres", conf.Cfg.ConnectionString)
-	if err != nil {
-		return nil, NewServerError("Error, could not retrieve shifts at this time.", err)
-	}
-	defer db.Close()
-
-	result := make([]shiftRow, 0)
-
-	db = db.
-		Table("public.vw_shifts_api").
-		Select(params.Fields).
-		Order(params.Sorts).
-		Offset((params.Page * params.PageSize) - params.PageSize).
-		Limit(params.PageSize).Where("(employee_id = ? OR manager_id = ?)", ctx.UserID, ctx.UserID)
-
-	if len(params.Filters) > 0 {
 		db = filtering.WhereFilters(db, params, ctx.Constraints())
 	}
 
