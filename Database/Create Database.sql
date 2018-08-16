@@ -19,8 +19,8 @@ CREATE TABLE public.users (
   email      TEXT                     NULL,
   phone      TEXT                     NULL,
   role       user_role                NOT NULL,
-  created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT TIMEZONE('CDT', NOW()),
-  updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT TIMEZONE('CDT', NOW()),
+  created_at TIMESTAMP NOT NULL DEFAULT (localtimestamp),
+  updated_at TIMESTAMP NOT NULL DEFAULT (localtimestamp),
   CHECK ((email IS NOT NULL AND character_length(email) > 0) OR (phone IS NOT NULL AND character_length(phone) > 0))
 );
 INSERT INTO public.users (name, email, phone, role)
@@ -35,18 +35,18 @@ CREATE TABLE public.shifts (
   manager_id  INT                      NOT NULL REFERENCES public.users (id),
   employee_id INT                      NULL REFERENCES public.users (id),
   break       FLOAT                    NOT NULL DEFAULT 0,
-  start_time  TIMESTAMP WITH TIME ZONE NOT NULL,
-  end_time    TIMESTAMP WITH TIME ZONE NOT NULL,
-  created_at  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT TIMEZONE('CDT', NOW()),
-  updated_at  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT TIMEZONE('CDT', NOW()),
+  start_time  TIMESTAMP NOT NULL,
+  end_time    TIMESTAMP NOT NULL,
+  created_at  TIMESTAMP NOT NULL DEFAULT (localtimestamp),
+  updated_at  TIMESTAMP NOT NULL DEFAULT (localtimestamp),
   CHECK (start_time < end_time)
 );
 INSERT INTO public.shifts (manager_id, employee_id, start_time, end_time)
-VALUES (3, 1, TIMEZONE('CDT', '2018-08-11 8:00AM'), TIMEZONE('CDT', '2018-08-11 2:00PM')),
-       (3, 1, TIMEZONE('CDT', NOW()), TIMEZONE('CDT', NOW()) + INTERVAL '2 Hour'),
-       (3, 1, TIMEZONE('CDT', NOW()) + INTERVAL '1 Day', TIMEZONE('CDT', NOW()) + INTERVAL '6 Day 3 Hour 11 minutes'),
-       (3, 2, TIMEZONE('CDT', NOW()) - INTERVAL '1 Hour', TIMEZONE('CDT', NOW()) + INTERVAL '1 Hour'),
-       (3, 3, TIMEZONE('CDT', NOW()) + INTERVAL '1 Hour', TIMEZONE('CDT', NOW()) + INTERVAL '3 Hour');
+VALUES --(3, 1, TIMEZONE('CDT', '2018-08-11 8:00AM'), TIMEZONE('CDT', '2018-08-11 2:00PM')),
+       --(3, 1, TIMEZONE('CDT', NOW()), TIMEZONE('CDT', NOW()) + INTERVAL '2 Hour'),
+       (3, 1, 'Sun, Aug 19 22:00:00.000 2018', 'Sun, Aug 20 02:00:00.00 2018');
+       --(3, 2, TIMEZONE('CDT', NOW()) - INTERVAL '1 Hour', TIMEZONE('CDT', NOW()) + INTERVAL '1 Hour'),
+       --(3, 3, TIMEZONE('CDT', NOW()) + INTERVAL '1 Hour', TIMEZONE('CDT', NOW()) + INTERVAL '3 Hour');
 UPDATE public.shifts SET break = 0.5;
 
 
@@ -57,8 +57,8 @@ CREATE VIEW public.vw_users_api AS
          email,
          phone,
          role,
-         to_char(created_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS created_at,
-         to_char(updated_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS updated_at
+         to_char(created_at, 'Dy, Mon DD HH24:MI:SS.MS YYYY') AS created_at,
+         to_char(updated_at, 'Dy, Mon DD HH24:MI:SS.MS YYYY') AS updated_at
   FROM public.users;
 
 DROP VIEW IF EXISTS public.vw_shifts_api;
@@ -70,8 +70,8 @@ CREATE VIEW public.vw_shifts_api AS
                      manager.email,
                      manager.phone,
                      manager.role,
-                     to_char(manager.created_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY'),
-                     to_char(manager.updated_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY')) :: public.user) AS manager_user,
+                     to_char(manager.created_at, 'Dy, Mon DD HH24:MI:SS.MS YYYY'),
+                     to_char(manager.updated_at, 'Dy, Mon DD HH24:MI:SS.MS YYYY')) :: public.user) AS manager_user,
          s.employee_id,
          CASE
            WHEN s.employee_id IS NOT NULL THEN to_json(row (employee.id,
@@ -80,15 +80,15 @@ CREATE VIEW public.vw_shifts_api AS
                                                            employee.phone,
                                                            employee.role,
                                                            to_char(employee.created_at,
-                                                                   'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY'),
+                                                                   'Dy, Mon DD HH24:MI:SS.MS YYYY'),
                                                            to_char(employee.updated_at,
-                                                                   'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY')) :: public.user)
+                                                                   'Dy, Mon DD HH24:MI:SS.MS YYYY')) :: public.user)
            ELSE NULL END                                                                                AS employee_user,
          s.break,
-         to_char(s.start_time, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY')                                    AS start_time,
-         to_char(s.end_time, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY')                                      AS end_time,
-         to_char(s.created_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY')                                    AS created_at,
-         to_char(s.updated_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY')                                    AS updated_at
+         to_char(s.start_time, 'Dy, Mon DD HH24:MI:SS.MS YYYY')                                    AS start_time,
+         to_char(s.end_time, 'Dy, Mon DD HH24:MI:SS.MS YYYY')                                      AS end_time,
+         to_char(s.created_at, 'Dy, Mon DD HH24:MI:SS.MS YYYY')                                    AS created_at,
+         to_char(s.updated_at, 'Dy, Mon DD HH24:MI:SS.MS YYYY')                                    AS updated_at
   FROM public.shifts s
          INNER JOIN public.users manager ON manager.id = s.manager_id
          LEFT JOIN public.users employee ON employee.id = s.employee_id;
@@ -104,8 +104,8 @@ CREATE VIEW public.vw_shifts_detailed_api AS
                      manager.email,
                      manager.phone,
                      manager.role,
-                     to_char(manager.created_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY'),
-                     to_char(manager.updated_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY')) :: public.user) AS manager_user,
+                     to_char(manager.created_at, 'Dy, Mon DD HH24:MI:SS.MS YYYY'),
+                     to_char(manager.updated_at, 'Dy, Mon DD HH24:MI:SS.MS YYYY')) :: public.user) AS manager_user,
          s2.employee_id,
          CASE
            WHEN s2.employee_id IS NOT NULL THEN to_json(row (employee.id,
@@ -114,15 +114,15 @@ CREATE VIEW public.vw_shifts_detailed_api AS
                                                             employee.phone,
                                                             employee.role,
                                                             to_char(employee.created_at,
-                                                                    'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY'),
+                                                                    'Dy, Mon DD HH24:MI:SS.MS YYYY'),
                                                             to_char(employee.updated_at,
-                                                                    'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY')) :: public.user)
+                                                                    'Dy, Mon DD HH24:MI:SS.MS YYYY')) :: public.user)
            ELSE NULL END                                                                                AS employee_user,
          s2.break,
-         to_char(s2.start_time, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY')                                   AS start_time,
-         to_char(s2.end_time, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY')                                     AS end_time,
-         to_char(s2.created_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY')                                   AS created_at,
-         to_char(s2.updated_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY')                                   AS updated_at
+         to_char(s2.start_time, 'Dy, Mon DD HH24:MI:SS.MS YYYY')                                   AS start_time,
+         to_char(s2.end_time, 'Dy, Mon DD HH24:MI:SS.MS YYYY')                                     AS end_time,
+         to_char(s2.created_at, 'Dy, Mon DD HH24:MI:SS.MS YYYY')                                   AS created_at,
+         to_char(s2.updated_at, 'Dy, Mon DD HH24:MI:SS.MS YYYY')                                   AS updated_at
   FROM public.shifts s
          INNER JOIN public.shifts s2 ON s2.start_time < s.end_time AND s2.end_time > s.start_time
          INNER JOIN public.users manager ON manager.id = s2.manager_id
@@ -138,8 +138,8 @@ CREATE VIEW public.vw_shifts_summary_api AS
                      employee.email,
                      employee.phone,
                      employee.role,
-                     to_char(employee.created_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY'),
-                     to_char(employee.updated_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY')) :: public.user) AS employee_user,
+                     to_char(employee.created_at, 'Dy, Mon DD HH24:MI:SS.MS YYYY'),
+                     to_char(employee.updated_at, 'Dy, Mon DD HH24:MI:SS.MS YYYY')) :: public.user) AS employee_user,
          a.week,
          a.week_start,
          a.week_end,
@@ -155,10 +155,10 @@ CREATE VIEW public.vw_shifts_summary_api AS
                to_char(start_time, 'YYYYWW')                 AS week,
 
                to_char(to_date(to_char(start_time, 'YYYYWW'), 'YYYYWW'),
-                       'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS week_start,
-
-               to_char(to_date(to_char(start_time, 'YYYYWW'), 'YYYYWW') + INTERVAL '6.99999999999 Days',
-                       'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS week_end,
+                       'Dy, Mon DD HH24:MI:SS.MS YYYY') AS week_start,
+-- + INTERVAL '6.99999999999 Days'
+               to_char((to_date(to_char(start_time, 'YYYYWW'), 'YYYYWW') + INTERVAL '7 Days'),
+                       'Dy, Mon DD HH24:MI:SS.MS YYYY') AS week_end,
 
                id                                            AS shift_id,
             -- We are taking the end date of the current week or the end date of the shift, whichever is less we will use as the end date for this shift.
@@ -166,7 +166,7 @@ CREATE VIEW public.vw_shifts_summary_api AS
             -- This happens when a shift extends beyond the week, such as a late shift that starts on a sunday night and finishes monday morning.
             -- That shifts hours would be logged on two seperate weeks. If i can get this working.
             -- Getting hours to cut off at the end of the week is one thing, but then adding hours to the next week is tricker.
-               ((LEAST(to_date(to_char(start_time, 'YYYYWW'), 'YYYYWW') + INTERVAL '6.99999999999 Days', end_time) -
+               ((LEAST((to_date(to_char(start_time, 'YYYYWW'), 'YYYYWW') + INTERVAL '7 Days'), end_time) -
                  start_time) - (break * INTERVAL '1 Hour'))  AS hours,
 
                break                                         AS breaks
