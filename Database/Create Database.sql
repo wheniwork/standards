@@ -44,7 +44,8 @@ CREATE TABLE public.shifts (
 INSERT INTO public.shifts (manager_id, employee_id, start_time, end_time)
 VALUES (3, 1, TIMEZONE('CDT', '2018-08-11 8:00AM'), TIMEZONE('CDT', '2018-08-11 2:00PM')),
        (3, 1, TIMEZONE('CDT', NOW()), TIMEZONE('CDT', NOW()) + INTERVAL '2 Hour'),
-       (3, 2, TIMEZONE('CDT', NOW()) - INTERVAL '1 Hour', TIMEZONE('CDT', NOW()) + INTERVAL '1 Hour');
+       (3, 2, TIMEZONE('CDT', NOW()) - INTERVAL '1 Hour', TIMEZONE('CDT', NOW()) + INTERVAL '1 Hour'),
+       (3, 3, TIMEZONE('CDT', NOW()) + INTERVAL '1 Hour', TIMEZONE('CDT', NOW()) + INTERVAL '3 Hour');
 
 
 DROP VIEW IF EXISTS public.vw_users_api;
