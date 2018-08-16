@@ -4,6 +4,7 @@ import (
 	"github.com/ecourant/standards/Site/filtering"
 	"github.com/jinzhu/gorm"
 	"github.com/ecourant/standards/Site/conf"
+	"encoding/json"
 )
 
 var (
@@ -19,14 +20,37 @@ func (ctx DShifts) Constraints() filtering.RequestConstraints {
 }
 
 type Shift struct {
-	ID         *int     `json:"id,omitempty" query:"27" name:"ID"`
-	ManagerID  *int     `json:"manager_id,omitempty" query:"11" name:"Manager ID"`
-	EmployeeID *int     `json:"employee_id,omitempty" query:"11" name:"Employee ID"`
-	Break      *float64 `json:"break,omitempty" query:"11" name:"Break"`
-	StartTime  *string  `json:"start_time,omitempty" query:"11" name:"Start Time" range:"starting"`
-	EndTime    *string  `json:"end_time,omitempty" query:"11" name:"End Time" range:"ending"`
-	CreatedAt  *string  `json:"created_at,omitempty" query:"11" name:"Created At"`
-	UpdatedAt  *string  `json:"updated_at,omitempty" query:"11" name:"Updated At"`
+	ID           *int     `json:"id,omitempty" query:"27" name:"ID"`
+	ManagerID    *int     `json:"manager_id,omitempty" query:"11" name:"Manager ID"`
+	ManagerUser  *User    `json:"manager_user,omitempty" query:"8" name:"Manager User"`
+	EmployeeID   *int     `json:"employee_id,omitempty" query:"11" name:"Employee ID"`
+	EmployeeUser *User    `json:"employee_user,omitempty" query:"8" name:"Employee User"`
+	Break        *float64 `json:"break,omitempty" query:"11" name:"Break"`
+	StartTime    *string  `json:"start_time,omitempty" query:"11" name:"Start Time" range:"starting"`
+	EndTime      *string  `json:"end_time,omitempty" query:"11" name:"End Time" range:"ending"`
+	CreatedAt    *string  `json:"created_at,omitempty" query:"11" name:"Created At"`
+	UpdatedAt    *string  `json:"updated_at,omitempty" query:"11" name:"Updated At"`
+}
+
+type shiftRow struct {
+	Shift
+	ManagerUser  *string `json:"manager_user,omitempty" query:"11" name:"Manager User"`
+	EmployeeUser *string `json:"employee_user,omitempty" query:"11" name:"Employee User"`
+}
+
+func rowsToShifts(rows []shiftRow) []Shift {
+	result := make([]Shift, len(rows))
+	for i, row := range rows {
+		shift := row.Shift
+		if row.ManagerUser != nil {
+			json.Unmarshal([]byte(*row.ManagerUser), &shift.ManagerUser)
+		}
+		if row.EmployeeUser != nil {
+			json.Unmarshal([]byte(*row.EmployeeUser), &shift.EmployeeUser)
+		}
+		result[i] = shift
+	}
+	return result
 }
 
 func (ctx DShifts) GetShifts(params filtering.RequestParams) ([]Shift, *DError) {
@@ -37,7 +61,7 @@ func (ctx DShifts) GetShifts(params filtering.RequestParams) ([]Shift, *DError) 
 	}
 	defer db.Close()
 
-	result := make([]Shift, 0)
+	result := make([]shiftRow, 0)
 
 	db = db.
 		Table("public.vw_shifts_api").
@@ -51,7 +75,7 @@ func (ctx DShifts) GetShifts(params filtering.RequestParams) ([]Shift, *DError) 
 	}
 
 	db.Scan(&result)
-	return result, nil
+	return rowsToShifts(result), nil
 }
 
 func (ctx DShifts) GetMyShifts(params filtering.RequestParams) ([]Shift, *DError) {
@@ -62,7 +86,7 @@ func (ctx DShifts) GetMyShifts(params filtering.RequestParams) ([]Shift, *DError
 	}
 	defer db.Close()
 
-	result := make([]Shift, 0)
+	result := make([]shiftRow, 0)
 
 	db = db.
 		Table("public.vw_shifts_api").
@@ -77,7 +101,7 @@ func (ctx DShifts) GetMyShifts(params filtering.RequestParams) ([]Shift, *DError
 	}
 
 	db.Scan(&result)
-	return result, nil
+	return rowsToShifts(result), nil
 }
 
 func (ctx DShifts) GetMyShiftDetails(params filtering.RequestParams, id int) ([]Shift, *DError) {
@@ -88,7 +112,7 @@ func (ctx DShifts) GetMyShiftDetails(params filtering.RequestParams, id int) ([]
 	}
 	defer db.Close()
 
-	result := make([]Shift, 0)
+	result := make([]shiftRow, 0)
 
 	db = db.
 		Table("public.vw_shifts_detailed_api").
@@ -104,7 +128,7 @@ func (ctx DShifts) GetMyShiftDetails(params filtering.RequestParams, id int) ([]
 	}
 
 	db.Scan(&result)
-	return result, nil
+	return rowsToShifts(result), nil
 }
 
 func (ctx DShifts) GetMySummary(params filtering.RequestParams) ([]Shift, *DError) {
@@ -114,7 +138,7 @@ func (ctx DShifts) GetMySummary(params filtering.RequestParams) ([]Shift, *DErro
 	}
 	defer db.Close()
 
-	result := make([]Shift, 0)
+	result := make([]shiftRow, 0)
 
 	db = db.
 		Table("public.vw_shifts_api").
@@ -128,5 +152,5 @@ func (ctx DShifts) GetMySummary(params filtering.RequestParams) ([]Shift, *DErro
 	}
 
 	db.Scan(&result)
-	return result, nil
+	return rowsToShifts(result), nil
 }
