@@ -12,6 +12,6 @@ If I have time I will also try to create a UI for the REST API using Framework7.
 
 
 Some small notes:
-> Currently the database is storing date/times in central standard time (which is incorrect but I will switch to daylight later). I struggled to come up with a good way to convert dates/times to RFC 2822 in Golang, so I opted to instead convert/format them in PostgreSQL. This means that all of the date/time fields are strings in Go but since no operation is being performed on the data itself there, this should be fine. I might change this later and add the formatting to the driver somehow instead? As long as it looks clean and wouldn't effect changes in the future.
+> Currently the database is storing date/times in central daylight time. I struggled to come up with a good way to convert dates/times to RFC 2822 in Golang, so I opted to instead convert/format them in PostgreSQL. This means that all of the date/time fields are strings in Go but since no operation is being performed on the data itself there, this should be fine. I might change this later and add the formatting to the driver somehow instead? As long as it looks clean and wouldn't effect changes in the future.
 
 > I've taken some code from one of my other website projects that I was working on in Go to make the REST API a bit easier when it came to filtering/sorting/selecting fields to be returned. And the date range handling for Issue #6 I added into that filtering handler.
