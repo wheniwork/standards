@@ -39,15 +39,18 @@ CREATE TABLE public.shifts (
   end_time    TIMESTAMP NOT NULL,
   created_at  TIMESTAMP NOT NULL DEFAULT (localtimestamp),
   updated_at  TIMESTAMP NOT NULL DEFAULT (localtimestamp),
-  CHECK (start_time < end_time)
+  CHECK (start_time < end_time),
+  CHECK (break * INTERVAL '1 Hour' < (end_time - start_time))
 );
 INSERT INTO public.shifts (manager_id, employee_id, start_time, end_time)
 VALUES --(3, 1, TIMEZONE('CDT', '2018-08-11 8:00AM'), TIMEZONE('CDT', '2018-08-11 2:00PM')),
        --(3, 1, TIMEZONE('CDT', NOW()), TIMEZONE('CDT', NOW()) + INTERVAL '2 Hour'),
-       (3, 1, 'Sun, Aug 19 22:00:00.000 2018', 'Sun, Aug 20 02:00:00.00 2018');
+       (3, 1, 'Sun, Aug 19 22:00:00.000 2018', 'Mon, Aug 20 02:00:00.00 2018');
+       --(3, 1, 'Sun, Aug 20 10:00:00.000 2018', 'Sun, Aug 20 15:00:00.00 2018'),
+       --(3, 1, localtimestamp, localtimestamp + interval '8 hours');
        --(3, 2, TIMEZONE('CDT', NOW()) - INTERVAL '1 Hour', TIMEZONE('CDT', NOW()) + INTERVAL '1 Hour'),
        --(3, 3, TIMEZONE('CDT', NOW()) + INTERVAL '1 Hour', TIMEZONE('CDT', NOW()) + INTERVAL '3 Hour');
-UPDATE public.shifts SET break = 0.5;
+UPDATE public.shifts SET break = 5;
 
 
 DROP VIEW IF EXISTS public.vw_users_api;
@@ -132,55 +135,60 @@ CREATE VIEW public.vw_shifts_detailed_api AS
 
 DROP VIEW IF EXISTS public.vw_shifts_summary_api;
 CREATE VIEW public.vw_shifts_summary_api AS
-  SELECT a.employee_id,
+  WITH shifts AS (SELECT employee_id,
+                         to_char(start_time, 'YYYYWW')                                                                                                          AS week,
+                         to_char(to_date(to_char(start_time, 'YYYYWW'), 'YYYYWW'), 'Dy, Mon DD HH24:MI:SS.MS YYYY')                                             AS week_start,
+                         to_char((to_date(to_char(start_time, 'YYYYWW'), 'YYYYWW') + INTERVAL '7 Days'), 'Dy, Mon DD HH24:MI:SS.MS YYYY')                       AS week_end,
+                         start_time,
+                         end_time,
+                         id                                                                                                                                     AS shift_id,
+                         (LEAST((to_date(to_char(start_time, 'YYYYWW'), 'YYYYWW') + INTERVAL '7 Days'), (end_time - (break * INTERVAL '1 Hour'))) - start_time) AS hours,
+                         break                                                                                                                                  AS breaks,
+                         CASE
+                           WHEN (end_time - (break * INTERVAL '1 Hour')) > (to_date(to_char(start_time, 'YYYYWW'), 'YYYYWW') + INTERVAL '7 Days') THEN 0
+                           ELSE break
+                             END                                                                                                                                    AS break_offset,
+                         (end_time - (break * INTERVAL '1 Hour')) > (to_date(to_char(start_time, 'YYYYWW'), 'YYYYWW') + INTERVAL '7 Days')                      AS has_overlap
+                  FROM public.shifts
+                  WHERE employee_id IS NOT NULL),
+      shifts_latter AS (SELECT s1.employee_id                                                                                                    AS employee_id,
+                               to_char(s2.end_time, 'YYYYWW')                                                                                    AS week,
+                               to_char(to_date(to_char(s2.end_time, 'YYYYWW'), 'YYYYWW'), 'Dy, Mon DD HH24:MI:SS.MS YYYY')                       AS week_start,
+                               to_char((to_date(to_char(s2.end_time, 'YYYYWW'), 'YYYYWW') + INTERVAL '7 Days'), 'Dy, Mon DD HH24:MI:SS.MS YYYY') AS week_end,
+                               s2.shift_id                                                                                                       AS shift_id,
+                               s2.end_time - to_date(to_char(s2.end_time, 'YYYYWW'), 'YYYYWW') - (s2.breaks * INTERVAL '1 Hour')                 AS hours,
+                               s2.breaks                                                                                                         AS breaks
+                        FROM shifts s1
+                               INNER JOIN shifts s2 ON s1.shift_id = s2.shift_id
+                        WHERE s1.has_overlap = true),
+      shifts_summarized AS (SELECT shifts.employee_id, shifts.week, shifts.week_start, shifts.week_end, COUNT(DISTINCT shifts.shift_id) AS shifts, SUM(shifts.hours) AS hours, SUM(shifts.break_offset) AS breaks
+                            FROM shifts
+                            GROUP BY shifts.employee_id,
+                                     shifts.week,
+                                     shifts.week_start,
+                                     shifts.week_end
+                            UNION ALL
+                            SELECT shifts_latter.employee_id, shifts_latter.week, shifts_latter.week_start, shifts_latter.week_end, COUNT(DISTINCT shifts_latter.shift_id) AS shifts, SUM(shifts_latter.hours) AS hours, SUM(shifts_latter.breaks) AS breaks
+                            FROM shifts_latter
+                            GROUP BY shifts_latter.employee_id,
+                                     shifts_latter.week,
+                                     shifts_latter.week_start,
+                                     shifts_latter.week_end)
+  SELECT s.employee_id                                                                                                          AS employee_id,
          to_json(row (employee.id,
                      employee.name,
                      employee.email,
                      employee.phone,
                      employee.role,
                      to_char(employee.created_at, 'Dy, Mon DD HH24:MI:SS.MS YYYY'),
-                     to_char(employee.updated_at, 'Dy, Mon DD HH24:MI:SS.MS YYYY')) :: public.user) AS employee_user,
-         a.week,
-         a.week_start,
-         a.week_end,
-         COUNT(distinct a.shift_id)                                                              AS total_shifts,
-         round(CAST(EXTRACT(epoch FROM SUM(a.hours)) / 3600 as numeric), 2)                      AS total_time,
-         to_char(date_part('epoch', SUM(a.hours)) * INTERVAL '1 second',
-                 'FMHH24 Hour(s) FMMI ') || 'Minute(s)'                                          AS total_time_formatted,
-         round(CAST(EXTRACT(epoch FROM SUM(a.breaks) * INTERVAL '1 Hour') / 3600 as numeric), 2) AS total_break_time,
-         to_char(date_part('epoch', SUM(a.breaks) * INTERVAL '1 Hour') * INTERVAL '1 second',
-                 'FMHH24 Hour(s) FMMI ') ||
-         'Minute(s)'                                                                             AS total_break_time_formatted
-  FROM (SELECT employee_id,
-               to_char(start_time, 'YYYYWW')                 AS week,
-
-               to_char(to_date(to_char(start_time, 'YYYYWW'), 'YYYYWW'),
-                       'Dy, Mon DD HH24:MI:SS.MS YYYY') AS week_start,
--- + INTERVAL '6.99999999999 Days'
-               to_char((to_date(to_char(start_time, 'YYYYWW'), 'YYYYWW') + INTERVAL '7 Days'),
-                       'Dy, Mon DD HH24:MI:SS.MS YYYY') AS week_end,
-
-               id                                            AS shift_id,
-            -- We are taking the end date of the current week or the end date of the shift, whichever is less we will use as the end date for this shift.
-            -- This is to fix a problem where there could be more total_time in a week than there are actually hours in a week.
-            -- This happens when a shift extends beyond the week, such as a late shift that starts on a sunday night and finishes monday morning.
-            -- That shifts hours would be logged on two seperate weeks. If i can get this working.
-            -- Getting hours to cut off at the end of the week is one thing, but then adding hours to the next week is tricker.
-               ((LEAST((to_date(to_char(start_time, 'YYYYWW'), 'YYYYWW') + INTERVAL '7 Days'), end_time) -
-                 start_time) - (break * INTERVAL '1 Hour'))  AS hours,
-
-               break                                         AS breaks
-        FROM public.shifts
-        WHERE employee_id IS NOT NULL) a
-         INNER JOIN public.users employee ON employee.id=a.employee_id
-  GROUP BY a.employee_id,
-           a.week,
-           a.week_start,
-           a.week_end,
-           employee.id,
-           employee.name,
-           employee.email,
-           employee.phone,
-           employee.role,
-           employee.created_at,
-           employee.updated_at;
+                     to_char(employee.updated_at, 'Dy, Mon DD HH24:MI:SS.MS YYYY')) :: public.user)                             AS employee_user,
+         s.week                                                                                                                 AS week,
+         s.week_start                                                                                                           AS week_start,
+         s.week_end                                                                                                             AS week_end,
+         s.shifts                                                                                                               AS total_shifts,
+         round(CAST(EXTRACT(epoch FROM s.hours) / 3600 as numeric), 2)                                                          AS total_time,
+         to_char(date_part('epoch', s.hours) * INTERVAL '1 second', 'FMHH24 Hour(s) FMMI ') || 'Minute(s)'                      AS total_time_formatted,
+         round(CAST(EXTRACT(epoch FROM s.breaks * INTERVAL '1 Hour') / 3600 as numeric), 2)                                     AS total_break_time,
+         to_char(date_part('epoch', s.breaks * INTERVAL '1 Hour') * INTERVAL '1 second', 'FMHH24 Hour(s) FMMI ') || 'Minute(s)' AS total_break_time_formatted
+  FROM shifts_summarized s
+         INNER JOIN public.users employee ON employee.id = s.employee_id;
