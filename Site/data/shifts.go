@@ -19,7 +19,7 @@ func (ctx DShifts) Constraints() filtering.RequestConstraints {
 }
 
 type Shift struct {
-	ID         *int     `json:"id,omitempty" query:"15" name:"ID"`
+	ID         *int     `json:"id,omitempty" query:"27" name:"ID"`
 	ManagerID  *int     `json:"manager_id,omitempty" query:"11" name:"Manager ID"`
 	EmployeeID *int     `json:"employee_id,omitempty" query:"11" name:"Employee ID"`
 	Break      *float64 `json:"break,omitempty" query:"11" name:"Break"`
