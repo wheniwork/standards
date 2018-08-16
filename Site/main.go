@@ -7,10 +7,10 @@ import (
 	"fmt"
 )
 
-
-
 func main() {
-	if c, err := conf.LoadConfig("config.json"); err != nil { panic(err) } else {
+	if c, err := conf.LoadConfig("config.json"); err != nil {
+		panic(err)
+	} else {
 		conf.Cfg = *c
 	}
 	app := app.App()

@@ -5,7 +5,7 @@ import (
 	"github.com/ecourant/standards/Site/filtering"
 	_ "github.com/lib/pq"
 	"github.com/ecourant/standards/Site/conf"
-			)
+)
 
 var (
 	UserConstraints = filtering.GenerateConstraints(User{})
@@ -51,7 +51,3 @@ func (ctx DUsers) GetUsers(params filtering.RequestParams) ([]User, *DError) {
 	db.Scan(&result)
 	return result, nil
 }
-
-
-
-

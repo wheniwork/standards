@@ -33,7 +33,7 @@ func APIMiddleware(ctx iris.Context) {
 			return
 		}
 
-		d := struct{
+		d := struct {
 			Role string // I would normally just create a string variable for this, but I was unable to get GORM to work with anything but a struct for this call.
 		}{}
 
@@ -50,7 +50,7 @@ func APIMiddleware(ctx iris.Context) {
 			return
 		}
 
-		ctx.Values().Set("Session", data.DSession{UserID:current_user_id,IsManager:d.Role == "manager"})
+		ctx.Values().Set("Session", data.DSession{UserID: current_user_id, IsManager: d.Role == "manager"})
 		ctx.Next()
 	}
 }

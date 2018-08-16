@@ -61,8 +61,8 @@ CREATE VIEW public.vw_shifts_api AS
 
 DROP VIEW IF EXISTS public.vw_shifts_detailed_api;
 CREATE VIEW public.vw_shifts_detailed_api AS
-  SELECT s.id as group_by_id,
-         s.employee_id as group_by_employee_id,
+  SELECT s.id                                                         as group_by_id,
+         s.employee_id                                                as group_by_employee_id,
          s2.id,
          s2.manager_id,
          s2.employee_id,
@@ -72,7 +72,7 @@ CREATE VIEW public.vw_shifts_detailed_api AS
          to_char(s2.created_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS created_at,
          to_char(s2.updated_at, 'Dy, Mon DD HH24:MI:SS.MS OF00 YYYY') AS updated_at
   FROM public.shifts s
-  INNER JOIN public.shifts s2 ON s2.start_time < s.end_time AND s2.end_time > s.start_time;
+         INNER JOIN public.shifts s2 ON s2.start_time < s.end_time AND s2.end_time > s.start_time;
 
 DROP VIEW IF EXISTS public.vw_shifts_summary_api;
 CREATE VIEW public.vw_shifts_summary_api AS

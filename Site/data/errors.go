@@ -1,49 +1,50 @@
 package data
+
 import (
 	"github.com/kataras/iris"
 )
 
 type DError struct {
-	Message string
-	ServerError bool
-	ClientError bool
+	Message         string
+	ServerError     bool
+	ClientError     bool
 	PermissionError bool
-	NotFoundError bool
-	ActualError error
+	NotFoundError   bool
+	ActualError     error
 }
 
 type DErrorAPIResponse struct {
 	Message string `json:"message,omitempty"`
-	Success bool `json:"success"`
+	Success bool   `json:"success"`
 }
 
 func NewClientError(Message string, err error) *DError {
 	return &DError{
-		Message:Message,
-		ClientError:true,
-		ActualError:err,
+		Message:     Message,
+		ClientError: true,
+		ActualError: err,
 	}
 }
 
 func NewNotFoundError(Message string) *DError {
 	return &DError{
-		Message:Message,
-		NotFoundError:true,
+		Message:       Message,
+		NotFoundError: true,
 	}
 }
 
 func NewServerError(Message string, err error) *DError {
 	return &DError{
-		Message:Message,
-		ServerError:true,
-		ActualError:err,
+		Message:     Message,
+		ServerError: true,
+		ActualError: err,
 	}
 }
 
 func NewPermissionError(Message string) *DError {
 	return &DError{
-		Message:Message,
-		PermissionError:true,
+		Message:         Message,
+		PermissionError: true,
 	}
 }
 
@@ -58,8 +59,7 @@ func ErrorResponse(ctx iris.Context, err *DError) {
 		ctx.StatusCode(404)
 	}
 	ctx.JSON(DErrorAPIResponse{
-		Message:err.Message,
-		Success:false,
+		Message: err.Message,
+		Success: false,
 	})
 }
-
