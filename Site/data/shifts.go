@@ -20,16 +20,16 @@ func (ctx DShifts) Constraints() filtering.RequestConstraints {
 }
 
 type Shift struct {
-	ID           *int     `json:"id,omitempty" query:"27" name:"ID"`
-	ManagerID    *int     `json:"manager_id,omitempty" query:"11" name:"Manager ID"`
-	ManagerUser  *User    `json:"manager_user,omitempty" query:"8" name:"Manager User"`
-	EmployeeID   *int     `json:"employee_id,omitempty" query:"11" name:"Employee ID"`
-	EmployeeUser *User    `json:"employee_user,omitempty" query:"8" name:"Employee User"`
-	Break        *float64 `json:"break,omitempty" query:"11" name:"Break"`
-	StartTime    *string  `json:"start_time,omitempty" query:"11" name:"Start Time" range:"starting"`
-	EndTime      *string  `json:"end_time,omitempty" query:"11" name:"End Time" range:"ending"`
-	CreatedAt    *string  `json:"created_at,omitempty" query:"11" name:"Created At"`
-	UpdatedAt    *string  `json:"updated_at,omitempty" query:"11" name:"Updated At"`
+	ID              *int     `json:"id,omitempty" query:"27" name:"ID"`
+	ManagerID       *int     `json:"manager_id,omitempty" query:"11" name:"Manager ID"`
+	ManagerUserObj  *User    `json:"manager_user,omitempty" query:"8" name:"Manager User"`
+	EmployeeID      *int     `json:"employee_id,omitempty" query:"11" name:"Employee ID"`
+	EmployeeUserObj *User    `json:"employee_user,omitempty" query:"8" name:"Employee User"`
+	Break           *float64 `json:"break,omitempty" query:"11" name:"Break"`
+	StartTime       *string  `json:"start_time,omitempty" query:"11" name:"Start Time" range:"starting"`
+	EndTime         *string  `json:"end_time,omitempty" query:"11" name:"End Time" range:"ending"`
+	CreatedAt       *string  `json:"created_at,omitempty" query:"11" name:"Created At"`
+	UpdatedAt       *string  `json:"updated_at,omitempty" query:"11" name:"Updated At"`
 }
 
 type shiftRow struct {
@@ -43,10 +43,10 @@ func rowsToShifts(rows []shiftRow) []Shift {
 	for i, row := range rows {
 		shift := row.Shift
 		if row.ManagerUser != nil {
-			json.Unmarshal([]byte(*row.ManagerUser), &shift.ManagerUser)
+			json.Unmarshal([]byte(*row.ManagerUser), &shift.ManagerUserObj)
 		}
 		if row.EmployeeUser != nil {
-			json.Unmarshal([]byte(*row.EmployeeUser), &shift.EmployeeUser)
+			json.Unmarshal([]byte(*row.EmployeeUser), &shift.EmployeeUserObj)
 		}
 		result[i] = shift
 	}
