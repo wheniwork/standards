@@ -51,7 +51,7 @@ func Shifts(p iris.Party) {
 				Success:false,
 				Message:"Error, could not parse shift id.",
 			})
-		} else if result, err := ctx.Values().Get("Session").(data.DSession).Shifts().GetMyShiftDetails(*params, id); err != nil {
+		} else if result, err := ctx.Values().Get("Session").(data.DSession).Shifts().GetShiftDetails(*params, id, nil); err != nil {
 			data.ErrorResponse(ctx, err)
 		} else {
 			ctx.JSON(APIResponse{
