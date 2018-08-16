@@ -24,6 +24,7 @@ type User struct {
 	Name      *string `json:"name,omitempty" query:"11" name:"Name"`
 	Email     *string `json:"email,omitempty" query:"11" name:"Email"`
 	Phone     *string `json:"phone,omitempty" query:"11" name:"Phone"`
+	Role	  *string `json:"role,omitempty" query:"11" name:"Role"`
 	CreatedAt *string `json:"created_at,omitempty" query:"11" name:"Created At"`
 	UpdatedAt *string `json:"updated_at,omitempty" query:"11" name:"Updated At"`
 }
