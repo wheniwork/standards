@@ -50,6 +50,14 @@ func APIMiddleware(ctx iris.Context) {
 			return
 		}
 
+		if ctx.Method() != "GET" && d.Role != "manager" {
+			ctx.StatusCode(403)
+			ctx.JSON(controllers.ErrorAPIResponse{
+				Message: "Error, as an employee you do not have permissions to make this request.",
+			})
+			return
+		}
+
 		ctx.Values().Set("Session", data.DSession{UserID: current_user_id, IsManager: d.Role == "manager"})
 		ctx.Next()
 	}
