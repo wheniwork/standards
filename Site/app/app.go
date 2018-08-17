@@ -27,7 +27,7 @@ func App() *iris.Application {
 		// map the endppints from the endpoints array.
 		for i, endpoint := range getEndpointUrls() {
 			p.PartyFunc(endpoint, Endpoints[i])
-			fmt.Printf("Mapped API Endpoint: /api/%s\n", endpoint)
+			fmt.Printf("Mapped API Endpoint: /api%s\n", endpoint)
 		}
 	})
 	return app

@@ -134,6 +134,14 @@ func (ctx DShifts) GetShiftDetails(params filtering.RequestParams, id int) ([]Sh
 }
 
 func (ctx DShifts) CreateShift(shift Shift) (response *Shift, rerr *DError) {
+	if shift.StartTime == nil || strings.TrimSpace(*shift.StartTime) == "" {
+		return nil, NewClientError("Error, start_time cannot be null or blank.", nil)
+	}
+
+	if shift.EndTime == nil || strings.TrimSpace(*shift.EndTime) == "" {
+		return nil, NewClientError("Error, end_time cannot be null or blank.", nil)
+	}
+
 	db, err := gorm.Open("postgres", conf.Cfg.ConnectionString)
 	db.LogMode(true)
 	if err != nil {
@@ -153,6 +161,10 @@ func (ctx DShifts) CreateShift(shift Shift) (response *Shift, rerr *DError) {
 			return
 		}
 	}()
+
+	if shift.ManagerID == nil {
+		shift.ManagerID = &ctx.UserID
+	}
 
 	// If the employee id is not null we want to verify
 	// that this shift will not conflict with another shift.
