@@ -20,15 +20,17 @@ func (ctx DSummary) Constraints() filtering.RequestConstraints {
 }
 
 type Summary struct {
-	EmployeeID              *int     `json:"employee_id,omitempty" query:"15" name:"ID"`
-	EmployeeUserObj         *User    `json:"employee_user,omitempty" query:"8" name:"Employee User"`
-	WeekStart               *string  `json:"week_start" query:"11" name:"Week Start"`
-	WeekEnd                 *string  `json:"week_end" query:"11" name:"Week End"`
-	TotalShifts             *int     `json:"total_shifts" query:"11" name:"Total Shifts"`
-	TotalTime               *float64 `json:"total_time" query:"11" name:"Total Time"`
-	TotalTimeFormatted      *string  `json:"total_time_formatted" query:"11" name:"Total Time Formatted"`
-	TotalBreakTime          *float64 `json:"total_break_time" query:"11" name:"Total Break Time"`
-	TotalBreakTimeFormatted *string  `json:"total_break_time_formatted" query:"11" name:"Total Break Time Formatted"`
+	EmployeeID                  *int     `json:"employee_id,omitempty" query:"15" name:"ID"`
+	EmployeeUserObj             *User    `json:"employee_user,omitempty" query:"8" name:"Employee User"`
+	WeekStart                   *string  `json:"week_start" query:"11" name:"Week Start"`
+	WeekEnd                     *string  `json:"week_end" query:"11" name:"Week End"`
+	TotalShifts                 *int     `json:"total_shifts" query:"11" name:"Total Shifts"`
+	TotalScheduledTime          *float64 `json:"total_scheduled_time" query:"11" name:"Total Scheduled Time"`
+	TotalScheduledTimeFormatted *string `json:"total_scheduled_time_formatted" query:"11" name:"Total Scheduled Time Formatted"`
+	TotalWorkedTime             *float64 `json:"total_worked_time" query:"11" name:"Total Worked Time"`
+	TotalWorkedTimeFormatted    *string  `json:"total_worked_time_formatted" query:"11" name:"Total Worked Time Formatted"`
+	TotalBreakTime              *float64 `json:"total_break_time" query:"11" name:"Total Break Time"`
+	TotalBreakTimeFormatted     *string  `json:"total_break_time_formatted" query:"11" name:"Total Break Time Formatted"`
 }
 
 type summaryRow struct {
