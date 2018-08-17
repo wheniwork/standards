@@ -12,6 +12,7 @@ import (
 
 func APIMiddleware(ctx iris.Context) {
 	if !ctx.URLParamExists("current_user_id") {
+		ctx.StatusCode(403)
 		ctx.JSON(controllers.ErrorAPIResponse{
 			Message: "Error, current_user_id url param must be specified!",
 		})
@@ -19,6 +20,7 @@ func APIMiddleware(ctx iris.Context) {
 	}
 
 	if current_user_id, err := ctx.URLParamInt("current_user_id"); err != nil {
+		ctx.StatusCode(400)
 		ctx.JSON(controllers.ErrorAPIResponse{
 			Message: "Error, current_user_id url param is not a valid integer!",
 		})
@@ -27,6 +29,7 @@ func APIMiddleware(ctx iris.Context) {
 		db, err := gorm.Open("postgres", conf.Cfg.ConnectionString)
 		defer db.Close()
 		if err != nil {
+			ctx.StatusCode(500)
 			ctx.JSON(controllers.ErrorAPIResponse{
 				Message: err.Error(),
 			})
@@ -44,6 +47,7 @@ func APIMiddleware(ctx iris.Context) {
 			First(&d)
 
 		if d.Role == "" {
+			ctx.StatusCode(400)
 			ctx.JSON(controllers.ErrorAPIResponse{
 				Message: fmt.Sprintf("Error, could not find user with id %d", current_user_id),
 			})

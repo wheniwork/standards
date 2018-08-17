@@ -5,6 +5,8 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/ecourant/standards/Site/conf"
 	"encoding/json"
+	"fmt"
+	"strings"
 )
 
 var (
@@ -53,8 +55,6 @@ func rowsToShifts(rows []shiftRow) []Shift {
 	}
 	return result
 }
-
-
 
 func (ctx DShifts) GetShifts(params filtering.RequestParams) ([]Shift, *DError) {
 	db, err := gorm.Open("postgres", conf.Cfg.ConnectionString)
@@ -131,4 +131,75 @@ func (ctx DShifts) GetShiftDetails(params filtering.RequestParams, id int) ([]Sh
 
 	db.Scan(&result)
 	return rowsToShifts(result), nil
+}
+
+func (ctx DShifts) CreateShift(shift Shift) (response *Shift, rerr *DError) {
+	db, err := gorm.Open("postgres", conf.Cfg.ConnectionString)
+	db.LogMode(true)
+	if err != nil {
+		return nil, NewServerError("Error, could not retrieve shifts at this time.", err)
+	}
+	defer db.Close()
+
+	result := make([]shiftRow, 0)
+
+	db = db.Begin()
+	// I hate how this looks in golang, but basically if there is a panic or an error somewhere further down, the transaction will rollback.
+	defer func() {
+		if r := recover(); r != nil {
+			db.Rollback()
+			response = nil
+			rerr = NewServerError("Error, could not create shift at this time.", err)
+			return
+		}
+	}()
+
+	// If the employee id is not null we want to verify
+	// that this shift will not conflict with another shift.
+	if shift.EmployeeID != nil {
+		ids := make([]struct {
+			ID string
+		}, 0)
+		db.
+			Table("public.vw_shifts_api").
+			Select("id").
+			Where("employee_id = ?", *shift.EmployeeID).
+			Where("(start_time::timestamp BETWEEN ?::timestamp AND ?::timestamp) OR (end_time::timestamp BETWEEN ?::timestamp AND ?::timestamp)",
+				*shift.StartTime, *shift.EndTime, *shift.StartTime, *shift.EndTime).Scan(&ids)
+		if len(ids) > 0 {
+			db.Rollback()
+			conflictingShifts := make([]string, len(ids))
+			for i, shiftid := range ids {
+				conflictingShifts[i] = shiftid.ID
+			}
+			return nil, NewClientError(fmt.Sprintf("Error, %d shift(s) already exist for user ID %d during the start -> end time. Conflicting shift(s): %s.", len(ids), *shift.EmployeeID, strings.Join(conflictingShifts, ", ")), nil)
+		}
+	}
+	valid_start_end := make([]struct {
+		Valid bool
+	}, 0)
+	db.Raw("SELECT ?::timestamp < ?::timestamp AS valid", *shift.StartTime, *shift.EndTime).Scan(&valid_start_end)
+	if len(valid_start_end) > 0 {
+		if !valid_start_end[0].Valid {
+			db.Rollback()
+			return nil, NewClientError(fmt.Sprintf("Error, (start_time: %s) must come before (end_time: %s).", *shift.StartTime, *shift.EndTime), nil)
+		}
+	}
+
+	if err := db.Raw(`INSERT INTO public.shifts (manager_id,employee_id,break,start_time,end_time)
+				 VALUES(?, ?, ?, ?::timestamp, ?::timestamp) 
+        		 RETURNING 
+					id,
+					manager_id,
+					employee_id,
+					break,
+					to_char(start_time, 'Dy, Mon DD HH24:MI:SS.MS YYYY') AS start_time,
+					to_char(end_time, 'Dy, Mon DD HH24:MI:SS.MS YYYY') AS end_time,
+					to_char(created_at, 'Dy, Mon DD HH24:MI:SS.MS YYYY') AS created_at,
+					to_char(updated_at, 'Dy, Mon DD HH24:MI:SS.MS YYYY') AS updated_at;`, shift.ManagerID, shift.EmployeeID, shift.Break, shift.StartTime, shift.EndTime).Scan(&result).Error; err != nil {
+		db.Rollback()
+		return nil, NewServerError("Error, an unexpected error occurred. The shift was not created.", err)
+	}
+	db.Commit()
+	return &rowsToShifts(result)[0], nil
 }
