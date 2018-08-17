@@ -41,3 +41,14 @@ func Test_GetUsersWithNegativeCurrentID(t *testing.T) {
 		}
 	}
 }
+
+func Test_GetUsersWithNonIntegerCurrentID(t *testing.T) {
+	if _, code, err := GetURL("users?current_user_id=vdassda"); err != nil {
+		t.Fatal(err)
+	} else {
+		//Add unmarshal test.
+		if *code != 400 {
+			t.Fatal("Error, request should have failed with client error.")
+		}
+	}
+}
