@@ -43,16 +43,13 @@ CREATE TABLE public.shifts (
   CHECK (break * INTERVAL '1 Hour' < (end_time - start_time))
 );
 INSERT INTO public.shifts (manager_id, employee_id, start_time, end_time)
-VALUES --(3, 1, TIMEZONE('CDT', '2018-08-11 8:00AM'), TIMEZONE('CDT', '2018-08-11 2:00PM')),
-    --(3, 1, TIMEZONE('CDT', NOW()), TIMEZONE('CDT', NOW()) + INTERVAL '2 Hour'),
-    --(3, 1, 'Sun, Aug 12 22:00:00.000 2018', 'Mon, Aug 13 02:00:00.00 2018'),
-       (3, 1, 'Sun, Aug 19 22:00:00.000 2018', 'Mon, Aug 20 02:00:00.00 2018'),
-       (3, 1, localtimestamp - INTERVAL '1 Hours', localtimestamp),
-    --(3, 1, 'Sun, Aug 20 10:00:00.000 2018', 'Sun, Aug 20 15:00:00.00 2018'),
-       (3, 1, localtimestamp, localtimestamp + interval '1 hours');
---(3, 2, TIMEZONE('CDT', NOW()) - INTERVAL '1 Hour', TIMEZONE('CDT', NOW()) + INTERVAL '1 Hour'),
---(3, 3, TIMEZONE('CDT', NOW()) + INTERVAL '1 Hour', TIMEZONE('CDT', NOW()) + INTERVAL '3 Hour');
---UPDATE public.shifts SET break = 0.5;
+VALUES
+       (3, 1, 'Sun, Aug 19 18:00:00.000 2018', 'Mon, Aug 19 20:00:00.00 2018'),
+       (3, 2, 'Sun, Aug 19 20:00:00.000 2018', 'Mon, Aug 19 22:00:00.00 2018'),
+       (3, 3, 'Sun, Aug 19 22:00:00.000 2018', 'Mon, Aug 20 02:00:00.00 2018'),
+       (3, 3, 'Sun, Aug 22 08:00:00.000 2018', 'Mon, Aug 22 14:00:00.00 2018'),
+       (3, 2, localtimestamp - INTERVAL '1 Hours', localtimestamp),
+       (3, 3, localtimestamp, localtimestamp + interval '1 hours');
 
 
 DROP VIEW IF EXISTS public.vw_users_api;

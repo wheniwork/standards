@@ -155,7 +155,7 @@ func (ctx DShifts) CreateShift(shift Shift) (response *Shift, rerr *DError) {
 		}
 	}()
 
-	if err := ctx.verifyShift(nil, shift, db); err != nil {
+	if err := ctx.verifyShift(nil, &shift, db); err != nil {
 		return nil, err
 	}
 
@@ -196,7 +196,7 @@ func (ctx DShifts) UpdateShift(id int, shift Shift) (response *Shift, rerr *DErr
 		}
 	}()
 
-	if err := ctx.verifyShift(&id, shift, db); err != nil {
+	if err := ctx.verifyShift(&id, &shift, db); err != nil {
 		return nil, err
 	}
 
@@ -212,7 +212,7 @@ func (ctx DShifts) UpdateShift(id int, shift Shift) (response *Shift, rerr *DErr
 			updated_at=LOCALTIMESTAMP
 		WHERE id=?
 		RETURNING *;
-	`, 	shift.ManagerID, shift.EmployeeID, shift.Break, shift.StartTime, shift.EndTime).Scan(&result).Error; err != nil {
+	`, 	shift.ManagerID, shift.EmployeeID, shift.Break, shift.StartTime, shift.EndTime, id).Scan(&result).Error; err != nil {
 		db.Rollback()
 		return nil, NewServerError("Error, an unexpected error occurred. The shift was not updated.", err)
 	}
@@ -220,7 +220,7 @@ func (ctx DShifts) UpdateShift(id int, shift Shift) (response *Shift, rerr *DErr
 	return &rowsToShifts(result)[0], nil
 }
 
-func (ctx DShifts) verifyShift(id *int, shift Shift , db *gorm.DB) *DError {
+func (ctx DShifts) verifyShift(id *int, shift *Shift , db *gorm.DB) *DError {
 	if shift.StartTime == nil || strings.TrimSpace(*shift.StartTime) == "" {
 		return NewClientError("Error, start_time cannot be null or blank.", nil)
 	}
