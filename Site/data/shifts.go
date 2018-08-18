@@ -191,7 +191,7 @@ func (ctx DShifts) UpdateShift(id int, shift Shift) (response *Shift, rerr *DErr
 		if r := recover(); r != nil {
 			db.Rollback()
 			response = nil
-			rerr = NewServerError("Error, could not create shift at this time.", err)
+			rerr = NewServerError("Error, could not update shift at this time.", err)
 			return
 		}
 	}()
@@ -245,12 +245,20 @@ func (ctx DShifts) DeleteShift(id int) (rerr *DError) {
 }
 
 func (ctx DShifts) verifyShift(id *int, shift *Shift , db *gorm.DB) *DError {
-	if shift.StartTime == nil || strings.TrimSpace(*shift.StartTime) == "" {
-		return NewClientError("Error, start_time cannot be null or blank.", nil)
+	if shift.Break != nil {
+		if *shift.Break < 0 {
+			return NewClientError("Error, break must be non-negative.", nil)
+		}
 	}
 
-	if shift.EndTime == nil || strings.TrimSpace(*shift.EndTime) == "" {
-		return NewClientError("Error, end_time cannot be null or blank.", nil)
+	if id == nil {
+		if shift.StartTime == nil || strings.TrimSpace(*shift.StartTime) == "" {
+			return NewClientError("Error, start_time cannot be null or blank.", nil)
+		}
+
+		if shift.EndTime == nil || strings.TrimSpace(*shift.EndTime) == "" {
+			return NewClientError("Error, end_time cannot be null or blank.", nil)
+		}
 	}
 
 	if shift.ManagerID == nil {
@@ -296,14 +304,34 @@ func (ctx DShifts) verifyShift(id *int, shift *Shift , db *gorm.DB) *DError {
 			return NewClientError(fmt.Sprintf("Error, %d shift(s) already exist for user ID %d during the start -> end time. Conflicting shift(s): %s.", len(ids), *shift.EmployeeID, strings.Join(conflictingShifts, ", ")), nil)
 		}
 	}
+
+
 	valid_start_end := make([]struct {
 		Valid bool
 	}, 0)
-	db.Raw("SELECT ?::timestamp < ?::timestamp AS valid", *shift.StartTime, *shift.EndTime).Scan(&valid_start_end)
-	if len(valid_start_end) > 0 {
-		if !valid_start_end[0].Valid {
-			db.Rollback()
-			return NewClientError(fmt.Sprintf("Error, (start_time: %s) must come before (end_time: %s).", *shift.StartTime, *shift.EndTime), nil)
+	if id == nil || (shift.StartTime != nil && shift.EndTime != nil) {
+		db.Raw("SELECT ?::timestamp < ?::timestamp AS valid", *shift.StartTime, *shift.EndTime).Scan(&valid_start_end)
+		if len(valid_start_end) > 0 {
+			if !valid_start_end[0].Valid {
+				db.Rollback()
+				return NewClientError(fmt.Sprintf("Error, (start_time: %s) must come before (end_time: %s).", *shift.StartTime, *shift.EndTime), nil)
+			}
+		}
+	} else if shift.StartTime != nil || shift.EndTime != nil {
+		if shift.StartTime != nil {
+			db.Raw("SELECT ?::timestamp < end_time AS valid FROM public.shifts WHERE id = ?;", *shift.StartTime, *id)
+		} else if shift.EndTime != nil {
+			db.Raw("SELECT ?::timestamp > start_time AS valid FROM public.shifts WHERE id = ?;", *shift.EndTime, *id)
+		}
+		if len(valid_start_end) > 0 {
+			if !valid_start_end[0].Valid {
+				db.Rollback()
+				if shift.StartTime != nil {
+					return NewClientError(fmt.Sprintf("Error, (start_time: %s) must come before end_time.", *shift.StartTime), nil)
+				} else {
+					return NewClientError(fmt.Sprintf("Error, (end_time: %s) must come after start_time.", *shift.EndTime), nil)
+				}
+			}
 		}
 	}
 

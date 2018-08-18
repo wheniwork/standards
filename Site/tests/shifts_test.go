@@ -3,7 +3,7 @@ package tests
 import (
 	"testing"
 	"fmt"
-)
+		)
 
 
 // Create tests
@@ -349,7 +349,7 @@ func Test_CreateShiftMalformedJSON(t *testing.T) {
 
 
 // Update tests
-func Test_UpdateShiftAsEmployee(t *testing.T) {
+func Test_UpdateShiftAsManager(t *testing.T) {
 	if _, code, err := PutURL("shifts/1?current_user_id=3", `
 		{
 		    "break": 1,
@@ -365,3 +365,67 @@ func Test_UpdateShiftAsEmployee(t *testing.T) {
 		}
 	}
 }
+
+func Test_UpdateShiftAsEmployee(t *testing.T) {
+	if _, code, err := PutURL("shifts/1?current_user_id=1", `
+		{
+		    "break": 1,
+		    "start_time": "Sun, Aug 19 18:30:00.000 2018",
+		    "end_time": "Mon, Aug 19 20:30:00.00 2018"
+		}
+	`); err != nil {
+		t.Fatal(err)
+	} else {
+		//Add unmarshal test.
+		if *code != 403 {
+			t.Fatal("Error, request should have failed.")
+		}
+	}
+}
+
+func Test_UpdateShiftInvalidStartEnd(t *testing.T) {
+	if _, code, err := PutURL("shifts/1?current_user_id=3", `
+		{
+		    "break": 1,
+		    "start_time": "Mon, Aug 19 20:30:00.00 2018",
+		    "end_time": "Sun, Aug 19 18:30:00.000 2018"
+		}
+	`); err != nil {
+		t.Fatal(err)
+	} else {
+		//Add unmarshal test.
+		if *code != 400 {
+			t.Fatal("Error, request should have failed.")
+		}
+	}
+}
+
+func Test_UpdateShiftSetBreak(t *testing.T) {
+	if _, code, err := PutURL("shifts/1?current_user_id=3", `
+		{
+		    "break": 0.45
+		}
+	`); err != nil {
+		t.Fatal(err)
+	} else {
+		if *code != 200 {
+			t.Fatal("Error, request should have succeeded.")
+		}
+	}
+}
+
+func Test_UpdateShiftSetBreakNegative(t *testing.T) {
+	if _, code, err := PutURL("shifts/1?current_user_id=3", `
+		{
+		    "break": -0.45
+		}
+	`); err != nil {
+		t.Fatal(err)
+	} else {
+		if *code != 400 {
+			t.Fatal("Error, request should have failed.")
+		}
+	}
+}
+
+
