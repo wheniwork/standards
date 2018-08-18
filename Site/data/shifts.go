@@ -211,7 +211,14 @@ func (ctx DShifts) UpdateShift(id int, shift Shift) (response *Shift, rerr *DErr
 			end_time=COALESCE(?::timestamp, end_time),
 			updated_at=LOCALTIMESTAMP
 		WHERE id=?
-		RETURNING *;
+		RETURNING id,
+				  manager_id,
+				  employee_id,
+				  break,
+				  to_char(start_time, 'Dy, Mon DD HH24:MI:SS.MS YYYY') AS start_time,
+				  to_char(end_time, 'Dy, Mon DD HH24:MI:SS.MS YYYY') AS end_time,
+				  to_char(created_at, 'Dy, Mon DD HH24:MI:SS.MS YYYY') AS created_at,
+				  to_char(updated_at, 'Dy, Mon DD HH24:MI:SS.MS YYYY') AS updated_at;
 	`, 	shift.ManagerID, shift.EmployeeID, shift.Break, shift.StartTime, shift.EndTime, id).Scan(&result).Error; err != nil {
 		db.Rollback()
 		return nil, NewServerError("Error, an unexpected error occurred. The shift was not updated.", err)
