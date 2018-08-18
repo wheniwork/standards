@@ -98,9 +98,27 @@ func Shifts(p iris.Party) {
 	})
 
 	p.Put("/{id:long}", func(ctx iris.Context) {
-		ctx.JSON(struct {
-			success bool
-		}{ true })
+		newItem := data.Shift{}
+		if err := ctx.ReadJSON(&newItem); err != nil {
+			ctx.StatusCode(400)
+			ctx.JSON(ErrorAPIResponse{
+				Success:false,
+				Message:err.Error(),
+			})
+		} else if id, err := ctx.Params().GetInt("id"); err != nil {
+			ctx.StatusCode(400)
+			ctx.JSON(ErrorAPIResponse{
+				Success:false,
+				Message:"Error, could not parse shift id.",
+			})
+		} else if result, err := ctx.Values().Get("Session").(data.DSession).Shifts().UpdateShift(id, newItem); err != nil {
+			data.ErrorResponse(ctx, err)
+		} else {
+			ctx.JSON(APIResponse{
+				Success:true,
+				Results:result,
+			})
+		}
 	})
 
 	p.Delete("/{id:long}", func(ctx iris.Context) {
