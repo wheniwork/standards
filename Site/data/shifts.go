@@ -142,6 +142,27 @@ func (ctx DShifts) CreateShift(shift Shift) (response *Shift, rerr *DError) {
 		return nil, NewClientError("Error, end_time cannot be null or blank.", nil)
 	}
 
+	if shift.ManagerID == nil {
+		shift.ManagerID = &ctx.UserID
+	}
+
+	if role, err := ctx.Users().GetUserRole(*shift.ManagerID); err != nil {
+		return nil, NewServerError("Error, could not verify manager_id.", err)
+	} else if *role == "employee" {
+		return nil, NewClientError(fmt.Sprintf("Error, user ID %d is not a manager.", *shift.ManagerID), nil)
+	} else if role == nil {
+		return nil, NewClientError(fmt.Sprintf("Error, manager_id %d does not exist.", *shift.ManagerID), nil)
+	}
+
+	if shift.EmployeeID != nil {
+		if role, err := ctx.Users().GetUserRole(*shift.EmployeeID); err != nil {
+			return nil, NewServerError("Error, could not verify employee_id.", err)
+		}  else if role == nil {
+			return nil, NewClientError(fmt.Sprintf("Error, employee_id %d does not exist.", *shift.ManagerID), nil)
+		}
+	}
+
+
 	db, err := gorm.Open("postgres", conf.Cfg.ConnectionString)
 	db.LogMode(true)
 	if err != nil {
@@ -162,9 +183,7 @@ func (ctx DShifts) CreateShift(shift Shift) (response *Shift, rerr *DError) {
 		}
 	}()
 
-	if shift.ManagerID == nil {
-		shift.ManagerID = &ctx.UserID
-	}
+
 
 	// If the employee id is not null we want to verify
 	// that this shift will not conflict with another shift.

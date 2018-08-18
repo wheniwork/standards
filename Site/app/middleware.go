@@ -36,33 +36,29 @@ func APIMiddleware(ctx iris.Context) {
 			return
 		}
 
-		d := struct {
-			Role string // I would normally just create a string variable for this, but I was unable to get GORM to work with anything but a struct for this call.
-		}{}
+		session := data.DSession{}
 
-		db.
-			Table("vw_users_api").
-			Select("role").
-			Where("id = ?", current_user_id).
-			First(&d)
-
-		if d.Role == "" {
-			ctx.StatusCode(400)
+		if role, err := session.Users().GetUserRole(current_user_id); err != nil {
+			ctx.StatusCode(500)
 			ctx.JSON(controllers.ErrorAPIResponse{
-				Message: fmt.Sprintf("Error, could not find user with id %d", current_user_id),
+				Message: fmt.Sprintf("Error, could not verify user ID %d", current_user_id),
 			})
 			return
-		}
-
-		if ctx.Method() != "GET" && d.Role != "manager" {
+		} else if role == nil {
+			ctx.StatusCode(400)
+			ctx.JSON(controllers.ErrorAPIResponse{
+				Message: fmt.Sprintf("Error, could not find user with ID %d", current_user_id),
+			})
+			return
+		} else if ctx.Method() != "GET" && *role != "manager" {
 			ctx.StatusCode(403)
 			ctx.JSON(controllers.ErrorAPIResponse{
 				Message: "Error, as an employee you do not have permissions to make this request.",
 			})
 			return
+		} else {
+			ctx.Values().Set("Session", data.DSession{UserID: current_user_id, IsManager: *role == "manager"})
+			ctx.Next()
 		}
-
-		ctx.Values().Set("Session", data.DSession{UserID: current_user_id, IsManager: d.Role == "manager"})
-		ctx.Next()
 	}
 }

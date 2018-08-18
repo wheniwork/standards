@@ -5,7 +5,7 @@ import (
 	"github.com/ecourant/standards/Site/filtering"
 	_ "github.com/lib/pq"
 	"github.com/ecourant/standards/Site/conf"
-)
+	)
 
 var (
 	UserConstraints = filtering.GenerateConstraints(User{})
@@ -51,4 +51,27 @@ func (ctx DUsers) GetUsers(params filtering.RequestParams) ([]User, *DError) {
 
 	db.Scan(&result)
 	return result, nil
+}
+
+func (ctx DUsers) GetUserRole(id int) (*string, error) {
+	db, err := gorm.Open("postgres", conf.Cfg.ConnectionString)
+	if err != nil {
+		return nil, err
+	}
+	defer db.Close()
+
+	result := struct{
+		Role string
+	}{}
+
+	db = db.Table("public.vw_users_api").
+		Select("role").
+		Where("id = ?", id).
+		First(&result)
+
+	if result.Role == "" {
+		return nil, nil
+	} else {
+		return &result.Role, nil
+	}
 }

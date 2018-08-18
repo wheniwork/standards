@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/Database/Create Database.sql" line="23" mnemonic="4" />
-  </component>
   <component name="ChangeListManager">
     <list default="true" id="56446768-7ee9-49ed-bbc6-b4b25e9c6a1c" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -34,97 +31,61 @@
     <session id="573604482">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="3" />
+          <entry key="project.closed" value="4" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.10" value="1" />
           <entry key="project.open.time.11" value="2" />
-          <entry key="project.open.time.12" value="1" />
-          <entry key="project.opened" value="5" />
+          <entry key="project.open.time.12" value="2" />
+          <entry key="project.opened" value="6" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="go" value="66" />
-          <entry key="json" value="3" />
+          <entry key="go" value="91" />
+          <entry key="json" value="4" />
           <entry key="md" value="2" />
-          <entry key="sql" value="12" />
+          <entry key="sql" value="14" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Go" value="66" />
-          <entry key="JSON" value="3" />
+          <entry key="Go" value="91" />
+          <entry key="JSON" value="4" />
           <entry key="Markdown" value="2" />
-          <entry key="SQL" value="5" />
-          <entry key="Scratch" value="7" />
+          <entry key="SQL" value="6" />
+          <entry key="Scratch" value="8" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="go" value="10004" />
+          <entry key="go" value="15155" />
           <entry key="json" value="149" />
           <entry key="md" value="20" />
-          <entry key="sql" value="5635" />
+          <entry key="sql" value="6259" />
           <entry key="txt" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Go" value="10004" />
+          <entry key="Go" value="15155" />
           <entry key="JSON" value="149" />
           <entry key="Markdown" value="20" />
           <entry key="PLAIN_TEXT" value="2" />
-          <entry key="SQL" value="2891" />
-          <entry key="Scratch" value="2744" />
+          <entry key="SQL" value="2950" />
+          <entry key="Scratch" value="3309" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5141343">
+    <splitter split-orientation="horizontal" split-proportion="0.20759338">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Site/data/users.go">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="480">
-                  <caret line="26" column="66" selection-start-line="26" selection-start-column="66" selection-end-line="26" selection-end-column="66" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Site/controllers/shifts.go">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="506">
-                  <caret line="26" column="54" selection-start-line="26" selection-start-column="36" selection-end-line="26" selection-end-column="54" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Site/data/summaries.go">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="437">
-                  <caret line="24" column="71" selection-start-line="24" selection-start-column="71" selection-end-line="24" selection-end-column="71" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Site/controllers/users.go">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="253">
-                  <caret line="15" column="72" selection-start-line="15" selection-start-column="72" selection-end-line="15" selection-end-column="72" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/b4ffa56c-6fba-4908-a9bc-2a4e43295b27/console_2.sql">
-              <provider selected="true" editor-type-id="text-editor">
-                <state>
-                  <caret selection-end-line="56" selection-end-column="70" />
+                <state relative-caret-position="1255">
+                  <caret line="84" column="31" lean-forward="true" selection-start-line="84" selection-start-column="31" selection-end-line="84" selection-end-column="31" />
                 </state>
               </provider>
             </entry>
@@ -134,21 +95,14 @@
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/b4ffa56c-6fba-4908-a9bc-2a4e43295b27/console_1.sql">
+            <entry file="file://$PROJECT_DIR$/Site/data/shifts.go">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="897">
-                  <caret line="39" column="35" selection-start-line="19" selection-start-column="6" selection-end-line="39" selection-end-column="35" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Site/controllers/summaries.go">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="138">
-                  <caret line="10" column="39" selection-start-line="10" selection-start-column="39" selection-end-line="10" selection-end-column="39" />
+                <state relative-caret-position="592">
+                  <caret line="162" column="5" lean-forward="true" selection-start-line="162" selection-start-column="5" selection-end-line="162" selection-end-column="5" />
                   <folding>
-                    <element signature="e#22#150#0" expanded="true" />
+                    <element signature="n#!!block;n#rowsToShifts#0" />
+                    <element signature="n#!!block;n#GetShifts#0" />
+                    <element signature="n#!!block;n#GetMyShifts#0" />
                   </folding>
                 </state>
               </provider>
@@ -157,40 +111,58 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Site/app/app.go">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="161">
-                  <caret line="14" column="27" selection-start-line="14" selection-start-column="27" selection-end-line="14" selection-end-column="27" />
+                <state relative-caret-position="644">
+                  <caret line="35" column="33" lean-forward="true" selection-start-line="35" selection-start-column="33" selection-end-line="35" selection-end-column="33" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/Site/app/middleware.go">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="815">
+                  <caret line="61" column="9" selection-start-line="61" selection-start-column="9" selection-end-line="61" selection-end-column="9" />
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Site/data/shifts.go">
+            <entry file="file://$PROJECT_DIR$/Site/tests/users_test.go">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="141">
-                  <caret line="28" column="65" selection-start-line="28" selection-start-column="65" selection-end-line="28" selection-end-column="65" />
+                <state relative-caret-position="299">
+                  <caret line="26" column="29" lean-forward="true" selection-start-line="26" selection-start-column="29" selection-end-line="26" selection-end-column="29" />
                   <folding>
-                    <element signature="n#!!block;n#GetShifts#0" />
-                    <element signature="n#!!block;n#GetMyShifts#0" />
-                    <element signature="n#!!block;n#GetShiftDetails#0" />
+                    <element signature="n#!!block;n#Test_GetUsersWithoutCurrentID#0" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Site/filtering/filtering.go">
+            <entry file="file://$PROJECT_DIR$/Site/data/users.go">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1265">
-                  <caret line="64" column="12" selection-start-line="64" selection-start-column="4" selection-end-line="64" selection-end-column="12" />
+                <state relative-caret-position="746">
+                  <caret line="71" column="26" lean-forward="true" selection-start-line="71" selection-start-column="26" selection-end-line="71" selection-end-column="26" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/Database/Create Database.sql">
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Site/tests/shifts_test.go">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="815">
-                  <caret line="54" lean-forward="true" selection-start-line="54" selection-end-line="54" />
+                <state relative-caret-position="69">
+                  <caret line="6" selection-start-line="6" selection-end-line="6" />
+                  <folding>
+                    <element signature="n#!!block;n#Test_CreateShiftValid#0" />
+                    <element signature="n#!!block;n#Test_CreateShiftValid100#0" />
+                    <element signature="n#!!block;n#Test_CreateShiftValid1000#0" />
+                    <element signature="n#!!block;n#Test_CreateShiftOverlapping#0" />
+                    <element signature="n#!!block;n#Test_CreateShiftBadStartEnd#0" />
+                    <element signature="n#!!block;n#Test_CreateShiftLongBreak#0" />
+                    <element signature="n#!!block;n#Test_CreateShiftBadManagerID#0" />
+                    <element signature="n#!!block;n#Test_CreateShiftBadEmployeeID#0" />
+                    <element signature="n#!!block;n#Test_CreateShiftMalformedJSON#0" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -227,24 +199,31 @@
         <option value="$PROJECT_DIR$/Site/util/dates/formatter.go" />
         <option value="$PROJECT_DIR$/Site/config.json" />
         <option value="$PROJECT_DIR$/Site/filtering/filtering.go" />
-        <option value="$PROJECT_DIR$/Site/app/middleware.go" />
         <option value="$PROJECT_DIR$/Site/conf/config.go" />
         <option value="$PROJECT_DIR$/Site/controllers/responses.go" />
         <option value="$PROJECT_DIR$/Site/controllers/users.go" />
         <option value="$PROJECT_DIR$/Site/data/errors.go" />
-        <option value="$PROJECT_DIR$/Site/tests/users_test.go" />
         <option value="$PROJECT_DIR$/Site/main.go" />
-        <option value="$PROJECT_DIR$/Site/controllers/shifts.go" />
         <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/Site/data/shifts.go" />
         <option value="$PROJECT_DIR$/Site/data/data.go" />
-        <option value="$PROJECT_DIR$/Site/app/app.go" />
-        <option value="$PROJECT_DIR$/Site/data/summaries.go" />
         <option value="$PROJECT_DIR$/Site/controllers/summaries.go" />
-        <option value="$PROJECT_DIR$/Site/data/users.go" />
-        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/b4ffa56c-6fba-4908-a9bc-2a4e43295b27/console_1.sql" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/b4ffa56c-6fba-4908-a9bc-2a4e43295b27/console_2.sql" />
+        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/b4ffa56c-6fba-4908-a9bc-2a4e43295b27/console_1.sql" />
         <option value="$PROJECT_DIR$/Database/Create Database.sql" />
+        <option value="$PROJECT_DIR$/Site/data/summaries.go" />
+        <option value="$PROJECT_DIR$/Site/controllers/shifts.go" />
+        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/b4ffa56c-6fba-4908-a9bc-2a4e43295b27/console_3.sql" />
+        <option value="$PROJECT_DIR$/../../kataras/iris/httptest/httptest.go" />
+        <option value="$PROJECT_DIR$/Site/tests/helpers.go" />
+        <option value="$PROJECT_DIR$/Site/tests/users_test.go" />
+        <option value="$PROJECT_DIR$/Database/script.go" />
+        <option value="$PROJECT_DIR$/Site/tests/main_test.go" />
+        <option value="$PROJECT_DIR$/Site/app/app.go" />
+        <option value="$PROJECT_DIR$/Site/tests/testing_helpers.go" />
+        <option value="$PROJECT_DIR$/Site/tests/shifts_test.go" />
+        <option value="$PROJECT_DIR$/Site/data/users.go" />
+        <option value="$PROJECT_DIR$/Site/data/shifts.go" />
+        <option value="$PROJECT_DIR$/Site/app/middleware.go" />
       </list>
     </option>
   </component>
@@ -264,7 +243,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -292,25 +270,7 @@
               <item name="standards" type="b2602c69:ProjectViewProjectNode" />
               <item name="standards" type="462c0819:PsiDirectoryNode" />
               <item name="Site" type="462c0819:PsiDirectoryNode" />
-              <item name="conf" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="standards" type="b2602c69:ProjectViewProjectNode" />
-              <item name="standards" type="462c0819:PsiDirectoryNode" />
-              <item name="Site" type="462c0819:PsiDirectoryNode" />
-              <item name="controllers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="standards" type="b2602c69:ProjectViewProjectNode" />
-              <item name="standards" type="462c0819:PsiDirectoryNode" />
-              <item name="Site" type="462c0819:PsiDirectoryNode" />
               <item name="data" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="standards" type="b2602c69:ProjectViewProjectNode" />
-              <item name="standards" type="462c0819:PsiDirectoryNode" />
-              <item name="Site" type="462c0819:PsiDirectoryNode" />
-              <item name="filtering" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="standards" type="b2602c69:ProjectViewProjectNode" />
@@ -322,6 +282,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -331,7 +292,7 @@
     <property name="configurable.Global.GOPATH.is.expanded" value="true" />
     <property name="configurable.Module.GOPATH.is.expanded" value="false" />
     <property name="configurable.Project.GOPATH.is.expanded" value="true" />
-    <property name="database.console.LAST_STATE" value="true" />
+    <property name="database.console.LAST_STATE" value="false" />
     <property name="go.gopath.indexing.explicitly.defined" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -345,6 +306,7 @@
       <recent name="$PROJECT_DIR$/assets" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Site/tests" />
       <recent name="$PROJECT_DIR$/Database" />
     </key>
   </component>
@@ -360,7 +322,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Go Build.Mac OS X">
+  <component name="RunManager" selected="Go Test.go test github.com/ecourant/standards/Site/tests">
     <configuration name="Mac OS X" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="standards" />
       <working_directory value="$PROJECT_DIR$/Site/" />
@@ -371,124 +333,138 @@
       <directory value="$PROJECT_DIR$/Site/" />
       <method v="2" />
     </configuration>
-    <configuration name="Test_CreateShiftForUser in github.com/ecourant/standards/Database" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="Test_CreateShiftAsEmployee in github.com/ecourant/standards/Site/tests" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="standards" />
-      <working_directory value="$PROJECT_DIR$/Database" />
+      <working_directory value="$PROJECT_DIR$/Site/tests" />
       <go_parameters value="-i" />
       <framework value="gotest" />
       <kind value="PACKAGE" />
-      <package value="github.com/ecourant/standards/Database" />
+      <package value="github.com/ecourant/standards/Site/tests" />
       <directory value="$PROJECT_DIR$/" />
       <filePath value="$PROJECT_DIR$/" />
-      <pattern value="^Test_CreateShiftForUser$" />
+      <pattern value="^Test_CreateShiftAsEmployee$" />
       <method v="2" />
     </configuration>
-    <configuration name="Test_CreateUser in github.com/ecourant/standards/Database" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="Test_CreateShiftValid100 in github.com/ecourant/standards/Site/tests" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="standards" />
-      <working_directory value="$PROJECT_DIR$/Database" />
+      <working_directory value="$PROJECT_DIR$/Site/tests" />
       <go_parameters value="-i" />
       <framework value="gotest" />
       <kind value="PACKAGE" />
-      <package value="github.com/ecourant/standards/Database" />
+      <package value="github.com/ecourant/standards/Site/tests" />
       <directory value="$PROJECT_DIR$/" />
       <filePath value="$PROJECT_DIR$/" />
-      <pattern value="^Test_CreateUser$" />
+      <pattern value="^Test_CreateShiftValid100$" />
       <method v="2" />
     </configuration>
-    <configuration name="Test_CreateUserInvalidRole in github.com/ecourant/standards/Database" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="Test_CreateShiftValidNullEmployee in github.com/ecourant/standards/Site/tests" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="standards" />
-      <working_directory value="$PROJECT_DIR$/Database" />
+      <working_directory value="$PROJECT_DIR$/Site/tests" />
       <go_parameters value="-i" />
       <framework value="gotest" />
       <kind value="PACKAGE" />
-      <package value="github.com/ecourant/standards/Database" />
+      <package value="github.com/ecourant/standards/Site/tests" />
       <directory value="$PROJECT_DIR$/" />
       <filePath value="$PROJECT_DIR$/" />
-      <pattern value="^Test_CreateUserInvalidRole$" />
+      <pattern value="^Test_CreateShiftValidNullEmployee$" />
       <method v="2" />
     </configuration>
-    <configuration name="go test github.com/ecourant/standards/Database" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="Test_CreateShiftValidNullManager in github.com/ecourant/standards/Site/tests" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="standards" />
-      <working_directory value="$PROJECT_DIR$/Database" />
+      <working_directory value="$PROJECT_DIR$/Site/tests" />
       <go_parameters value="-i" />
       <framework value="gotest" />
       <kind value="PACKAGE" />
-      <package value="github.com/ecourant/standards/Database" />
+      <package value="github.com/ecourant/standards/Site/tests" />
+      <directory value="$PROJECT_DIR$/" />
+      <filePath value="$PROJECT_DIR$/" />
+      <pattern value="^Test_CreateShiftValidNullManager$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go test github.com/ecourant/standards/Site/tests" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="standards" />
+      <working_directory value="$PROJECT_DIR$/Site/tests" />
+      <go_parameters value="-i" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="github.com/ecourant/standards/Site/tests" />
       <directory value="$PROJECT_DIR$/" />
       <filePath value="$PROJECT_DIR$/" />
       <method v="2" />
     </configuration>
     <list>
       <item itemvalue="Go Build.Mac OS X" />
-      <item itemvalue="Go Test.Test_CreateUser in github.com/ecourant/standards/Database" />
-      <item itemvalue="Go Test.Test_CreateUserInvalidRole in github.com/ecourant/standards/Database" />
-      <item itemvalue="Go Test.go test github.com/ecourant/standards/Database" />
-      <item itemvalue="Go Test.Test_CreateShiftForUser in github.com/ecourant/standards/Database" />
+      <item itemvalue="Go Test.go test github.com/ecourant/standards/Site/tests" />
+      <item itemvalue="Go Test.Test_CreateShiftValid100 in github.com/ecourant/standards/Site/tests" />
+      <item itemvalue="Go Test.Test_CreateShiftValidNullEmployee in github.com/ecourant/standards/Site/tests" />
+      <item itemvalue="Go Test.Test_CreateShiftValidNullManager in github.com/ecourant/standards/Site/tests" />
+      <item itemvalue="Go Test.Test_CreateShiftAsEmployee in github.com/ecourant/standards/Site/tests" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Test.go test github.com/ecourant/standards/Database" />
-        <item itemvalue="Go Test.Test_CreateShiftForUser in github.com/ecourant/standards/Database" />
-        <item itemvalue="Go Test.Test_CreateUser in github.com/ecourant/standards/Database" />
-        <item itemvalue="Go Test.Test_CreateUserInvalidRole in github.com/ecourant/standards/Database" />
+        <item itemvalue="Go Test.go test github.com/ecourant/standards/Site/tests" />
+        <item itemvalue="Go Test.Test_CreateShiftAsEmployee in github.com/ecourant/standards/Site/tests" />
+        <item itemvalue="Go Test.Test_CreateShiftValidNullManager in github.com/ecourant/standards/Site/tests" />
+        <item itemvalue="Go Test.Test_CreateShiftValidNullEmployee in github.com/ecourant/standards/Site/tests" />
+        <item itemvalue="Go Test.Test_CreateShiftValid100 in github.com/ecourant/standards/Site/tests" />
       </list>
     </recent_temporary>
   </component>
   <component name="TestHistory">
-    <history-entry file="go_test_github_com_ecourant_standards_Database - 2018.08.13 at 18h 59m 41s.xml">
-      <configuration name="go test github.com/ecourant/standards/Database" configurationId="GoTestRunConfiguration" />
+    <history-entry file="go_test_github_com_ecourant_standards_Site_tests - 2018.08.16 at 21h 50m 41s.xml">
+      <configuration name="go test github.com/ecourant/standards/Site/tests" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="Test_CreateUser_in_github_com_ecourant_standards_Database - 2018.08.13 at 19h 00m 01s.xml">
-      <configuration name="Test_CreateUser in github.com/ecourant/standards/Database" configurationId="GoTestRunConfiguration" />
+    <history-entry file="Test_CreateShiftValidNullEmployee_in_github_com_ecourant_standards_Site_tests - 2018.08.16 at 21h 51m 24s.xml">
+      <configuration name="Test_CreateShiftValidNullEmployee in github.com/ecourant/standards/Site/tests" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="Test_CreateUser_in_github_com_ecourant_standards_Database - 2018.08.13 at 19h 00m 17s.xml">
-      <configuration name="Test_CreateUser in github.com/ecourant/standards/Database" configurationId="GoTestRunConfiguration" />
+    <history-entry file="go_test_github_com_ecourant_standards_Site_tests - 2018.08.16 at 21h 52m 18s.xml">
+      <configuration name="go test github.com/ecourant/standards/Site/tests" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="go_test_github_com_ecourant_standards_Database - 2018.08.13 at 19h 00m 21s.xml">
-      <configuration name="go test github.com/ecourant/standards/Database" configurationId="GoTestRunConfiguration" />
+    <history-entry file="Test_CreateShiftValidNullManager_in_github_com_ecourant_standards_Site_tests - 2018.08.16 at 21h 55m 28s.xml">
+      <configuration name="Test_CreateShiftValidNullManager in github.com/ecourant/standards/Site/tests" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="go_test_github_com_ecourant_standards_Database - 2018.08.13 at 19h 00m 52s.xml">
-      <configuration name="go test github.com/ecourant/standards/Database" configurationId="GoTestRunConfiguration" />
+    <history-entry file="go_test_github_com_ecourant_standards_Site_tests - 2018.08.16 at 21h 56m 05s.xml">
+      <configuration name="go test github.com/ecourant/standards/Site/tests" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="Test_CreateShiftForUser_in_github_com_ecourant_standards_Database - 2018.08.13 at 19h 03m 48s.xml">
-      <configuration name="Test_CreateShiftForUser in github.com/ecourant/standards/Database" configurationId="GoTestRunConfiguration" />
+    <history-entry file="go_test_github_com_ecourant_standards_Site_tests - 2018.08.16 at 21h 59m 04s.xml">
+      <configuration name="go test github.com/ecourant/standards/Site/tests" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="Test_CreateShiftForUser_in_github_com_ecourant_standards_Database - 2018.08.13 at 19h 03m 57s.xml">
-      <configuration name="Test_CreateShiftForUser in github.com/ecourant/standards/Database" configurationId="GoTestRunConfiguration" />
+    <history-entry file="Test_CreateShiftAsEmployee_in_github_com_ecourant_standards_Site_tests - 2018.08.16 at 21h 59m 50s.xml">
+      <configuration name="Test_CreateShiftAsEmployee in github.com/ecourant/standards/Site/tests" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="Test_CreateShiftForUser_in_github_com_ecourant_standards_Database - 2018.08.13 at 19h 04m 10s.xml">
-      <configuration name="Test_CreateShiftForUser in github.com/ecourant/standards/Database" configurationId="GoTestRunConfiguration" />
+    <history-entry file="go_test_github_com_ecourant_standards_Site_tests - 2018.08.16 at 22h 00m 20s.xml">
+      <configuration name="go test github.com/ecourant/standards/Site/tests" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="Test_CreateShiftForUser_in_github_com_ecourant_standards_Database - 2018.08.13 at 19h 04m 22s.xml">
-      <configuration name="Test_CreateShiftForUser in github.com/ecourant/standards/Database" configurationId="GoTestRunConfiguration" />
+    <history-entry file="go_test_github_com_ecourant_standards_Site_tests - 2018.08.16 at 23h 10m 41s.xml">
+      <configuration name="go test github.com/ecourant/standards/Site/tests" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="go_test_github_com_ecourant_standards_Database - 2018.08.13 at 19h 04m 26s.xml">
-      <configuration name="go test github.com/ecourant/standards/Database" configurationId="GoTestRunConfiguration" />
+    <history-entry file="go_test_github_com_ecourant_standards_Site_tests - 2018.08.17 at 18h 48m 49s.xml">
+      <configuration name="go test github.com/ecourant/standards/Site/tests" configurationId="GoTestRunConfiguration" />
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="2560" height="1440" extended-state="0" />
+    <frame x="0" y="0" width="1920" height="1200" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.12946783" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13045794" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.40165788" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.4103036" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.38507912" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info active="true" anchor="bottom" id="Database Console" order="7" visible="true" weight="0.15146948" />
-      <window_info anchor="bottom" id="Database Changes" order="8" />
+      <window_info anchor="bottom" id="Database Console" order="7" weight="0.21024868" />
+      <window_info anchor="bottom" id="Database Changes" order="8" weight="0.32931423" />
       <window_info anchor="bottom" id="Version Control" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="10" weight="0.32934684" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Database" order="3" visible="true" weight="0.10087371" />
+      <window_info anchor="right" id="Database" order="3" weight="0.10063898" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -598,52 +574,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Site/app/middleware.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="505">
-          <caret line="34" selection-start-line="34" selection-end-line="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Site/conf/config.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="15" selection-start-line="15" selection-end-line="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Site/data/errors.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="761">
-          <caret line="62" column="23" selection-start-line="62" selection-start-column="23" selection-end-line="62" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Site/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="15" column="20" lean-forward="true" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Site/tests/users_test.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="23">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Site/controllers/responses.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="230">
           <caret line="10" column="1" selection-start-line="10" selection-start-column="1" selection-end-line="10" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Database/database_test.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="22" column="12" selection-start-line="22" selection-start-column="12" selection-end-line="22" selection-end-column="12" />
         </state>
       </provider>
     </entry>
@@ -664,88 +598,200 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Site/data/users.go">
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/b4ffa56c-6fba-4908-a9bc-2a4e43295b27/console_2.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="26" column="66" selection-start-line="26" selection-start-column="66" selection-end-line="26" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Site/controllers/shifts.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="506">
-          <caret line="26" column="54" selection-start-line="26" selection-start-column="36" selection-end-line="26" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Site/data/summaries.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="24" column="71" selection-start-line="24" selection-start-column="71" selection-end-line="24" selection-end-column="71" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Site/controllers/users.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="15" column="72" selection-start-line="15" selection-start-column="72" selection-end-line="15" selection-end-column="72" />
+        <state relative-caret-position="414">
+          <caret line="18" column="117" selection-start-line="18" selection-start-column="117" selection-end-line="18" selection-end-column="117" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Site/controllers/summaries.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
+        <state relative-caret-position="118">
           <caret line="10" column="39" selection-start-line="10" selection-start-column="39" selection-end-line="10" selection-end-column="39" />
-          <folding>
-            <element signature="e#22#150#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Site/app/app.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="14" column="27" selection-start-line="14" selection-start-column="27" selection-end-line="14" selection-end-column="27" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Site/filtering/filtering.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1265">
+        <state relative-caret-position="300">
           <caret line="64" column="12" selection-start-line="64" selection-start-column="4" selection-end-line="64" selection-end-column="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/b4ffa56c-6fba-4908-a9bc-2a4e43295b27/console_1.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="897">
-          <caret line="39" column="35" selection-start-line="19" selection-start-column="6" selection-end-line="39" selection-end-column="35" />
+        <state relative-caret-position="491">
+          <caret line="51" column="23" selection-start-line="51" selection-start-column="23" selection-end-line="51" selection-end-column="23" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Site/data/shifts.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="141">
-          <caret line="28" column="65" selection-start-line="28" selection-start-column="65" selection-end-line="28" selection-end-column="65" />
-          <folding>
-            <element signature="n#!!block;n#GetShifts#0" />
-            <element signature="n#!!block;n#GetMyShifts#0" />
-            <element signature="n#!!block;n#GetShiftDetails#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/b4ffa56c-6fba-4908-a9bc-2a4e43295b27/console_2.sql">
+    <entry file="file://$PROJECT_DIR$/Site/controllers/users.go">
       <provider selected="true" editor-type-id="text-editor">
         <state>
-          <caret selection-end-line="56" selection-end-column="70" />
+          <caret selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Site/data/summaries.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="598">
+          <caret line="31" column="101" lean-forward="true" selection-start-line="31" selection-start-column="101" selection-end-line="31" selection-end-column="101" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../jinzhu/gorm/scope.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="475" column="20" selection-start-line="475" selection-start-column="20" selection-end-line="475" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../jinzhu/gorm/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="67">
+          <caret line="312" column="13" selection-start-line="312" selection-start-column="13" selection-end-line="312" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/b4ffa56c-6fba-4908-a9bc-2a4e43295b27/console_3.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="111" selection-start-column="111" selection-end-column="111" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Database/Create Database.sql">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="191" column="82" selection-start-line="191" selection-start-column="21" selection-end-line="191" selection-end-column="82" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Site/data/errors.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="35" column="5" selection-start-line="35" selection-start-column="5" selection-end-line="35" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../kataras/iris/httptest/httptest.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1679">
+          <caret line="73" lean-forward="true" selection-start-line="73" selection-end-line="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Site/tests/test_config.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Database/script.go" />
+    <entry file="file://$PROJECT_DIR$/Database/database_test.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="185">
+          <caret line="22" column="12" selection-start-line="22" selection-start-column="12" selection-end-line="22" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Site/tests/main_test.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="897">
+          <caret line="39" column="58" selection-start-line="39" selection-start-column="58" selection-end-line="39" selection-end-column="58" />
+          <folding>
+            <element signature="e#15#42#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Site/tests/testing_helpers.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="36" column="24" selection-start-line="36" selection-start-column="24" selection-end-line="36" selection-end-column="24" />
+          <folding>
+            <element signature="e#15#57#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Site/conf/config.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="19" column="5" selection-start-line="17" selection-start-column="4" selection-end-line="19" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Site/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="16" column="63" lean-forward="true" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Site/tests/shifts_test.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="69">
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
+          <folding>
+            <element signature="n#!!block;n#Test_CreateShiftValid#0" />
+            <element signature="n#!!block;n#Test_CreateShiftValid100#0" />
+            <element signature="n#!!block;n#Test_CreateShiftValid1000#0" />
+            <element signature="n#!!block;n#Test_CreateShiftOverlapping#0" />
+            <element signature="n#!!block;n#Test_CreateShiftBadStartEnd#0" />
+            <element signature="n#!!block;n#Test_CreateShiftLongBreak#0" />
+            <element signature="n#!!block;n#Test_CreateShiftBadManagerID#0" />
+            <element signature="n#!!block;n#Test_CreateShiftBadEmployeeID#0" />
+            <element signature="n#!!block;n#Test_CreateShiftMalformedJSON#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Site/controllers/shifts.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1255">
+          <caret line="84" column="31" lean-forward="true" selection-start-line="84" selection-start-column="31" selection-end-line="84" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Site/tests/users_test.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="26" column="29" lean-forward="true" selection-start-line="26" selection-start-column="29" selection-end-line="26" selection-end-column="29" />
+          <folding>
+            <element signature="n#!!block;n#Test_GetUsersWithoutCurrentID#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Site/data/users.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="746">
+          <caret line="71" column="26" lean-forward="true" selection-start-line="71" selection-start-column="26" selection-end-line="71" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Site/data/shifts.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="592">
+          <caret line="162" column="5" lean-forward="true" selection-start-line="162" selection-start-column="5" selection-end-line="162" selection-end-column="5" />
+          <folding>
+            <element signature="n#!!block;n#rowsToShifts#0" />
+            <element signature="n#!!block;n#GetShifts#0" />
+            <element signature="n#!!block;n#GetMyShifts#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Site/app/app.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="644">
+          <caret line="35" column="33" lean-forward="true" selection-start-line="35" selection-start-column="33" selection-end-line="35" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Site/app/middleware.go">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="815">
-          <caret line="54" lean-forward="true" selection-start-line="54" selection-end-line="54" />
+          <caret line="61" column="9" selection-start-line="61" selection-start-column="9" selection-end-line="61" selection-end-column="9" />
         </state>
       </provider>
     </entry>
