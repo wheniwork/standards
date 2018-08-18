@@ -122,9 +122,19 @@ func Shifts(p iris.Party) {
 	})
 
 	p.Delete("/{id:long}", func(ctx iris.Context) {
-		ctx.JSON(struct {
-			success bool
-		}{ true })
+		if id, err := ctx.Params().GetInt("id"); err != nil {
+			ctx.StatusCode(400)
+			ctx.JSON(ErrorAPIResponse{
+				Success:false,
+				Message:"Error, could not parse shift id.",
+			})
+		} else if err := ctx.Values().Get("Session").(data.DSession).Shifts().DeleteShift(id); err != nil {
+			data.ErrorResponse(ctx, err)
+		} else {
+			ctx.JSON(APIResponse{
+				Success:true,
+			})
+		}
 	})
 }
 

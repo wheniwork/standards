@@ -220,6 +220,30 @@ func (ctx DShifts) UpdateShift(id int, shift Shift) (response *Shift, rerr *DErr
 	return &rowsToShifts(result)[0], nil
 }
 
+func (ctx DShifts) DeleteShift(id int) (rerr *DError) {
+	db, err := gorm.Open("postgres", conf.Cfg.ConnectionString)
+	db.LogMode(true)
+	if err != nil {
+		return NewServerError("Error, could not delete shift at this time.", err)
+	}
+	defer db.Close()
+	db = db.Begin()
+	// I hate how this looks in golang, but basically if there is a panic or an error somewhere further down, the transaction will rollback.
+	defer func() {
+		if r := recover(); r != nil {
+			db.Rollback()
+			rerr = NewServerError("Error, could not delete shift at this time.", err)
+			return
+		}
+	}()
+	if err := db.Exec("DELETE FROM public.shifts WHERE id = ?").Error; err != nil {
+		db.Rollback()
+		return NewServerError(fmt.Sprintf("Error, failed to delete shift ID %d.", id), err)
+	}
+	db.Commit()
+	return nil
+}
+
 func (ctx DShifts) verifyShift(id *int, shift *Shift , db *gorm.DB) *DError {
 	if shift.StartTime == nil || strings.TrimSpace(*shift.StartTime) == "" {
 		return NewClientError("Error, start_time cannot be null or blank.", nil)
