@@ -151,14 +151,14 @@ func (ctx DShifts) CreateShift(shift Shift) (response *Shift, rerr *DError) {
 	} else if *role == "employee" {
 		return nil, NewClientError(fmt.Sprintf("Error, user ID %d is not a manager.", *shift.ManagerID), nil)
 	} else if role == nil {
-		return nil, NewClientError(fmt.Sprintf("Error, manager_id %d does not exist.", *shift.ManagerID), nil)
+		return nil, NewNotFoundError(fmt.Sprintf("Error, manager_id %d does not exist.", *shift.ManagerID))
 	}
 
 	if shift.EmployeeID != nil {
 		if role, err := ctx.Users().GetUserRole(*shift.EmployeeID); err != nil {
 			return nil, NewServerError("Error, could not verify employee_id.", err)
 		}  else if role == nil {
-			return nil, NewClientError(fmt.Sprintf("Error, employee_id %d does not exist.", *shift.ManagerID), nil)
+			return nil, NewNotFoundError(fmt.Sprintf("Error, employee_id %d does not exist.", *shift.ManagerID))
 		}
 	}
 
@@ -233,4 +233,30 @@ func (ctx DShifts) CreateShift(shift Shift) (response *Shift, rerr *DError) {
 	}
 	db.Commit()
 	return &rowsToShifts(result)[0], nil
+}
+
+func (ctx DShifts) UpdateShift(id int, shift Shift) ([]Shift, *DError) {
+	db, err := gorm.Open("postgres", conf.Cfg.ConnectionString)
+	db.LogMode(true)
+	if err != nil {
+		return nil, NewServerError("Error, could not retrieve shifts at this time.", err)
+	}
+	defer db.Close()
+
+	result := make([]shiftRow, 0)
+
+	db = db.
+		Table("public.vw_shifts_detailed_api").
+		Select(params.Fields).
+		Order(params.Sorts).
+		Offset((params.Page * params.PageSize) - params.PageSize).
+		Limit(params.PageSize).
+		Where("group_by_id = ?", id)
+
+	if len(params.Filters) > 0 || params.DateRange != nil {
+		db = filtering.WhereFilters(db, params, ctx.Constraints())
+	}
+
+	db.Scan(&result)
+	return rowsToShifts(result), nil
 }

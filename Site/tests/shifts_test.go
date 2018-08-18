@@ -324,8 +324,8 @@ func Test_CreateShiftBadEmployeeID(t *testing.T) {
 		t.Fatal(err)
 	} else {
 		//Add unmarshal test.
-		if *code != 500 {
-			t.Fatal("Error, request should have succeeded.")
+		if *code != 400 {
+			t.Fatal("Error, request should have failed.")
 		}
 	}
 }

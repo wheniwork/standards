@@ -41,7 +41,7 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="go" value="91" />
+          <entry key="go" value="92" />
           <entry key="json" value="4" />
           <entry key="md" value="2" />
           <entry key="sql" value="14" />
@@ -49,7 +49,7 @@
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Go" value="91" />
+          <entry key="Go" value="92" />
           <entry key="JSON" value="4" />
           <entry key="Markdown" value="2" />
           <entry key="SQL" value="6" />
@@ -58,7 +58,7 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="go" value="15155" />
+          <entry key="go" value="15205" />
           <entry key="json" value="149" />
           <entry key="md" value="20" />
           <entry key="sql" value="6259" />
@@ -67,7 +67,7 @@
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Go" value="15155" />
+          <entry key="Go" value="15205" />
           <entry key="JSON" value="149" />
           <entry key="Markdown" value="20" />
           <entry key="PLAIN_TEXT" value="2" />
@@ -78,7 +78,7 @@
     </session>
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.20759338">
+    <splitter split-orientation="horizontal" split-proportion="0.1">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="true">
@@ -94,74 +94,16 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Site/data/shifts.go">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="592">
-                  <caret line="162" column="5" lean-forward="true" selection-start-line="162" selection-start-column="5" selection-end-line="162" selection-end-column="5" />
+                <state relative-caret-position="531">
+                  <caret line="155" lean-forward="true" selection-start-line="155" selection-end-line="155" />
                   <folding>
                     <element signature="n#!!block;n#rowsToShifts#0" />
                     <element signature="n#!!block;n#GetShifts#0" />
                     <element signature="n#!!block;n#GetMyShifts#0" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Site/app/app.go">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="644">
-                  <caret line="35" column="33" lean-forward="true" selection-start-line="35" selection-start-column="33" selection-end-line="35" selection-end-column="33" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/Site/app/middleware.go">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="815">
-                  <caret line="61" column="9" selection-start-line="61" selection-start-column="9" selection-end-line="61" selection-end-column="9" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Site/tests/users_test.go">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="299">
-                  <caret line="26" column="29" lean-forward="true" selection-start-line="26" selection-start-column="29" selection-end-line="26" selection-end-column="29" />
-                  <folding>
-                    <element signature="n#!!block;n#Test_GetUsersWithoutCurrentID#0" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Site/data/users.go">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="746">
-                  <caret line="71" column="26" lean-forward="true" selection-start-line="71" selection-start-column="26" selection-end-line="71" selection-end-column="26" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Site/tests/shifts_test.go">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="69">
-                  <caret line="6" selection-start-line="6" selection-end-line="6" />
-                  <folding>
-                    <element signature="n#!!block;n#Test_CreateShiftValid#0" />
-                    <element signature="n#!!block;n#Test_CreateShiftValid100#0" />
-                    <element signature="n#!!block;n#Test_CreateShiftValid1000#0" />
-                    <element signature="n#!!block;n#Test_CreateShiftOverlapping#0" />
-                    <element signature="n#!!block;n#Test_CreateShiftBadStartEnd#0" />
-                    <element signature="n#!!block;n#Test_CreateShiftLongBreak#0" />
-                    <element signature="n#!!block;n#Test_CreateShiftBadManagerID#0" />
-                    <element signature="n#!!block;n#Test_CreateShiftBadEmployeeID#0" />
-                    <element signature="n#!!block;n#Test_CreateShiftMalformedJSON#0" />
+                    <element signature="n#!!block;n#GetShiftDetails#0" />
                   </folding>
                 </state>
               </provider>
@@ -220,10 +162,10 @@
         <option value="$PROJECT_DIR$/Site/tests/main_test.go" />
         <option value="$PROJECT_DIR$/Site/app/app.go" />
         <option value="$PROJECT_DIR$/Site/tests/testing_helpers.go" />
-        <option value="$PROJECT_DIR$/Site/tests/shifts_test.go" />
         <option value="$PROJECT_DIR$/Site/data/users.go" />
-        <option value="$PROJECT_DIR$/Site/data/shifts.go" />
         <option value="$PROJECT_DIR$/Site/app/middleware.go" />
+        <option value="$PROJECT_DIR$/Site/tests/shifts_test.go" />
+        <option value="$PROJECT_DIR$/Site/data/shifts.go" />
       </list>
     </option>
   </component>
@@ -411,12 +353,6 @@
     </recent_temporary>
   </component>
   <component name="TestHistory">
-    <history-entry file="go_test_github_com_ecourant_standards_Site_tests - 2018.08.16 at 21h 50m 41s.xml">
-      <configuration name="go test github.com/ecourant/standards/Site/tests" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="Test_CreateShiftValidNullEmployee_in_github_com_ecourant_standards_Site_tests - 2018.08.16 at 21h 51m 24s.xml">
-      <configuration name="Test_CreateShiftValidNullEmployee in github.com/ecourant/standards/Site/tests" configurationId="GoTestRunConfiguration" />
-    </history-entry>
     <history-entry file="go_test_github_com_ecourant_standards_Site_tests - 2018.08.16 at 21h 52m 18s.xml">
       <configuration name="go test github.com/ecourant/standards/Site/tests" configurationId="GoTestRunConfiguration" />
     </history-entry>
@@ -441,12 +377,18 @@
     <history-entry file="go_test_github_com_ecourant_standards_Site_tests - 2018.08.17 at 18h 48m 49s.xml">
       <configuration name="go test github.com/ecourant/standards/Site/tests" configurationId="GoTestRunConfiguration" />
     </history-entry>
+    <history-entry file="go_test_github_com_ecourant_standards_Site_tests - 2018.08.17 at 20h 07m 50s.xml">
+      <configuration name="go test github.com/ecourant/standards/Site/tests" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="go_test_github_com_ecourant_standards_Site_tests - 2018.08.17 at 20h 09m 17s.xml">
+      <configuration name="go test github.com/ecourant/standards/Site/tests" configurationId="GoTestRunConfiguration" />
+    </history-entry>
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1200" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13045794" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13045794" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -727,24 +669,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Site/tests/shifts_test.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="69">
-          <caret line="6" selection-start-line="6" selection-end-line="6" />
-          <folding>
-            <element signature="n#!!block;n#Test_CreateShiftValid#0" />
-            <element signature="n#!!block;n#Test_CreateShiftValid100#0" />
-            <element signature="n#!!block;n#Test_CreateShiftValid1000#0" />
-            <element signature="n#!!block;n#Test_CreateShiftOverlapping#0" />
-            <element signature="n#!!block;n#Test_CreateShiftBadStartEnd#0" />
-            <element signature="n#!!block;n#Test_CreateShiftLongBreak#0" />
-            <element signature="n#!!block;n#Test_CreateShiftBadManagerID#0" />
-            <element signature="n#!!block;n#Test_CreateShiftBadEmployeeID#0" />
-            <element signature="n#!!block;n#Test_CreateShiftMalformedJSON#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Site/controllers/shifts.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1255">
@@ -769,18 +693,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Site/data/shifts.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="592">
-          <caret line="162" column="5" lean-forward="true" selection-start-line="162" selection-start-column="5" selection-end-line="162" selection-end-column="5" />
-          <folding>
-            <element signature="n#!!block;n#rowsToShifts#0" />
-            <element signature="n#!!block;n#GetShifts#0" />
-            <element signature="n#!!block;n#GetMyShifts#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Site/app/app.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="644">
@@ -791,7 +703,45 @@
     <entry file="file://$PROJECT_DIR$/Site/app/middleware.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="815">
-          <caret line="61" column="9" selection-start-line="61" selection-start-column="9" selection-end-line="61" selection-end-column="9" />
+          <caret line="61" column="9" lean-forward="true" selection-start-line="61" selection-start-column="9" selection-end-line="61" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Site/tests/shifts_test.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="114" lean-forward="true" selection-start-line="114" selection-end-line="114" />
+          <folding>
+            <element signature="n#!!block;n#Test_CreateShiftAsEmployee#0" />
+            <element signature="n#!!block;n#Test_CreateShiftValid#0" />
+            <element signature="n#!!block;n#Test_CreateShiftValid100#0" />
+            <element signature="n#!!block;n#Test_CreateShiftValid1000#0" />
+            <element signature="n#!!block;n#Test_CreateShiftValidNullEmployee#0" />
+            <element signature="n#!!block;n#Test_CreateShiftValidNullManager#0" />
+            <element signature="n#!!block;n#Test_CreateShiftOverlapping#0" />
+            <element signature="n#!!block;n#Test_CreateShiftBadStartEnd#0" />
+            <element signature="n#!!block;n#Test_CreateShiftNullStart#0" />
+            <element signature="n#!!block;n#Test_CreateShiftWhitespaceStart#0" />
+            <element signature="n#!!block;n#Test_CreateShiftNullEnd#0" />
+            <element signature="n#!!block;n#Test_CreateShiftWhitespaceEnd#0" />
+            <element signature="n#!!block;n#Test_CreateShiftLongBreak#0" />
+            <element signature="n#!!block;n#Test_CreateShiftBadManagerID#0" />
+            <element signature="n#!!block;n#Test_CreateShiftBadEmployeeID#0" />
+            <element signature="n#!!block;n#Test_CreateShiftMalformedJSON#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Site/data/shifts.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="531">
+          <caret line="155" lean-forward="true" selection-start-line="155" selection-end-line="155" />
+          <folding>
+            <element signature="n#!!block;n#rowsToShifts#0" />
+            <element signature="n#!!block;n#GetShifts#0" />
+            <element signature="n#!!block;n#GetMyShifts#0" />
+            <element signature="n#!!block;n#GetShiftDetails#0" />
+          </folding>
         </state>
       </provider>
     </entry>
