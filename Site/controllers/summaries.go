@@ -23,22 +23,4 @@ func Summaries(p iris.Party) {
 			})
 		}
 	})
-
-	p.Post("/", func(ctx iris.Context) {
-		ctx.JSON(struct {
-			success bool
-		}{true})
-	})
-
-	p.Put("/", func(ctx iris.Context) {
-		ctx.JSON(struct {
-			success bool
-		}{true})
-	})
-
-	p.Delete("/{id:long}", func(ctx iris.Context) {
-		ctx.JSON(struct {
-			success bool
-		}{true})
-	})
 }

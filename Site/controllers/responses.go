@@ -1,8 +1,9 @@
 package controllers
 
+// The response wrapper objects.
 type ErrorAPIResponse struct {
-	Message string `json:"message,omitempty"`
 	Success bool   `json:"success"`
+	Message string `json:"message,omitempty"`
 }
 
 type APIResponse struct {

@@ -66,6 +66,8 @@ const (
 	DefaultSortAsc  QueryType = 4
 	DefaultSortDesc QueryType = 16
 	Standard        QueryType = 8 // Next should be 32
+	// The reason standard is out of order is because I didn't
+	//		think to add it until after I had built the filtering code.
 )
 
 const (
@@ -84,6 +86,12 @@ var (
 	}
 )
 
+
+
+// I built this to help making custom filtering, sorting, selecting etc... easier.
+// It will take the interface and look at all the fields and based on the tags
+//		it will generate an object with what's allowed to be filtered in a request.
+// This can be cached at runtime and allows new fields to be added very easily to existing types.
 func GenerateConstraints(T interface{}) RequestConstraints {
 	cons := RequestConstraints{
 		Fields:         map[string]RequestQueryField{},
@@ -93,12 +101,15 @@ func GenerateConstraints(T interface{}) RequestConstraints {
 	ref := reflect.TypeOf(T)
 	for i := 0; i < ref.NumField(); i++ {
 		f := ref.Field(i)
+		// The json field name will be used to verify everything.
+		// The field name must also match the column name in SQL to make select queries easy to build.
 		fieldName := strings.Split(f.Tag.Get("json"), ",")[0]
 		if val, ok := f.Tag.Lookup("query"); !ok {
-			fmt.Println("ALERT: Field (", fieldName, ") has no constraint parameters and will not have functionality but may still be returned.")
+			fmt.Printf("ALERT: Field (%s) has no constraint parameters and will not have functionality but may still be returned.\n", fieldName)
 		} else if q, err := strconv.Atoi(val); err != nil {
-			panic("Error, field (" + fieldName + ") failed to be parsed as an int.")
+			panic(fmt.Sprintf("Error, field (%s) failed to be parsed as an int.", fieldName))
 		} else {
+			// Name is not currently used, I had an idea to use it as a friendly column name in the UI.
 			if name, ok := f.Tag.Lookup("name"); ok {
 				cons.Fields[fieldName] = RequestQueryField{
 					QueryType: QueryType(q),
@@ -142,6 +153,7 @@ func GenerateConstraints(T interface{}) RequestConstraints {
 
 func ParseRequestParams(ctx iris.Context, constraints RequestConstraints, requestType RequestType) (*RequestParams, error) {
 	params := RequestParams{}
+	// Standard requests can return multiple results, so parse the paging and sorting
 	if requestType|StandardRequest == requestType {
 		params.Page = ctx.URLParamIntDefault("page", 1)
 		params.PageSize = ctx.URLParamIntDefault("page_size", 10)
@@ -152,9 +164,12 @@ func ParseRequestParams(ctx iris.Context, constraints RequestConstraints, reques
 			}
 			st := make([]string, 0)
 			dirs := map[byte]string{
-				byte('a'): "ASC",
-				byte('d'): "DESC",
+				byte('+'): "ASC",
+				byte('-'): "DESC",
 			}
+			// This will look for a url param in a format like this: sort=+id,-name
+			// Which would sort by id ASC and name DESC
+			// It looks to the first character in the sort, and tries to match it to a + or - and then it verifies that the rest of the param is a valid field.
 			for _, s := range sorts {
 				if direction, ok := dirs[byte(s[0])]; ok {
 					if val, ok := constraints.Fields[string(s[1:])]; ok && val.QueryType|Sortable == val.QueryType && val.QueryType|Standard == val.QueryType {
@@ -172,10 +187,11 @@ func ParseRequestParams(ctx iris.Context, constraints RequestConstraints, reques
 				params.Sorts = strings.Join(st, ",")
 			}
 		} else {
-			params.Sorts = constraints.DefaultSort
+			params.Sorts = constraints.DefaultSort // Default sorts are defined as a tag on the struct.
 		}
 	}
 
+	// the Fields URL param will allow the user to exclude certain fields from the JSON response. Only works with fields that are in the struct and are mapped with a tag.
 	if requestType|StandardRequest == requestType || requestType|DetailedRequest == requestType {
 		if fields := strings.Split(ctx.URLParam("fields"), ","); len(fields) > 0 && fields[0] != "" {
 			ft := make([]string, 0)
@@ -200,6 +216,7 @@ func ParseRequestParams(ctx iris.Context, constraints RequestConstraints, reques
 		}
 	}
 
+	// This allows very simple AND filtering. The filter param must be a JSON value though, which is inconvenient but allows for complex filtering of all/any fields.
 	if requestType|StandardRequest == requestType || requestType|DetailedRequest == requestType || requestType|CountRequest == requestType {
 		if f := ctx.URLParam("filter"); f != "" {
 			if val, ok := constraints.QueryTypeCount[Filterable]; !(ok && val > 0) {
@@ -221,6 +238,8 @@ func ParseRequestParams(ctx iris.Context, constraints RequestConstraints, reques
 		} else {
 			params.Filters = make([]Filter, 0)
 		}
+		// I added this to help sort shifts, date_from and date_to will only filter as a date object in SQL
+		// but their _time_ counterparts will filter as a timestamp.
 		start, start_time, end, end_time :=
 			ctx.URLParam("date_from"),
 			ctx.URLParam("date_time_from"),
@@ -244,7 +263,8 @@ func ParseRequestParams(ctx iris.Context, constraints RequestConstraints, reques
 
 	return &params, nil
 }
-
+// This will take the request parameters from the HTTP request and append the SQL query
+// 		with the custom filters the user specified.
 func WhereFilters(db *gorm.DB, params RequestParams, constraints RequestConstraints) *gorm.DB {
 	for _, filter := range params.Filters {
 		t := struct {
@@ -252,6 +272,7 @@ func WhereFilters(db *gorm.DB, params RequestParams, constraints RequestConstrai
 			it *int
 			bo *bool
 		}{}
+		// Append the filters to the SQL query based on the filter object in the URL.
 		if field, ok := constraints.Fields[filter.Field]; ok && field.Type == reflect.TypeOf(t.st) {
 			if filter.Equals != nil {
 				db = db.Where(filter.Field+" = ?", filter.Equals)

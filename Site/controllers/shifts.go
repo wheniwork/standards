@@ -8,6 +8,8 @@ import (
 
 func Shifts(p iris.Party) {
 	p.Get("/", func(ctx iris.Context) {
+		// This is the largest repeated code that I use I think.
+		// It parses the url parameters to help build the SQL query later on.
 		if params, err := filtering.ParseRequestParams(ctx, data.ShiftConstraints, filtering.StandardRequest); err != nil {
 			ctx.StatusCode(400)
 			ctx.JSON(ErrorAPIResponse{

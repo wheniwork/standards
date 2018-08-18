@@ -59,6 +59,7 @@ func TestMain(m *testing.M) {
 	os.Exit(retCode)
 }
 
+// Just run all of the queries in the array and verify whether or not the response was supposed to be successful.
 func Test_Inserts(t *testing.T) {
 	for _, q := range Queries {
 		err := runQueryWithRollback(t, q.Query, q.Args...)

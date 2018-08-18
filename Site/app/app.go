@@ -21,10 +21,7 @@ func App() *iris.Application {
 	app := iris.Default()
 	app.PartyFunc("/api", func(p iris.Party) {
 		p.Use(APIMiddleware)
-		p.Get("/", func(ctx iris.Context) {
-			ctx.JSON(getEndpointUrls())
-		})
-		// map the endppints from the endpoints array.
+		// Map the endppints from the endpoints array.
 		for i, endpoint := range getEndpointUrls() {
 			p.PartyFunc(endpoint, Endpoints[i])
 			fmt.Printf("Mapped API Endpoint: /api%s\n", endpoint)

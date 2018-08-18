@@ -18,6 +18,7 @@ type DErrorAPIResponse struct {
 	Success bool   `json:"success"`
 }
 
+// Just some basic functions to help return errors more easily through the rest api.
 func NewClientError(Message string, err error) *DError {
 	return &DError{
 		Message:     Message,
@@ -38,13 +39,6 @@ func NewServerError(Message string, err error) *DError {
 		Message:     Message,
 		ServerError: true,
 		ActualError: err,
-	}
-}
-
-func NewPermissionError(Message string) *DError {
-	return &DError{
-		Message:         Message,
-		PermissionError: true,
 	}
 }
 

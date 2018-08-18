@@ -34,13 +34,14 @@ type Shift struct {
 	UpdatedAt       *string  `json:"updated_at,omitempty" query:"11" name:"Updated At"`
 }
 
+// The row object is used to parse the json columns for employee and manager sub objects.
 type shiftRow struct {
 	Shift
 	ManagerUser  *string `json:"manager_user,omitempty" query:"11" name:"Manager User"`
 	EmployeeUser *string `json:"employee_user,omitempty" query:"11" name:"Employee User"`
 }
 
-
+// Parse the row object and return the resulting shift object with any extra details.
 func rowsToShifts(rows []shiftRow) []Shift {
 	result := make([]Shift, len(rows))
 	for i, row := range rows {
@@ -251,14 +252,27 @@ func (ctx DShifts) DeleteShift(id int) (rerr *DError) {
 	return nil
 }
 
+// TODO (@ecourant) break up into smaller functions.
 func (ctx DShifts) verifyShift(id *int, shift *Shift , db *gorm.DB) *DError {
+	// Verify that the shift even exists.
+	if id != nil {
+		count := 0
+		db.
+			Table("public.vw_shifts_api").
+			Where("id = ?", *id).
+			Count(&count)
+		if count != 1 {
+			return NewNotFoundError(fmt.Sprintf("Error, shift ID %d cannot be updated because it doesn't exist.", *id))
+		}
+	}
+
 	if shift.Break != nil {
 		if *shift.Break < 0 {
 			return NewClientError("Error, break must be non-negative.", nil)
 		}
 	}
 
-	if id == nil {
+	if id == nil { // If the shift doesn't exist yet verify the start and end times are included
 		if shift.StartTime == nil || strings.TrimSpace(*shift.StartTime) == "" {
 			return NewClientError("Error, start_time cannot be null or blank.", nil)
 		}
@@ -268,10 +282,13 @@ func (ctx DShifts) verifyShift(id *int, shift *Shift , db *gorm.DB) *DError {
 		}
 	}
 
-	if shift.ManagerID == nil {
+	// This code has a side effect. If the user is updating an existing shift;
+	//		this might change the manager_id if they leave it null in the request json.
+	if shift.ManagerID == nil { // If they don't specify the manager, use the current user.
 		shift.ManagerID = &ctx.UserID
 	}
 
+	// Verify the user/managers related actually exist and are proper
 	if role, err := ctx.Users().GetUserRole(*shift.ManagerID); err != nil {
 		return NewServerError("Error, could not verify manager_id.", err)
 	} else if *role == "employee" {
@@ -289,6 +306,8 @@ func (ctx DShifts) verifyShift(id *int, shift *Shift , db *gorm.DB) *DError {
 			return NewNotFoundError(fmt.Sprintf("Error, employee_id %d does not exist.", *shift.ManagerID))
 		}
 
+		// Verify that the new times do not overlap with any other times for that user.
+		/* TODO (@ecourant) I need to tweak this to make sure that during an update that the new times will still work (specifically when only the start or end time is provided in the update. */
 		ids := make([]struct {
 			ID string
 		}, 0)
@@ -316,6 +335,9 @@ func (ctx DShifts) verifyShift(id *int, shift *Shift , db *gorm.DB) *DError {
 	valid_start_end := make([]struct {
 		Valid bool
 	}, 0)
+	// Verify that the timestamps are correct even before we insert/update.
+	// I'm doing this in SQL so that almost any date format could be provided.
+	// In GO to parse a date I need to know the format, in PostgreSQL it's much more forgiving.
 	if id == nil || (shift.StartTime != nil && shift.EndTime != nil) {
 		db.Raw("SELECT ?::timestamp < ?::timestamp AS valid", *shift.StartTime, *shift.EndTime).Scan(&valid_start_end)
 		if len(valid_start_end) > 0 {
@@ -339,17 +361,6 @@ func (ctx DShifts) verifyShift(id *int, shift *Shift , db *gorm.DB) *DError {
 					return NewClientError(fmt.Sprintf("Error, (end_time: %s) must come after start_time.", *shift.EndTime), nil)
 				}
 			}
-		}
-	}
-
-	if id != nil {
-		count := 0
-		db.
-			Table("public.vw_shifts_api").
-			Where("id = ?", *id).
-			Count(&count)
-		if count != 1 {
-			return NewNotFoundError(fmt.Sprintf("Error, shift ID %d cannot be updated because it doesn't exist.", *id))
 		}
 	}
 	return nil

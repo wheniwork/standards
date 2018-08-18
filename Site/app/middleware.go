@@ -38,6 +38,8 @@ func APIMiddleware(ctx iris.Context) {
 
 		session := data.DSession{}
 
+		// Will validate the user_id parameter, if the user role is nil then the user doesn't exist.
+		// If the role isn't nil and the request is not a GET request; verify the user is a manager.
 		if role, err := session.Users().GetUserRole(current_user_id); err != nil {
 			ctx.StatusCode(500)
 			ctx.JSON(controllers.ErrorAPIResponse{
@@ -57,6 +59,7 @@ func APIMiddleware(ctx iris.Context) {
 			})
 			return
 		} else {
+			// If everything was successful then set the session object in the context. It will be used later in the controllers to call functions.
 			ctx.Values().Set("Session", data.DSession{UserID: current_user_id, IsManager: *role == "manager"})
 			ctx.Next()
 		}
