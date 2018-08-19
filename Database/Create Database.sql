@@ -153,14 +153,14 @@ CREATE VIEW public.vw_shifts_detailed_api AS
                                                                s2.manager_id,
                                                                s2.employee_id,
                                                                CASE
-                                                                 WHEN s2.employee_id IS NOT NULL THEN row (employee.id,
-                                                                   employee.name,
-                                                                   employee.email,
-                                                                   employee.phone,
-                                                                   employee.role,
-                                                                   to_char(employee.created_at,
+                                                                 WHEN s2.employee_id IS NOT NULL THEN row (semployee.id,
+                                                                   semployee.name,
+                                                                   semployee.email,
+                                                                   semployee.phone,
+                                                                   semployee.role,
+                                                                   to_char(semployee.created_at,
                                                                            'Dy, Mon DD HH24:MI:SS.MS YYYY'),
-                                                                   to_char(employee.updated_at,
+                                                                   to_char(semployee.updated_at,
                                                                            'Dy, Mon DD HH24:MI:SS.MS YYYY')) :: public.user
                                                                  ELSE NULL END,
                                                                s2.break,
@@ -174,6 +174,7 @@ CREATE VIEW public.vw_shifts_detailed_api AS
          INNER JOIN public.users manager ON manager.id = s.manager_id
          LEFT JOIN public.users employee ON employee.id = s.employee_id
          LEFT JOIN public.shifts s2 ON s2.start_time < s.end_time AND s2.end_time > s.start_time AND s2.id != s.id
+         LEFT JOIN public.users semployee ON semployee.id = s2.employee_id
   GROUP BY s.id,
            s.employee_id,
            s.start_time,
