@@ -2,7 +2,7 @@ package app
 
 import (
 	"github.com/kataras/iris"
-	"github.com/ecourant/standards/controllers"
+	"github.com/ECourant/standards/controllers"
 	"fmt"
 	"reflect"
 	"runtime"

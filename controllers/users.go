@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"github.com/kataras/iris"
-	"github.com/ecourant/standards/filtering"
-	"github.com/ecourant/standards/data"
+	"github.com/ECourant/standards/filtering"
+	"github.com/ECourant/standards/data"
 )
 
 func Users(p iris.Party) {

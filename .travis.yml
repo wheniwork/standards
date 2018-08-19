@@ -6,4 +6,6 @@ services:
 go:
 - "1.10.3"
 
+install:
+- go get -u 
 

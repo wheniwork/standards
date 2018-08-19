@@ -1,7 +1,7 @@
 package data
 
 import (
-	"github.com/ecourant/standards/filtering"
+	"github.com/ECourant/standards/filtering"
 )
 
 type DSessionType interface {

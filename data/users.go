@@ -2,9 +2,9 @@ package data
 
 import (
 	"github.com/jinzhu/gorm"
-	"github.com/ecourant/standards/filtering"
+	"github.com/ECourant/standards/filtering"
 	_ "github.com/lib/pq"
-	"github.com/ecourant/standards/conf"
+	"github.com/ECourant/standards/conf"
 	"strings"
 	"fmt"
 )

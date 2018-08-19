@@ -2,12 +2,12 @@ package app
 
 import (
 	"github.com/kataras/iris"
-	"github.com/ecourant/standards/controllers"
-	"github.com/ecourant/standards/data"
+	"github.com/ECourant/standards/controllers"
+	"github.com/ECourant/standards/data"
 	"github.com/jinzhu/gorm"
 	"fmt"
 	_ "github.com/lib/pq"
-	"github.com/ecourant/standards/conf"
+	"github.com/ECourant/standards/conf"
 )
 
 func APIMiddleware(ctx iris.Context) {

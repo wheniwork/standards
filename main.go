@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/kataras/iris"
-	"github.com/ecourant/standards/app"
-	"github.com/ecourant/standards/conf"
+	"github.com/ECourant/standards/app"
+	"github.com/ECourant/standards/conf"
 	"fmt"
 	"os"
 )

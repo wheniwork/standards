@@ -1,9 +1,9 @@
 package data
 
 import (
-	"github.com/ecourant/standards/filtering"
+	"github.com/ECourant/standards/filtering"
 	"github.com/jinzhu/gorm"
-	"github.com/ecourant/standards/conf"
+	"github.com/ECourant/standards/conf"
 	"encoding/json"
 	"fmt"
 	"strings"
