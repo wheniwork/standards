@@ -67,13 +67,13 @@
     };
 
     var current_summary_filter = {
-        date_from: new Date(new Date().setDate(current_date.getDate() - 7)),
-        date_to: new Date(),
+        date_from: new Date(new Date().setDate(current_date.getDate() - 14)),
+        date_to: new Date(new Date().setDate(current_date.getDate() + 7)),
         page: 1,
         page_size: 10,
         base_url: "http://localhost:8080/api/summaries",
         sort: "-week_start",
-        message: "Showing shifts for the next 7 days.",
+        message: "Showing shifts for the next 14 days.",
         GetSummariesURL: function () {
             var url = this.base_url + "/" + current_user_id;
             var params = ["current_user_id=" + current_user_id];
@@ -89,7 +89,7 @@
             return url;
         },
         Reset: function() {
-            this.date_from = new Date();
+            this.date_from = new Date(new Date().setDate(current_date.getDate() - 14));
             this.date_to = new Date(new Date().setDate(current_date.getDate() + 7));
             this.page = 1;
             this.page_size = 10;
@@ -175,6 +175,7 @@
                                                 shifts: shifts,
                                                 summaries: summaries,
                                                 shift_message: current_shifts_filter.message,
+                                                summary_message: current_summary_filter.message
                                             }
                                         });
                                 } else {
