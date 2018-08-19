@@ -314,7 +314,6 @@ Or if the shift time's conflict with another shift for that employee.
 ```http request
 POST /api/shifts?current_user_id=3
 {
-    "id": 3,
     "manager_id": 3,
     "employee_id": 1,
     "break": 0,
