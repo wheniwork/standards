@@ -83,6 +83,7 @@ func (ctx DShifts) GetShifts(params filtering.RequestParams) ([]Shift, *DError) 
 
 func (ctx DShifts) GetMyShifts(params filtering.RequestParams) ([]Shift, *DError) {
 	db, err := gorm.Open("postgres", conf.Cfg.ConnectionString)
+	db.LogMode(true)
 	if err != nil {
 		return nil, NewServerError("Error, could not retrieve shifts at this time.", err)
 	}

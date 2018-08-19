@@ -162,7 +162,7 @@ func ParseRequestParams(ctx iris.Context, constraints RequestConstraints, reques
 			}
 			st := make([]string, 0)
 			dirs := map[byte]string{
-				byte('+'): "ASC",
+				byte(' '): "ASC",
 				byte('-'): "DESC",
 			}
 			// This will look for a url param in a format like this: sort=+id,-name

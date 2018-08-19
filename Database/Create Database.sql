@@ -57,6 +57,8 @@ VALUES
        (3, 2, 'Sun, Aug 19 20:00:00.000 2018', 'Mon, Aug 19 22:00:00.00 2018'),
        (3, 3, 'Sun, Aug 19 22:00:00.000 2018', 'Mon, Aug 20 02:00:00.00 2018'),
        (3, 3, 'Sun, Aug 22 08:00:00.000 2018', 'Mon, Aug 22 14:00:00.00 2018'),
+       (3, 1, localtimestamp - INTERVAL '1 Hours', localtimestamp),
+       (3, 1, localtimestamp, localtimestamp + interval '1 hours'),
        (3, 2, localtimestamp - INTERVAL '1 Hours', localtimestamp),
        (3, 3, localtimestamp, localtimestamp + interval '1 hours');
 
@@ -159,8 +161,8 @@ CREATE VIEW public.vw_shifts_summary_api AS
                          -- I need to group shifts by week, this will generate a week number looking something like 201833 based of the start of a shift.
                          to_char(start_time, 'YYYYWW')                                                                                                          AS week,
                          -- This will take the week number and then parse it back into a timestamp on its own to show when the week starts and ends
-                         to_char(to_date(to_char(start_time, 'YYYYWW'), 'YYYYWW'), 'Dy, Mon DD HH24:MI:SS.MS YYYY')                                             AS week_start,
-                         to_char((to_date(to_char(start_time, 'YYYYWW'), 'YYYYWW') + INTERVAL '7 Days'), 'Dy, Mon DD HH24:MI:SS.MS YYYY')                       AS week_end,
+                         to_char(to_date(to_char(start_time, 'YYYYWW'), 'YYYYWW'), 'Dy, Mon DD YYYY')                                             AS week_start,
+                         to_char((to_date(to_char(start_time, 'YYYYWW'), 'YYYYWW') + INTERVAL '7 Days'), 'Dy, Mon DD YYYY')                       AS week_end,
                          start_time,
                          end_time,
                          id                                                                                                                                     AS shift_id,
@@ -183,8 +185,8 @@ CREATE VIEW public.vw_shifts_summary_api AS
       -- This CTE table will calculate the second part of shifts that go into the following week.
       shifts_latter AS (SELECT s1.employee_id                                                                                                    AS employee_id,
                                to_char(s2.end_time, 'YYYYWW')                                                                                    AS week,
-                               to_char(to_date(to_char(s2.end_time, 'YYYYWW'), 'YYYYWW'), 'Dy, Mon DD HH24:MI:SS.MS YYYY')                       AS week_start,
-                               to_char((to_date(to_char(s2.end_time, 'YYYYWW'), 'YYYYWW') + INTERVAL '7 Days'), 'Dy, Mon DD HH24:MI:SS.MS YYYY') AS week_end,
+                               to_char(to_date(to_char(s2.end_time, 'YYYYWW'), 'YYYYWW'), 'Dy, Mon DD YYYY')                       AS week_start,
+                               to_char((to_date(to_char(s2.end_time, 'YYYYWW'), 'YYYYWW') + INTERVAL '7 Days'), 'Dy, Mon DD YYYY') AS week_end,
                                s2.shift_id                                                                                                       AS shift_id,
                                CASE
                                  WHEN to_date(to_char(s2.end_time, 'YYYYWW'), 'YYYYWW') < localtimestamp THEN GREATEST(LEAST(s2.end_time, localtimestamp) - to_date(to_char(s2.end_time, 'YYYYWW'), 'YYYYWW') - (s2.breaks * INTERVAL '1 Hour'), 0 * INTERVAL '1 Second')

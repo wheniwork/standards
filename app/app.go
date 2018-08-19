@@ -7,6 +7,7 @@ import (
 	"reflect"
 	"runtime"
 	"strings"
+	"io/ioutil"
 )
 
 var (
@@ -19,6 +20,7 @@ var (
 
 func App() *iris.Application {
 	app := iris.Default()
+	app.StaticWeb("/assets", "./assets")
 	app.PartyFunc("/api", func(p iris.Party) {
 		p.Use(APIMiddleware)
 		// Map the endppints from the endpoints array.
@@ -27,6 +29,15 @@ func App() *iris.Application {
 			fmt.Printf("Mapped API Endpoint: /api%s\n", endpoint)
 		}
 	})
+	app.Get("/", func(ctx iris.Context) {
+		if html, err := ioutil.ReadFile("templates/index.html"); err != nil {
+			panic(err)
+		} else {
+			ctx.HTML(string(html))
+		}
+	})
+
+
 	return app
 }
 

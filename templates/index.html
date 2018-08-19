@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>s</title>
+    <link rel="stylesheet" href="/assets/css/framework7.css" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <link rel="stylesheet" href="/assets/css/framework7-icons.css">
+
+</head>
+<body>
+    <div id="app">
+        <div class="view view-main view-init">
+        </div>
+    </div>
+
+    <template id="homeView" typeof="text/template7">
+        <div class="page">
+            <div class="navbar">
+                <div class="navbar-inner sliding">
+                    <div class="title">Time Management Demo</div>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="list inset">
+                    <p style="font-size: 14px;">Please select a user to login as.</p>
+                    <ul>
+                        {{#results}}
+                        <li>
+                            <a href="#" class="item-content item-link login-select" user-id="{{id}}" user-name="{{name}}" user-role="{{role}}">
+                                <div class="item-inner item-cell" style="color: black;">
+                                    <div class="item-row">
+                                        <div class="item-cell">{{name}}</div>
+                                        <div class="item-cell" style="text-align: right;"><span class="badge {{role_badge role}}">{{title_case role}}</span></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        {{/results}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="appView" typeof="text/template7">
+        <div class="page">
+            <div class="navbar">
+                <div class="navbar-inner sliding">
+                    <div class="left"><a class="link back"><i class="icon icon-back"></i><span class="ios-only">User List</span></a></div>
+                    <div class="title">Time Management Menu</div>
+                </div>
+            </div>
+
+            <div class="toolbar tabbar">
+                <div class="toolbar-inner">
+                    <!-- Links have "tab-link" class instead of just "link" to switch tabs -->
+                    <a href="#tab-1" class="tab-link tab-link-active">Shifts</a>
+                    <a href="#tab-2" class="tab-link">Summary</a>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <!-- First tab, active -->
+                <div class="page-content tab tab-active" id="tab-1">
+                    <div class="list inset">
+                        <ul>
+                            <li>
+                                <a href="#" class="item-content item-link filter-shifts">
+                                    <div class="item-inner item-cell" style="color: black;">
+                                        <div class="item-row">
+                                            <div class="item-cell">Filter Shifts</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="list inset">
+                        <p style="font-size: 14px;">{{shift_message}}</p>
+                        <ul>
+                            {{#shifts}}
+                            <li>
+                                <a href="#" class="item-content item-link">
+                                    <div class="item-inner item-cell" style="color: black;">
+                                        <div class="item-row">
+                                            <div class="item-cell"><b>Employee:</b> {{employee_user.name}}</div>
+                                            <div class="item-cell" style="text-align: right;">
+                                                <span class="badge {{role_badge employee_user.role}}">{{title_case employee_user.role}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="item-row">
+                                            <div class="item-cell"><b>From:</b> {{start_time}}</div>
+                                        </div>
+                                        <div class="item-row">
+                                            <div class="item-cell"><b>To:</b> {{end_time}}</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            {{/shifts}}
+                        </ul>
+                    </div>
+                    {{#if is_manager}}
+                    <div class="fab fab-right-bottom">
+                        <a href="#">
+                            <i class="icon f7-icons">add</i>
+                        </a>
+                    </div>
+                    {{/if}}
+                </div>
+                <!-- Second tab -->
+                <div class="page-content tab" id="tab-2">
+                    <div class="list inset">
+                        <ul>
+                            <li>
+                                <a href="#" class="item-content item-link filter-summaries">
+                                    <div class="item-inner item-cell" style="color: black;">
+                                        <div class="item-row">
+                                            <div class="item-cell">Filter Summaries</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="list inset">
+                        <p style="font-size: 14px;">Showing summary for the last 4 weeks.</p>
+                        <ul>
+                            {{#summaries}}
+                            <li>
+                                <a href="#" class="item-content item-link">
+                                    <div class="item-inner item-cell" style="color: black;">
+                                        <div class="item-row">
+                                            <div class="item-cell"><b>Week Of:</b> {{week_start}}</div>
+                                        </div>
+                                        <div class="item-row">
+                                            <div class="item-cell"><b>Scheduled:</b> {{total_scheduled_time_formatted}}</div>
+                                        </div>
+                                        <div class="item-row">
+                                            <div class="item-cell">
+                                                <b>Worked:</b> {{total_worked_time_formatted}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            {{/summaries}}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="shiftsFiltersView" typeof="text/template7">
+        <div class="page">
+            <div class="navbar">
+                <div class="navbar-inner sliding">
+                    <div class="left"><a class="link back"><i class="icon icon-back"></i><span class="ios-only">Shifts</span></a></div>
+                    <div class="title">Time Management Menu</div>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="list inset">
+                    <p style="font-size: 14px;">Filters</p>
+                    <ul>
+                        <li>
+                            <label class="item-checkbox item-content">
+                                <input type="checkbox" id="showOnlyMyShifts" />
+                                <i class="icon icon-checkbox"></i>
+                                <div class="item-inner">
+                                    <div class="item-title">Show Only My Shifts</div>
+                                </div>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+                <div class="list inset">
+                    <ul>
+                        <li>
+                            <a href="#" class="item-content">
+                                <div class="item-inner item-cell" style="color: black;">
+                                    <div class="item-row">
+                                        <div class="item-cell">Filter Shifts By Date Range</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <div class="item-content item-input">
+                                <div class="item-inner">
+                                    <div class="item-input-wrap">
+                                        <input type="text" placeholder="Select A Date Range" readonly="readonly" id="shiftDateRange"  />
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="block" style="position: absolute; bottom: 0px; width: 100%;">
+                    <p class="row">
+                        <button id="submitShiftFilter" class="col button button-big">Submit Filter</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="application/javascript" src="/assets//js/framework7.js"></script>
+    <script type="application/javascript" src="/assets//js/app.js"></script>
+</body>
+</html>
