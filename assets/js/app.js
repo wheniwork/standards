@@ -2,7 +2,7 @@
     //Helpers
     Template7.registerHelper('title_case', function (str) {
         str = str.toLowerCase().split(' ');
-        for (var i = 0; i < str.length; i++) {
+        for (let i = 0; i < str.length; i++) {
             str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
         }
         return str.join(' ');
@@ -29,6 +29,7 @@
 
     var current_date = new Date();
 
+    // The filter variables will be used to generate urls for API requests.
     var current_shifts_filter = {
         show_only_my_shifts: true,
         date_from: new Date(new Date().setDate(current_date.getDate() - 7)),
@@ -94,6 +95,23 @@
             this.page_size = 10;
             this.message = "Showing shifts from " + parseDateToURLParam(this.date_from) + " to " + parseDateToURLParam(this.date_to);
         }
+    };
+
+    var current_overlapping_filter = {
+        id: -1,
+        page: 1,
+        page_size: 100,
+        base_url: "http://localhost:8080/api/shifts/overlapping",
+        GetOverlappingURL: function () {
+            var url = this.base_url + "/" + this.id;
+            var params = ["current_user_id=" + current_user_id];
+
+            params.push("page=" + this.page);
+            params.push("page_size=" + this.page_size);
+            url = url + "?" + params.join("&");
+            console.log(url);
+            return url;
+        },
     };
 
 
@@ -205,7 +223,7 @@
                 async: function (routeTo, routeFrom, resolve, reject) {
                     shifts = [];
                     summaries = [];
-                    app.request.json(current_shifts_filter.GetShiftURL(), function (data) {
+                    app.request.json(current_overlapping_filter.GetOverlappingURL(), function (data) {
                         if (data.success) {
                             resolve({
                                 template: shiftDetailsView
@@ -214,9 +232,7 @@
                                 context: {
                                     current_user_name: current_user_name,
                                     is_manager: current_user_is_manager,
-                                    shifts: shifts,
-                                    summaries: summaries,
-                                    shift_message: current_shifts_filter.message,
+                                    results: data.results,
                                 }
                             });
                         } else {
@@ -246,6 +262,12 @@
 
     $(document).on("click", ".filter-shifts", function () {      
         app.router.navigate("/shiftsFiltersView/");
+    });
+
+    $(document).on("click", ".shift-link", function() {
+       id = $(this).attr("shift-id");
+       current_overlapping_filter.id = parseInt(id);
+       app.router.navigate("/shiftDetailsView/");
     });
 
     $(document).on("click", "#submitShiftFilter", function () {

@@ -82,7 +82,7 @@
                         <ul>
                             {{#shifts}}
                             <li>
-                                <a href="#" class="item-content item-link">
+                                <a href="#" class="item-content item-link shift-link" shift-id="{{id}}">
                                     <div class="item-inner item-cell" style="color: black;">
                                         <div class="item-row">
                                             {{#if employee_user}}
@@ -219,20 +219,30 @@
         <div class="page">
             <div class="navbar">
                 <div class="navbar-inner sliding">
-                    <div class="title">Time Management Demo</div>
+                    <div class="left"><a class="link back"><i class="icon icon-back"></i><span class="ios-only">Shifts</span></a></div>
+                    <div class="title">Shift Details</div>
                 </div>
             </div>
             <div class="page-content">
                 <div class="list inset">
-                    <p style="font-size: 14px;">Please select a user to login as.</p>
+                    <p style="font-size: 14px;">Overlapping Shifts</p>
                     <ul>
                         {{#results}}
                         <li>
-                            <a href="#" class="item-content item-link login-select" user-id="{{id}}" user-name="{{name}}" user-role="{{role}}">
+                            <a href="#" class="item-content item-link">
                                 <div class="item-inner item-cell" style="color: black;">
                                     <div class="item-row">
-                                        <div class="item-cell">{{name}}</div>
-                                        <div class="item-cell" style="text-align: right;"><span class="badge {{role_badge role}}">{{title_case role}}</span></div>
+                                            {{#if employee_user}}
+                                            <div class="item-cell"><b>Coworker:</b> {{employee_user.name}}</div>
+                                            <div class="item-cell" style="text-align: right;">
+                                                <span class="badge {{role_badge employee_user.role}}">{{title_case employee_user.role}}</span>
+                                            </div>
+                                            {{else}}
+                                            <div class="item-cell"><b>Coworker:</b> N/A</div>
+                                            <div class="item-cell" style="text-align: right;">
+                                                <span class="badge color-purple">Unassigned</span>
+                                            </div>
+                                            {{/if}}
                                     </div>
                                 </div>
                             </a>

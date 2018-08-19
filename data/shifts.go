@@ -41,6 +41,18 @@ type shiftRow struct {
 	EmployeeUser *string `json:"employee_user,omitempty" query:"11" name:"Employee User"`
 }
 
+type ShiftDetail struct {
+	Shift
+	ShiftItems []Shift `json:"shifts,omitempty" query:"8" name:"Shifts"`
+}
+
+type shiftDetailRow struct {
+	ShiftDetail
+	ManagerUser  *string `json:"manager_user,omitempty" query:"11" name:"Manager User"`
+	EmployeeUser *string `json:"employee_user,omitempty" query:"11" name:"Employee User"`
+	Shifts       *string `json:"shifts,omitempty" query:"8" name:"Shifts"`
+}
+
 // Parse the row object and return the resulting shift object with any extra details.
 func rowsToShifts(rows []shiftRow) []Shift {
 	result := make([]Shift, len(rows))
@@ -51,6 +63,24 @@ func rowsToShifts(rows []shiftRow) []Shift {
 		}
 		if row.EmployeeUser != nil {
 			json.Unmarshal([]byte(*row.EmployeeUser), &shift.EmployeeUserObj)
+		}
+		result[i] = shift
+	}
+	return result
+}
+
+func rowsToShiftDetails(rows []shiftDetailRow) []ShiftDetail {
+	result := make([]ShiftDetail, len(rows))
+	for i, row := range rows {
+		shift := row.ShiftDetail
+		if row.ManagerUser != nil {
+			json.Unmarshal([]byte(*row.ManagerUser), &shift.ManagerUserObj)
+		}
+		if row.EmployeeUser != nil {
+			json.Unmarshal([]byte(*row.EmployeeUser), &shift.EmployeeUserObj)
+		}
+		if row.Shifts != nil {
+			json.Unmarshal([]byte(*row.Shifts), &shift.ShiftItems)
 		}
 		result[i] = shift
 	}
@@ -107,29 +137,29 @@ func (ctx DShifts) GetMyShifts(params filtering.RequestParams) ([]Shift, *DError
 	return rowsToShifts(result), nil
 }
 
-func (ctx DShifts) GetShiftDetails(params filtering.RequestParams, id int) ([]Shift, *DError) {
+func (ctx DShifts) GetShiftDetails(params filtering.RequestParams, id int) ([]ShiftDetail, *DError) {
 	db, err := gorm.Open("postgres", conf.Cfg.ConnectionString)
+	db.LogMode(true)
 	if err != nil {
 		return nil, NewServerError("Error, could not retrieve shifts at this time.", err)
 	}
 	defer db.Close()
 
-	result := make([]shiftRow, 0)
+	result := make([]shiftDetailRow, 0)
 
 	db = db.
 		Table("public.vw_shifts_detailed_api").
 		Select(params.Fields).
-		Order(params.Sorts).
 		Offset((params.Page * params.PageSize) - params.PageSize).
 		Limit(params.PageSize).
-		Where("group_by_id = ?", id)
+		Where("id = ?", id)
 
 	if len(params.Filters) > 0 || params.DateRange != nil {
 		db = filtering.WhereFilters(db, params, ctx.Constraints())
 	}
 
 	db.Scan(&result)
-	return rowsToShifts(result), nil
+	return rowsToShiftDetails(result), nil
 }
 
 func (ctx DShifts) CreateShift(shift Shift) (response *Shift, rerr *DError) {

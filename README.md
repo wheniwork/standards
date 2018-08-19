@@ -93,21 +93,21 @@ This will show any shifts that overlap with the shift ID you specified.
 <p>
 
 ```http request
-GET /api/shifts/overlapping/1?current_user_id=1
+GET /api/shifts/overlapping/8?current_user_id=1
 
 {
     "success": true,
     "results": [
         {
-            "id": 2,
+            "id": 8,
             "manager_id": 3,
             "manager_user": {
                 "id": 3,
                 "name": "Jenny",
                 "phone": "1-800-867-5309",
                 "role": "manager",
-                "created_at": "Sun, Aug 19 11:02:20.537 2018",
-                "updated_at": "Sun, Aug 19 11:02:20.537 2018"
+                "created_at": "Sun, Aug 19 14:35:52.508 2018",
+                "updated_at": "Sun, Aug 19 14:35:52.508 2018"
             },
             "employee_id": 2,
             "employee_user": {
@@ -115,40 +115,43 @@ GET /api/shifts/overlapping/1?current_user_id=1
                 "name": "Jimmy",
                 "email": "jimmy@johns.com",
                 "role": "employee",
-                "created_at": "Sun, Aug 19 11:02:20.537 2018",
-                "updated_at": "Sun, Aug 19 11:02:20.537 2018"
+                "created_at": "Sun, Aug 19 14:35:52.508 2018",
+                "updated_at": "Sun, Aug 19 14:35:52.508 2018"
             },
             "break": 0,
-            "start_time": "Sun, Aug 19 20:00:00.000 2018",
-            "end_time": "Sun, Aug 19 22:00:00.000 2018",
-            "created_at": "Sun, Aug 19 11:02:20.537 2018",
-            "updated_at": "Sun, Aug 19 11:02:20.537 2018"
-        },
-        {
-            "id": 1,
-            "manager_id": 3,
-            "manager_user": {
-                "id": 3,
-                "name": "Jenny",
-                "phone": "1-800-867-5309",
-                "role": "manager",
-                "created_at": "Sun, Aug 19 11:02:20.537 2018",
-                "updated_at": "Sun, Aug 19 11:02:20.537 2018"
-            },
-            "employee_id": 3,
-            "employee_user": {
-                "id": 3,
-                "name": "Jenny",
-                "phone": "1-800-867-5309",
-                "role": "manager",
-                "created_at": "Sun, Aug 19 11:02:20.537 2018",
-                "updated_at": "Sun, Aug 19 11:02:20.537 2018"
-            },
-            "break": 0.45,
-            "start_time": "Sun, Aug 19 18:30:00.000 2018",
-            "end_time": "Sun, Aug 19 20:30:00.000 2018",
-            "created_at": "Sun, Aug 19 11:02:20.537 2018",
-            "updated_at": "Sun, Aug 19 11:02:26.222 2018"
+            "start_time": "Sun, Aug 19 13:35:52.557 2018",
+            "end_time": "Sun, Aug 19 14:35:52.557 2018",
+            "created_at": "Sun, Aug 19 14:35:52.557 2018",
+            "updated_at": "Sun, Aug 19 14:35:52.557 2018",
+            "shifts": [
+                {
+                    "id": 5,
+                    "manager_id": 3,
+                    "employee_id": 1,
+                    "employee_user": {
+                        "id": 2,
+                        "name": "Jimmy",
+                        "email": "jimmy@johns.com",
+                        "role": "employee",
+                        "created_at": "Sun, Aug 19 14:35:52.508 2018",
+                        "updated_at": "Sun, Aug 19 14:35:52.508 2018"
+                    },
+                    "break": 0,
+                    "start_time": "Sun, Aug 19 13:35:52.557 2018",
+                    "end_time": "Sun, Aug 19 14:35:52.557 2018",
+                    "created_at": "Sun, Aug 19 14:35:52.557 2018",
+                    "updated_at": "Sun, Aug 19 14:35:52.557 2018"
+                },
+                {
+                    "id": 6,
+                    "manager_id": 3,
+                    "break": 0,
+                    "start_time": "Sun, Aug 19 13:35:52.557 2018",
+                    "end_time": "Sun, Aug 19 14:35:52.557 2018",
+                    "created_at": "Sun, Aug 19 14:35:52.557 2018",
+                    "updated_at": "Sun, Aug 19 14:35:52.557 2018"
+                }
+            ]
         }
     ]
 }
