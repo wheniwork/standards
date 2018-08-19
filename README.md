@@ -309,10 +309,230 @@ POST /api/shifts?current_user_id=3
     "success": false
 }
 ```
+
+Or if the shift time's conflict with another shift for that employee.
+```http request
+POST /api/shifts?current_user_id=3
+{
+    "id": 3,
+    "manager_id": 3,
+    "employee_id": 1,
+    "break": 0,
+    "start_time": "Thu, Aug 2 19:31:46.631 2018",
+    "end_time": "Thu, Aug 2 20:31:46.631 2018"
+}
+
+
+
+{
+    "message": "Error, 1 shift(s) already exist for user ID 1 during the start/end time. Conflicting shift(s): 7.",
+    "success": false
+}
+```
 </p>
 </details>
 
 
+#### As a manager, I want to see the schedule, by listing shifts within a specific time period.
+There are 4 url params that are used for this request: `date_from`, `date_to`, `date_time_from` and `date_time_to`
+Only 1 from and 1 to are allowed per request. The `_time_` params will be converted to `timestamp` in SQL before filtering.
+But the normal params will be filtered as `date`. 
+<details><summary>HTTP Request</summary>
+<p>
+
+```http request
+GET /api/shifts?current_user_id=1&date_from=2018-08-01&date_to=2018-08-06
+
+{
+    "success": true,
+    "results": [
+        {
+            "id": 7,
+            "manager_id": 3,
+            "manager_user": {
+                "id": 3,
+                "name": "Jenny",
+                "phone": "1-800-867-5309",
+                "role": "manager",
+                "created_at": "Sun, Aug 19 11:57:32.489 2018",
+                "updated_at": "Sun, Aug 19 11:57:32.489 2018"
+            },
+            "employee_id": 1,
+            "employee_user": {
+                "id": 1,
+                "name": "Elliot",
+                "email": "elliot@elliot.com",
+                "role": "employee",
+                "created_at": "Sun, Aug 19 11:57:32.489 2018",
+                "updated_at": "Sun, Aug 19 11:57:32.489 2018"
+            },
+            "break": 0,
+            "start_time": "Thu, Aug 02 19:31:46.631 2018",
+            "end_time": "Thu, Aug 02 20:31:46.631 2018",
+            "created_at": "Sun, Aug 19 11:57:32.618 2018",
+            "updated_at": "Sun, Aug 19 11:57:32.618 2018"
+        }
+    ]
+}
+```
+</p>
+</details>
+
+
+#### As a manager, I want to be able to change a shift, by updating the time details.
+When updating a shift, the only required information is the shift ID. Only the fields that are being changed need to be included in the request.
+However; if a `manager_id` is not specified when updating a shift, the `current_user_id` will be set as the new `manager_id`.
+<details><summary>HTTP Request</summary>
+<p>
+
+```http request
+PUT /api/shifts/1?current_user_id=3
+{
+    "start_time": "Sun, Aug 19 18:30:00.000 2018",
+    "end_time": "Mon, Aug 19 20:30:00.00 2018"
+}
+
+
+
+{
+    "success": true,
+    "results": {
+        "id": 1,
+        "manager_id": 3,
+        "employee_id": 3,
+        "break": 1,
+        "start_time": "Sun, Aug 19 18:30:00.000 2018",
+        "end_time": "Sun, Aug 19 20:30:00.000 2018",
+        "created_at": "Sun, Aug 19 12:05:11.306 2018",
+        "updated_at": "Sun, Aug 19 12:05:11.387 2018"
+    }
+}
+```
+</p>
+</details>
+
+
+
+#### As a manager, I want to be able to assign a shift, by changing the employee that will work a shift.
+When updating a shift, the only required information is the shift ID. Only the fields that are being changed need to be included in the request.
+However; if a `manager_id` is not specified when updating a shift, the `current_user_id` will be set as the new `manager_id`.
+When changing the `employee_id` for a shift, that shift will be validated the same way as when it was created.
+If the updated shift would conflict with another shift for that employee (unless the `employee_id` is `NULL`) an error will be returned.
+<details><summary>HTTP Request</summary>
+<p>
+
+```http request
+PUT /api/shifts/1?current_user_id=3
+{
+    "employee_id": 2
+}
+
+
+
+{
+    "success": true,
+    "results": {
+        "id": 1,
+        "manager_id": 3,
+        "employee_id": 2,
+        "break": 1,
+        "start_time": "Sun, Aug 19 18:30:00.000 2018",
+        "end_time": "Sun, Aug 19 20:30:00.000 2018",
+        "created_at": "Sun, Aug 19 12:05:11.306 2018",
+        "updated_at": "Sun, Aug 19 12:05:11.387 2018"
+    }
+}
+```
+</p>
+</details>
+
+
+
+#### As a manager, I want to contact an employee, by seeing employee details.
+`GET` requests should return the field `employee_user` which will include all of the user's details from the users table.
+<details><summary>HTTP Request</summary>
+<p>
+
+```http request
+GET /api/shifts?current_user_id=3&date_from=2018-08-01&date_to=2018-08-06
+
+{
+    "success": true,
+    "results": [
+        {
+            "id": 7,
+            "manager_id": 3,
+            "manager_user": {
+                "id": 3,
+                "name": "Jenny",
+                "phone": "1-800-867-5309",
+                "role": "manager",
+                "created_at": "Sun, Aug 19 11:57:32.489 2018",
+                "updated_at": "Sun, Aug 19 11:57:32.489 2018"
+            },
+            "employee_id": 1,
+            "employee_user": {
+                "id": 1,
+                "name": "Elliot",
+                "email": "elliot@elliot.com",
+                "role": "employee",
+                "created_at": "Sun, Aug 19 11:57:32.489 2018",
+                "updated_at": "Sun, Aug 19 11:57:32.489 2018"
+            },
+            "break": 0,
+            "start_time": "Thu, Aug 02 19:31:46.631 2018",
+            "end_time": "Thu, Aug 02 20:31:46.631 2018",
+            "created_at": "Sun, Aug 19 11:57:32.618 2018",
+            "updated_at": "Sun, Aug 19 11:57:32.618 2018"
+        }
+    ]
+}
+```
+
+Or the users endpoint can be queried directly.
+```http request
+GET /api/users?current_user_id=3
+
+{
+    "success": true,
+    "results": [
+        {
+            "id": 1,
+            "name": "Elliot",
+            "email": "elliot@elliot.com",
+            "role": "employee",
+            "created_at": "Sun, Aug 19 12:05:11.306 2018",
+            "updated_at": "Sun, Aug 19 12:05:11.306 2018"
+        },
+        {
+            "id": 2,
+            "name": "Jimmy",
+            "email": "jimmy@johns.com",
+            "role": "employee",
+            "created_at": "Sun, Aug 19 12:05:11.306 2018",
+            "updated_at": "Sun, Aug 19 12:05:11.306 2018"
+        },
+        {
+            "id": 3,
+            "name": "Jenny",
+            "phone": "1-800-867-5309",
+            "role": "manager",
+            "created_at": "Sun, Aug 19 12:05:11.306 2018",
+            "updated_at": "Sun, Aug 19 12:05:11.306 2018"
+        },
+        {
+            "id": 4,
+            "name": "Henry",
+            "phone": "1-800-123-4561",
+            "role": "employee",
+            "created_at": "Sun, Aug 19 12:05:11.306 2018",
+            "updated_at": "Sun, Aug 19 12:05:11.306 2018"
+        }
+    ]
+}
+```
+</p>
+</details>
 
 # Notes
 > Currently the database is storing date/times in central daylight time. I struggled to come up with a good way to convert dates/times to RFC 2822 in Golang, so I opted to instead convert/format them in PostgreSQL. This means that all of the date/time fields are strings in Go but since no operation is being performed on the data itself there, this should be fine. I might change this later and add the formatting to the driver somehow instead? As long as it looks clean and wouldn't effect changes in the future.
