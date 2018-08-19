@@ -1,5 +1,7 @@
 language: go
 
+
+
 services:
 - postgresql
 
@@ -8,13 +10,21 @@ addons:
   apt:
       packages:
       - postgresql-10
+      - postgresql-client-10
+
+before_script:
+- psql -c 'create database travis_ci_test;' -U postgres
 
 env:
   global:
   - PGPORT=5433
+
+
 go:
 - "1.10.3"
 
 install:
 - go get -u
+
+
 
