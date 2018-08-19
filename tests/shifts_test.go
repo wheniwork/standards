@@ -3,8 +3,7 @@ package tests
 import (
 	"testing"
 	"fmt"
-	)
-
+)
 
 // Create tests
 func Test_HTTP_CreateShiftAsEmployee(t *testing.T) {
@@ -20,7 +19,7 @@ func Test_HTTP_CreateShiftAsEmployee(t *testing.T) {
 	`); err != nil {
 		t.Fatal(err)
 	} else {
-		//Add unmarshal test.
+		// Add unmarshal test.
 		if *code != 403 {
 			t.Fatal("Error, request should have failed.")
 		}
@@ -40,7 +39,7 @@ func Test_HTTP_CreateShiftValid(t *testing.T) {
 	`); err != nil {
 		t.Fatal(err)
 	} else {
-		//Add unmarshal test.
+		// Add unmarshal test.
 		if *code != 200 {
 			t.Fatal("Error, request should have succeeded.")
 		}
@@ -61,7 +60,7 @@ func Test_HTTP_CreateShiftValid100(t *testing.T) {
 	`, i, i)); err != nil {
 			t.Fatal(err)
 		} else {
-			//Add unmarshal test.
+			// Add unmarshal test.
 			if *code != 200 {
 				t.Fatal("Error, request should have succeeded.")
 			}
@@ -83,7 +82,7 @@ func Test_HTTP_CreateShiftValidNullEmployee(t *testing.T) {
 	`); err != nil {
 		t.Fatal(err)
 	} else {
-		//Add unmarshal test.
+		// Add unmarshal test.
 		if *code != 200 {
 			t.Fatal("Error, request should have succeeded.")
 		}
@@ -102,7 +101,7 @@ func Test_HTTP_CreateShiftValidNullManager(t *testing.T) {
 	`); err != nil {
 		t.Fatal(err)
 	} else {
-		//Add unmarshal test.
+		// Add unmarshal test.
 		if *code != 200 {
 			t.Fatal("Error, request should have succeeded.")
 		}
@@ -122,7 +121,7 @@ func Test_HTTP_CreateShiftOverlapping(t *testing.T) {
 	`); err != nil {
 		t.Fatal(err)
 	} else {
-		//Add unmarshal test.
+		// Add unmarshal test.
 		if *code != 200 {
 			t.Fatal("Error, request should have succeeded.")
 		}
@@ -140,7 +139,7 @@ func Test_HTTP_CreateShiftOverlapping(t *testing.T) {
 	`); err != nil {
 		t.Fatal(err)
 	} else {
-		//Add unmarshal test.
+		// Add unmarshal test.
 		if *code != 400 {
 			t.Fatal("Error, request should have failed.")
 		}
@@ -160,7 +159,7 @@ func Test_HTTP_CreateShiftBadStartEnd(t *testing.T) {
 	`); err != nil {
 		t.Fatal(err)
 	} else {
-		//Add unmarshal test.
+		// Add unmarshal test.
 		if *code != 400 {
 			t.Fatal("Error, request should have succeeded.")
 		}
@@ -180,7 +179,7 @@ func Test_HTTP_CreateShiftNullStart(t *testing.T) {
 	`); err != nil {
 		t.Fatal(err)
 	} else {
-		//Add unmarshal test.
+		// Add unmarshal test.
 		if *code != 400 {
 			t.Fatal("Error, request should have succeeded.")
 		}
@@ -200,7 +199,7 @@ func Test_HTTP_CreateShiftWhitespaceStart(t *testing.T) {
 	`); err != nil {
 		t.Fatal(err)
 	} else {
-		//Add unmarshal test.
+		// Add unmarshal test.
 		if *code != 400 {
 			t.Fatal("Error, request should have succeeded.")
 		}
@@ -220,7 +219,7 @@ func Test_HTTP_CreateShiftNullEnd(t *testing.T) {
 	`); err != nil {
 		t.Fatal(err)
 	} else {
-		//Add unmarshal test.
+		// Add unmarshal test.
 		if *code != 400 {
 			t.Fatal("Error, request should have succeeded.")
 		}
@@ -240,7 +239,7 @@ func Test_HTTP_CreateShiftWhitespaceEnd(t *testing.T) {
 	`); err != nil {
 		t.Fatal(err)
 	} else {
-		//Add unmarshal test.
+		// Add unmarshal test.
 		if *code != 400 {
 			t.Fatal("Error, request should have succeeded.")
 		}
@@ -260,7 +259,7 @@ func Test_HTTP_CreateShiftLongBreak(t *testing.T) {
 	`); err != nil {
 		t.Fatal(err)
 	} else {
-		//Add unmarshal test.
+		// Add unmarshal test.
 		if *code != 500 {
 			t.Fatal("Error, request should have succeeded.")
 		}
@@ -280,7 +279,7 @@ func Test_HTTP_CreateShiftBadManagerID(t *testing.T) {
 	`); err != nil {
 		t.Fatal(err)
 	} else {
-		//Add unmarshal test.
+		// Add unmarshal test.
 		if *code != 500 {
 			t.Fatal("Error, request should have succeeded.")
 		}
@@ -300,7 +299,7 @@ func Test_HTTP_CreateShiftBadEmployeeID(t *testing.T) {
 	`); err != nil {
 		t.Fatal(err)
 	} else {
-		//Add unmarshal test.
+		// Add unmarshal test.
 		if *code != 404 {
 			t.Fatal("Error, request should have failed.")
 		}
@@ -317,13 +316,12 @@ func Test_HTTP_CreateShiftMalformedJSON(t *testing.T) {
 	`); err != nil {
 		t.Fatal(err)
 	} else {
-		//Add unmarshal test.
+		// Add unmarshal test.
 		if *code != 400 {
 			t.Fatal("Error, request should have succeeded.")
 		}
 	}
 }
-
 
 // Update tests
 func Test_HTTP_UpdateShiftAsManager(t *testing.T) {
@@ -336,7 +334,7 @@ func Test_HTTP_UpdateShiftAsManager(t *testing.T) {
 	`); err != nil {
 		t.Fatal(err)
 	} else {
-		//Add unmarshal test.
+		// Add unmarshal test.
 		if *code != 200 {
 			t.Fatal("Error, request should have succeeded.")
 		}
@@ -353,7 +351,7 @@ func Test_HTTP_UpdateShiftAsEmployee(t *testing.T) {
 	`); err != nil {
 		t.Fatal(err)
 	} else {
-		//Add unmarshal test.
+		// Add unmarshal test.
 		if *code != 403 {
 			t.Fatal("Error, request should have failed.")
 		}
@@ -370,7 +368,7 @@ func Test_HTTP_UpdateShiftInvalidStartEnd(t *testing.T) {
 	`); err != nil {
 		t.Fatal(err)
 	} else {
-		//Add unmarshal test.
+		// Add unmarshal test.
 		if *code != 400 {
 			t.Fatal("Error, request should have failed.")
 		}
@@ -404,5 +402,3 @@ func Test_HTTP_UpdateShiftSetBreakNegative(t *testing.T) {
 		}
 	}
 }
-
-

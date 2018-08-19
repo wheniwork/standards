@@ -20,7 +20,7 @@ go build
 ```
 
 You will need to tweak the settings in `config.json` in the root directory of the project for your computer. 
-You will also want to run `Create Database.sql` on your PostgreSQL instance before running the website.
+You will also want to run `Create Database.sql` on your PostgreSQL instance before running the website. This file can be found in the Database directory.
 
 
 
@@ -538,4 +538,4 @@ GET /api/users?current_user_id=3
 
 > I've taken some code from one of my other website projects that I was working on in Go to make the REST API a bit easier when it came to filtering/sorting/selecting fields to be returned. And the date range handling for Issue #6 I added into that filtering handler.
 
-> I had some issues with nil references in the shifts code. Kept running into this: https://golang.org/doc/faq#nil_error I was able to fix it but the code was so spaghetti I ended up discarding all of the changes because it also ended up introducing a bunch of other bugs. So the verifyShift section works but it's not as pretty as I'd like it to be. I also still need to add some code for making sure that if it's updating a shift it validates that it doesn't conflict properly.
+> I had some issues with nil references in the shifts code. Kept running into this: https://golang.org/doc/faq#nil_error I was able to fix it but the code was so spaghetti I ended up discarding all of the changes because it also ended up introducing a bunch of other bugs. So the verifyShift section works but it's not as pretty as I'd like it to be.

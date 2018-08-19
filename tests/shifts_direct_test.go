@@ -3,10 +3,10 @@ package tests
 import (
 	"testing"
 	"github.com/ECourant/standards/data"
-	)
+)
 
 func getContext() data.DSession {
-	return data.DSession{UserID:3,IsManager:true}
+	return data.DSession{UserID: 3, IsManager: true}
 }
 
 func Test_CreateShift(t *testing.T) {
@@ -15,9 +15,9 @@ func Test_CreateShift(t *testing.T) {
 
 	if result, err := getContext().Shifts().CreateShift(data.Shift{
 		EmployeeID: &EmployeeID,
-		ManagerID: &ManagerID,
-		StartTime: &StartTime,
-		EndTime: &EndTime,
+		ManagerID:  &ManagerID,
+		StartTime:  &StartTime,
+		EndTime:    &EndTime,
 	}); err != nil {
 		t.Fatal(err)
 	} else {
@@ -33,9 +33,9 @@ func Test_CreateShiftBadTime(t *testing.T) {
 
 	if result, err := getContext().Shifts().CreateShift(data.Shift{
 		EmployeeID: &EmployeeID,
-		ManagerID: &ManagerID,
-		StartTime: &StartTime,
-		EndTime: &EndTime,
+		ManagerID:  &ManagerID,
+		StartTime:  &StartTime,
+		EndTime:    &EndTime,
 	}); err != nil {
 
 	} else {
@@ -51,9 +51,9 @@ func Test_CreateShiftUpdateEmployee(t *testing.T) {
 	id := 0
 	if result, err := getContext().Shifts().CreateShift(data.Shift{
 		EmployeeID: &EmployeeID,
-		ManagerID: &ManagerID,
-		StartTime: &StartTime,
-		EndTime: &EndTime,
+		ManagerID:  &ManagerID,
+		StartTime:  &StartTime,
+		EndTime:    &EndTime,
 	}); err != nil {
 		t.Fatal(err)
 	} else {
@@ -83,9 +83,9 @@ func Test_UpdateShiftConflicting(t *testing.T) {
 	id := 0
 	if result, err := getContext().Shifts().CreateShift(data.Shift{
 		EmployeeID: &EmployeeID,
-		ManagerID: &ManagerID,
-		StartTime: &StartTime,
-		EndTime: &EndTime,
+		ManagerID:  &ManagerID,
+		StartTime:  &StartTime,
+		EndTime:    &EndTime,
 	}); err != nil {
 		t.Fatal(err)
 	} else {
@@ -98,9 +98,9 @@ func Test_UpdateShiftConflicting(t *testing.T) {
 	StartTime, EndTime = "02-02-2018 10:00AM", "02-02-2018 11:00AM"
 	if result, err := getContext().Shifts().CreateShift(data.Shift{
 		EmployeeID: &EmployeeID,
-		ManagerID: &ManagerID,
-		StartTime: &StartTime,
-		EndTime: &EndTime,
+		ManagerID:  &ManagerID,
+		StartTime:  &StartTime,
+		EndTime:    &EndTime,
 	}); err != nil {
 		t.Fatal(err)
 	} else {
@@ -113,9 +113,9 @@ func Test_UpdateShiftConflicting(t *testing.T) {
 	StartTime, EndTime = "02-02-2018 9:00AM", "02-02-2018 11:00AM"
 	if result, err := getContext().Shifts().UpdateShift(id, data.Shift{
 		EmployeeID: &EmployeeID,
-		ManagerID: &ManagerID,
-		StartTime: &StartTime,
-		EndTime: &EndTime,
+		ManagerID:  &ManagerID,
+		StartTime:  &StartTime,
+		EndTime:    &EndTime,
 	}); err != nil {
 
 	} else {

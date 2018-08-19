@@ -59,7 +59,6 @@ func rowsToShifts(rows []shiftRow) []Shift {
 
 func (ctx DShifts) GetShifts(params filtering.RequestParams) ([]Shift, *DError) {
 	db, err := gorm.Open("postgres", conf.Cfg.ConnectionString)
-	db.LogMode(true)
 	if err != nil {
 		return nil, NewServerError("Error, could not retrieve shifts at this time.", err)
 	}
@@ -84,7 +83,6 @@ func (ctx DShifts) GetShifts(params filtering.RequestParams) ([]Shift, *DError) 
 
 func (ctx DShifts) GetMyShifts(params filtering.RequestParams) ([]Shift, *DError) {
 	db, err := gorm.Open("postgres", conf.Cfg.ConnectionString)
-	db.LogMode(true)
 	if err != nil {
 		return nil, NewServerError("Error, could not retrieve shifts at this time.", err)
 	}
@@ -110,7 +108,6 @@ func (ctx DShifts) GetMyShifts(params filtering.RequestParams) ([]Shift, *DError
 
 func (ctx DShifts) GetShiftDetails(params filtering.RequestParams, id int) ([]Shift, *DError) {
 	db, err := gorm.Open("postgres", conf.Cfg.ConnectionString)
-	db.LogMode(true)
 	if err != nil {
 		return nil, NewServerError("Error, could not retrieve shifts at this time.", err)
 	}
@@ -137,7 +134,6 @@ func (ctx DShifts) GetShiftDetails(params filtering.RequestParams, id int) ([]Sh
 func (ctx DShifts) CreateShift(shift Shift) (response *Shift, rerr *DError) {
 
 	db, err := gorm.Open("postgres", conf.Cfg.ConnectionString)
-	db.LogMode(true)
 	if err != nil {
 		return nil, NewServerError("Error, could not retrieve shifts at this time.", err)
 	}
@@ -185,7 +181,6 @@ func (ctx DShifts) CreateShift(shift Shift) (response *Shift, rerr *DError) {
 
 func (ctx DShifts) UpdateShift(id int, shift Shift) (response *Shift, rerr *DError) {
 	db, err := gorm.Open("postgres", conf.Cfg.ConnectionString)
-	db.LogMode(true)
 	if err != nil {
 		return nil, NewServerError("Error, could not retrieve shifts at this time.", err)
 	}
@@ -225,7 +220,7 @@ func (ctx DShifts) UpdateShift(id int, shift Shift) (response *Shift, rerr *DErr
 				  to_char(end_time, 'Dy, Mon DD HH24:MI:SS.MS YYYY') AS end_time,
 				  to_char(created_at, 'Dy, Mon DD HH24:MI:SS.MS YYYY') AS created_at,
 				  to_char(updated_at, 'Dy, Mon DD HH24:MI:SS.MS YYYY') AS updated_at;
-	`, 	shift.ManagerID, shift.EmployeeID, shift.Break, shift.StartTime, shift.EndTime, id).Scan(&result).Error; err != nil {
+	`, shift.ManagerID, shift.EmployeeID, shift.Break, shift.StartTime, shift.EndTime, id).Scan(&result).Error; err != nil {
 		db.Rollback()
 		return nil, NewServerError("Error, an unexpected error occurred. The shift was not updated.", err)
 	}
@@ -235,7 +230,6 @@ func (ctx DShifts) UpdateShift(id int, shift Shift) (response *Shift, rerr *DErr
 
 func (ctx DShifts) DeleteShift(id int) (rerr *DError) {
 	db, err := gorm.Open("postgres", conf.Cfg.ConnectionString)
-	db.LogMode(true)
 	if err != nil {
 		return NewServerError("Error, could not delete shift at this time.", err)
 	}
@@ -257,7 +251,7 @@ func (ctx DShifts) DeleteShift(id int) (rerr *DError) {
 	return nil
 }
 
-func (ctx DShifts) verifyShift(id *int, shift *Shift , db *gorm.DB) *DError {
+func (ctx DShifts) verifyShift(id *int, shift *Shift, db *gorm.DB) *DError {
 	// Verify that the shift even exists.
 	if id != nil {
 		count := 0
@@ -294,7 +288,7 @@ func (ctx DShifts) verifyShift(id *int, shift *Shift , db *gorm.DB) *DError {
 	}
 
 	// This code has a side effect. If the user is updating an existing shift;
-	//		this might change the manager_id if they leave it null in the request json.
+	// 		this might change the manager_id if they leave it null in the request json.
 	if shift.ManagerID == nil { // If they don't specify the manager, use the current user.
 		shift.ManagerID = &ctx.UserID
 	}
@@ -313,15 +307,15 @@ func (ctx DShifts) verifyShift(id *int, shift *Shift , db *gorm.DB) *DError {
 	if shift.EmployeeID != nil && *shift.EmployeeID != -1 {
 		if role, err := ctx.Users().GetUserRole(*shift.EmployeeID); err != nil {
 			return NewServerError("Error, could not verify employee_id.", err)
-		}  else if role == nil {
+		} else if role == nil {
 			return NewNotFoundError(fmt.Sprintf("Error, employee_id %d does not exist.", *shift.ManagerID))
 		}
 
 		start, end := shift.StartTime, shift.EndTime
 
-		actual := struct{
+		actual := struct {
 			StartTime string
-			EndTime string
+			EndTime   string
 		}{}
 		if id != nil && ((start == nil || strings.TrimSpace(*start) == "") || (end == nil || strings.TrimSpace(*end) == "")) {
 			// If this is an update and the start or end time is not provided, retrieve it so it can be validated.
@@ -362,7 +356,6 @@ func (ctx DShifts) verifyShift(id *int, shift *Shift , db *gorm.DB) *DError {
 			return NewClientError(fmt.Sprintf("Error, %d shift(s) already exist for user ID %d during the start -> end time. Conflicting shift(s): %s.", len(ids), *shift.EmployeeID, strings.Join(conflictingShifts, ", ")), nil)
 		}
 	}
-
 
 	valid_start_end := make([]struct {
 		Valid bool

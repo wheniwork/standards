@@ -1,6 +1,5 @@
 package controllers
 
-
 import (
 	"github.com/kataras/iris"
 	"github.com/ECourant/standards/filtering"
@@ -33,8 +32,8 @@ func Summaries(p iris.Party) {
 		} else if id, err := ctx.Params().GetInt("id"); err != nil {
 			ctx.StatusCode(400)
 			ctx.JSON(ErrorAPIResponse{
-				Success:false,
-				Message:"Error, could not parse user id.",
+				Success: false,
+				Message: "Error, could not parse user id.",
 			})
 		} else if result, err := ctx.Values().Get("Session").(data.DSession).Summaries().GetSummary(&id, *params); err != nil {
 			data.ErrorResponse(ctx, err)

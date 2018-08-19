@@ -26,7 +26,7 @@ type Summary struct {
 	WeekEnd                     *string  `json:"week_end" query:"11" name:"Week End"`
 	TotalShifts                 *int     `json:"total_shifts" query:"11" name:"Total Shifts"`
 	TotalScheduledTime          *float64 `json:"total_scheduled_time" query:"11" name:"Total Scheduled Time"`
-	TotalScheduledTimeFormatted *string `json:"total_scheduled_time_formatted" query:"11" name:"Total Scheduled Time Formatted"`
+	TotalScheduledTimeFormatted *string  `json:"total_scheduled_time_formatted" query:"11" name:"Total Scheduled Time Formatted"`
 	TotalWorkedTime             *float64 `json:"total_worked_time" query:"11" name:"Total Worked Time"`
 	TotalWorkedTimeFormatted    *string  `json:"total_worked_time_formatted" query:"11" name:"Total Worked Time Formatted"`
 	TotalBreakTime              *float64 `json:"total_break_time" query:"11" name:"Total Break Time"`
@@ -52,7 +52,6 @@ func rowToSummary(rows []summaryRow) []Summary {
 
 func (ctx DSummary) GetSummary(id *int, params filtering.RequestParams) ([]Summary, *DError) {
 	db, err := gorm.Open("postgres", conf.Cfg.ConnectionString)
-	db.LogMode(true)
 	if err != nil {
 		return nil, NewServerError("Error, could not retrieve summary at this time.", err)
 	}

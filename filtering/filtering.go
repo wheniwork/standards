@@ -67,7 +67,7 @@ const (
 	DefaultSortDesc QueryType = 16
 	Standard        QueryType = 8 // Next should be 32
 	// The reason standard is out of order is because I didn't
-	//		think to add it until after I had built the filtering code.
+	// 		think to add it until after I had built the filtering code.
 )
 
 const (
@@ -86,11 +86,9 @@ var (
 	}
 )
 
-
-
 // I built this to help making custom filtering, sorting, selecting etc... easier.
 // It will take the interface and look at all the fields and based on the tags
-//		it will generate an object with what's allowed to be filtered in a request.
+// 		it will generate an object with what's allowed to be filtered in a request.
 // This can be cached at runtime and allows new fields to be added very easily to existing types.
 func GenerateConstraints(T interface{}) RequestConstraints {
 	cons := RequestConstraints{
@@ -263,6 +261,7 @@ func ParseRequestParams(ctx iris.Context, constraints RequestConstraints, reques
 
 	return &params, nil
 }
+
 // This will take the request parameters from the HTTP request and append the SQL query
 // 		with the custom filters the user specified.
 func WhereFilters(db *gorm.DB, params RequestParams, constraints RequestConstraints) *gorm.DB {

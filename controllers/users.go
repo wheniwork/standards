@@ -28,15 +28,15 @@ func Users(p iris.Party) {
 		if err := ctx.ReadJSON(&newItem); err != nil {
 			ctx.StatusCode(400)
 			ctx.JSON(ErrorAPIResponse{
-				Success:false,
-				Message:err.Error(),
+				Success: false,
+				Message: err.Error(),
 			})
 		} else if result, err := ctx.Values().Get("Session").(data.DSession).Users().CreateUser(newItem); err != nil {
 			data.ErrorResponse(ctx, err)
 		} else {
 			ctx.JSON(APIResponse{
-				Success:true,
-				Results:result,
+				Success: true,
+				Results: result,
 			})
 		}
 	})
@@ -46,15 +46,15 @@ func Users(p iris.Party) {
 		if err := ctx.ReadJSON(&newItem); err != nil {
 			ctx.StatusCode(400)
 			ctx.JSON(ErrorAPIResponse{
-				Success:false,
-				Message:err.Error(),
+				Success: false,
+				Message: err.Error(),
 			})
 		} else if result, err := ctx.Values().Get("Session").(data.DSession).Users().CreateUser(newItem); err != nil {
 			data.ErrorResponse(ctx, err)
 		} else {
 			ctx.JSON(APIResponse{
-				Success:true,
-				Results:result,
+				Success: true,
+				Results: result,
 			})
 		}
 	})
@@ -64,28 +64,22 @@ func Users(p iris.Party) {
 		if err := ctx.ReadJSON(&newItem); err != nil {
 			ctx.StatusCode(400)
 			ctx.JSON(ErrorAPIResponse{
-				Success:false,
-				Message:err.Error(),
+				Success: false,
+				Message: err.Error(),
 			})
 		} else if id, err := ctx.Params().GetInt("id"); err != nil {
 			ctx.StatusCode(400)
 			ctx.JSON(ErrorAPIResponse{
-				Success:false,
-				Message:"Error, could not parse user id.",
+				Success: false,
+				Message: "Error, could not parse user id.",
 			})
 		} else if result, err := ctx.Values().Get("Session").(data.DSession).Users().UpdateUser(id, newItem); err != nil {
 			data.ErrorResponse(ctx, err)
 		} else {
 			ctx.JSON(APIResponse{
-				Success:true,
-				Results:result,
+				Success: true,
+				Results: result,
 			})
 		}
-	})
-
-	p.Delete("/{id:long}", func(ctx iris.Context) {
-		ctx.JSON(struct {
-			success bool
-		}{true})
 	})
 }

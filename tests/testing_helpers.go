@@ -6,10 +6,11 @@ import (
 	"io/ioutil"
 	"github.com/ECourant/standards/app"
 	"github.com/kataras/iris"
-		"bytes"
+	"bytes"
 )
 
 const testport = 8080
+
 var (
 	baseurl = fmt.Sprintf("http://localhost:%d/api", testport)
 )
@@ -20,7 +21,7 @@ func StartServer() {
 	go app.Run(iris.Addr(fmt.Sprintf(":%d", testport)))
 }
 
-func GetURL(url string) (*string, *int, error){
+func GetURL(url string) (*string, *int, error) {
 	fullurl := fmt.Sprintf("%s/%s", baseurl, url)
 	req, err := http.NewRequest("GET", fullurl, nil)
 	if err != nil {
@@ -39,7 +40,7 @@ func GetURL(url string) (*string, *int, error){
 	}
 }
 
-func PostURL(url string, request string) (*string, *int, error){
+func PostURL(url string, request string) (*string, *int, error) {
 	fullurl := fmt.Sprintf("%s/%s", baseurl, url)
 	req, err := http.NewRequest("POST", fullurl, bytes.NewBuffer([]byte(request)))
 	if err != nil {
@@ -58,7 +59,7 @@ func PostURL(url string, request string) (*string, *int, error){
 	}
 }
 
-func PutURL(url string, request string) (*string, *int, error){
+func PutURL(url string, request string) (*string, *int, error) {
 	fullurl := fmt.Sprintf("%s/%s", baseurl, url)
 	req, err := http.NewRequest("PUT", fullurl, bytes.NewBuffer([]byte(request)))
 	if err != nil {

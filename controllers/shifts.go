@@ -4,7 +4,7 @@ import (
 	"github.com/kataras/iris"
 	"github.com/ECourant/standards/filtering"
 	"github.com/ECourant/standards/data"
-	)
+)
 
 func Shifts(p iris.Party) {
 	p.Get("/", func(ctx iris.Context) {
@@ -13,14 +13,14 @@ func Shifts(p iris.Party) {
 		if params, err := filtering.ParseRequestParams(ctx, data.ShiftConstraints, filtering.StandardRequest); err != nil {
 			ctx.StatusCode(400)
 			ctx.JSON(ErrorAPIResponse{
-				Message:err.Error(),
+				Message: err.Error(),
 			})
 		} else if result, err := ctx.Values().Get("Session").(data.DSession).Shifts().GetShifts(*params); err != nil {
 			data.ErrorResponse(ctx, err)
 		} else {
 			ctx.JSON(APIResponse{
-				Success:true,
-				Results:result,
+				Success: true,
+				Results: result,
 			})
 		}
 	})
@@ -29,14 +29,14 @@ func Shifts(p iris.Party) {
 		if params, err := filtering.ParseRequestParams(ctx, data.ShiftConstraints, filtering.StandardRequest); err != nil {
 			ctx.StatusCode(400)
 			ctx.JSON(ErrorAPIResponse{
-				Message:err.Error(),
+				Message: err.Error(),
 			})
 		} else if result, err := ctx.Values().Get("Session").(data.DSession).Shifts().GetMyShifts(*params); err != nil {
 			data.ErrorResponse(ctx, err)
 		} else {
 			ctx.JSON(APIResponse{
-				Success:true,
-				Results:result,
+				Success: true,
+				Results: result,
 			})
 		}
 	})
@@ -45,20 +45,20 @@ func Shifts(p iris.Party) {
 		if params, err := filtering.ParseRequestParams(ctx, data.ShiftConstraints, filtering.StandardRequest); err != nil {
 			ctx.StatusCode(400)
 			ctx.JSON(ErrorAPIResponse{
-				Message:err.Error(),
+				Message: err.Error(),
 			})
 		} else if id, err := ctx.Params().GetInt("id"); err != nil {
 			ctx.StatusCode(400)
 			ctx.JSON(ErrorAPIResponse{
-				Success:false,
-				Message:"Error, could not parse shift id.",
+				Success: false,
+				Message: "Error, could not parse shift id.",
 			})
 		} else if result, err := ctx.Values().Get("Session").(data.DSession).Shifts().GetShiftDetails(*params, id); err != nil {
 			data.ErrorResponse(ctx, err)
 		} else {
 			ctx.JSON(APIResponse{
-				Success:true,
-				Results:result,
+				Success: true,
+				Results: result,
 			})
 		}
 	})
@@ -68,15 +68,15 @@ func Shifts(p iris.Party) {
 		if err := ctx.ReadJSON(&newItem); err != nil {
 			ctx.StatusCode(400)
 			ctx.JSON(ErrorAPIResponse{
-				Success:false,
-				Message:err.Error(),
+				Success: false,
+				Message: err.Error(),
 			})
 		} else if result, err := ctx.Values().Get("Session").(data.DSession).Shifts().CreateShift(newItem); err != nil {
 			data.ErrorResponse(ctx, err)
 		} else {
 			ctx.JSON(APIResponse{
-				Success:true,
-				Results:result,
+				Success: true,
+				Results: result,
 			})
 		}
 	})
@@ -86,15 +86,15 @@ func Shifts(p iris.Party) {
 		if err := ctx.ReadJSON(&newItem); err != nil {
 			ctx.StatusCode(400)
 			ctx.JSON(ErrorAPIResponse{
-				Success:false,
-				Message:err.Error(),
+				Success: false,
+				Message: err.Error(),
 			})
 		} else if result, err := ctx.Values().Get("Session").(data.DSession).Shifts().CreateShift(newItem); err != nil {
 			data.ErrorResponse(ctx, err)
 		} else {
 			ctx.JSON(APIResponse{
-				Success:true,
-				Results:result,
+				Success: true,
+				Results: result,
 			})
 		}
 	})
@@ -104,21 +104,21 @@ func Shifts(p iris.Party) {
 		if err := ctx.ReadJSON(&newItem); err != nil {
 			ctx.StatusCode(400)
 			ctx.JSON(ErrorAPIResponse{
-				Success:false,
-				Message:err.Error(),
+				Success: false,
+				Message: err.Error(),
 			})
 		} else if id, err := ctx.Params().GetInt("id"); err != nil {
 			ctx.StatusCode(400)
 			ctx.JSON(ErrorAPIResponse{
-				Success:false,
-				Message:"Error, could not parse shift id.",
+				Success: false,
+				Message: "Error, could not parse shift id.",
 			})
 		} else if result, err := ctx.Values().Get("Session").(data.DSession).Shifts().UpdateShift(id, newItem); err != nil {
 			data.ErrorResponse(ctx, err)
 		} else {
 			ctx.JSON(APIResponse{
-				Success:true,
-				Results:result,
+				Success: true,
+				Results: result,
 			})
 		}
 	})
@@ -127,16 +127,15 @@ func Shifts(p iris.Party) {
 		if id, err := ctx.Params().GetInt("id"); err != nil {
 			ctx.StatusCode(400)
 			ctx.JSON(ErrorAPIResponse{
-				Success:false,
-				Message:"Error, could not parse shift id.",
+				Success: false,
+				Message: "Error, could not parse shift id.",
 			})
 		} else if err := ctx.Values().Get("Session").(data.DSession).Shifts().DeleteShift(id); err != nil {
 			data.ErrorResponse(ctx, err)
 		} else {
 			ctx.JSON(APIResponse{
-				Success:true,
+				Success: true,
 			})
 		}
 	})
 }
-
