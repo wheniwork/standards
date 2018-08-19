@@ -6,6 +6,7 @@ import (
 	"database/sql"
 	"os"
 	"github.com/ECourant/standards/conf"
+	"fmt"
 )
 
 var (
@@ -49,7 +50,12 @@ var (
 )
 
 func TestMain(m *testing.M) {
-	if conf, err := conf.LoadConfig("database_test_config.json"); err != nil {
+	path := "database_test_config.json"
+	if os.Getenv("TRAVIS") == "true" {
+		path = "database_test_config_travis.json"
+		fmt.Println("Running In Travis")
+	}
+	if conf, err := conf.LoadConfig(path); err != nil {
 		panic(err)
 	} else {
 		Config = *conf

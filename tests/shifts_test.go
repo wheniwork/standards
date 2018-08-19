@@ -70,29 +70,6 @@ func Test_HTTP_CreateShiftValid100(t *testing.T) {
 
 }
 
-func Test_HTTP_CreateShiftValid1000(t *testing.T) {
-	for i := 0; i < 1000; i ++ {
-		if _, code, err := PostURL("shifts?current_user_id=3", fmt.Sprintf(`
-		{
-		    "id": 3,
-		    "manager_id": 3,
-		    "employee_id": 1,
-		    "break": 0,
-		    "start_time": "Thu, Aug 1 19:31:46.631 4%d",
-		    "end_time": "Thu, Aug 1 20:31:46.631 4%d"
-		}
-	`, i, i)); err != nil {
-			t.Fatal(err)
-		} else {
-			//Add unmarshal test.
-			if *code != 200 {
-				t.Fatal("Error, request should have succeeded.")
-			}
-		}
-	}
-
-}
-
 func Test_HTTP_CreateShiftValidNullEmployee(t *testing.T) {
 	if _, code, err := PostURL("shifts?current_user_id=3", `
 		{

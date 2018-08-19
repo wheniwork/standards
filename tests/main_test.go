@@ -27,7 +27,7 @@ func TestMain(m *testing.M) {
 }
 
 func ResetDatabase() {
-	path := "../../Database/Create Database.sql"
+	path := "../Database/Create Database.sql"
 	if bytes, err := ioutil.ReadFile(path); err != nil {
 		panic(err)
 	} else {
