@@ -11,7 +11,7 @@ addons:
 
 env:
   global:
-  - PGPORT=5432
+  - PGPORT=5433
 go:
 - "1.10.3"
 
