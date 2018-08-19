@@ -60,7 +60,7 @@ func TestMain(m *testing.M) {
 }
 
 // Just run all of the queries in the array and verify whether or not the response was supposed to be successful.
-func Test_Inserts(t *testing.T) {
+func Test_HTTP_Inserts(t *testing.T) {
 	for _, q := range Queries {
 		err := runQueryWithRollback(t, q.Query, q.Args...)
 		if q.ShouldFail && err == nil {

@@ -3,11 +3,11 @@ package tests
 import (
 	"testing"
 	"fmt"
-		)
+	)
 
 
 // Create tests
-func Test_CreateShiftAsEmployee(t *testing.T) {
+func Test_HTTP_CreateShiftAsEmployee(t *testing.T) {
 	if _, code, err := PostURL("shifts?current_user_id=1", `
 		{
 		    "id": 3,
@@ -27,7 +27,7 @@ func Test_CreateShiftAsEmployee(t *testing.T) {
 	}
 }
 
-func Test_CreateShiftValid(t *testing.T) {
+func Test_HTTP_CreateShiftValid(t *testing.T) {
 	if _, code, err := PostURL("shifts?current_user_id=3", `
 		{
 		    "id": 3,
@@ -47,7 +47,7 @@ func Test_CreateShiftValid(t *testing.T) {
 	}
 }
 
-func Test_CreateShiftValid100(t *testing.T) {
+func Test_HTTP_CreateShiftValid100(t *testing.T) {
 	for i := 0; i < 100; i ++ {
 		if _, code, err := PostURL("shifts?current_user_id=3", fmt.Sprintf(`
 		{
@@ -70,7 +70,7 @@ func Test_CreateShiftValid100(t *testing.T) {
 
 }
 
-func Test_CreateShiftValid1000(t *testing.T) {
+func Test_HTTP_CreateShiftValid1000(t *testing.T) {
 	for i := 0; i < 1000; i ++ {
 		if _, code, err := PostURL("shifts?current_user_id=3", fmt.Sprintf(`
 		{
@@ -93,7 +93,7 @@ func Test_CreateShiftValid1000(t *testing.T) {
 
 }
 
-func Test_CreateShiftValidNullEmployee(t *testing.T) {
+func Test_HTTP_CreateShiftValidNullEmployee(t *testing.T) {
 	if _, code, err := PostURL("shifts?current_user_id=3", `
 		{
 		    "id": 3,
@@ -113,7 +113,7 @@ func Test_CreateShiftValidNullEmployee(t *testing.T) {
 	}
 }
 
-func Test_CreateShiftValidNullManager(t *testing.T) {
+func Test_HTTP_CreateShiftValidNullManager(t *testing.T) {
 	if _, code, err := PostURL("shifts?current_user_id=3", `
 		{
 		    "id": 3,
@@ -132,7 +132,7 @@ func Test_CreateShiftValidNullManager(t *testing.T) {
 	}
 }
 
-func Test_CreateShiftOverlapping(t *testing.T) {
+func Test_HTTP_CreateShiftOverlapping(t *testing.T) {
 	if _, code, err := PostURL("shifts?current_user_id=3", `
 		{
 		    "id": 3,
@@ -170,7 +170,7 @@ func Test_CreateShiftOverlapping(t *testing.T) {
 	}
 }
 
-func Test_CreateShiftBadStartEnd(t *testing.T) {
+func Test_HTTP_CreateShiftBadStartEnd(t *testing.T) {
 	if _, code, err := PostURL("shifts?current_user_id=3", `
 		{
 		    "id": 3,
@@ -190,7 +190,7 @@ func Test_CreateShiftBadStartEnd(t *testing.T) {
 	}
 }
 
-func Test_CreateShiftNullStart(t *testing.T) {
+func Test_HTTP_CreateShiftNullStart(t *testing.T) {
 	if _, code, err := PostURL("shifts?current_user_id=3", `
 		{
 		    "id": 3,
@@ -210,7 +210,7 @@ func Test_CreateShiftNullStart(t *testing.T) {
 	}
 }
 
-func Test_CreateShiftWhitespaceStart(t *testing.T) {
+func Test_HTTP_CreateShiftWhitespaceStart(t *testing.T) {
 	if _, code, err := PostURL("shifts?current_user_id=3", `
 		{
 		    "id": 3,
@@ -230,7 +230,7 @@ func Test_CreateShiftWhitespaceStart(t *testing.T) {
 	}
 }
 
-func Test_CreateShiftNullEnd(t *testing.T) {
+func Test_HTTP_CreateShiftNullEnd(t *testing.T) {
 	if _, code, err := PostURL("shifts?current_user_id=3", `
 		{
 		    "id": 3,
@@ -250,7 +250,7 @@ func Test_CreateShiftNullEnd(t *testing.T) {
 	}
 }
 
-func Test_CreateShiftWhitespaceEnd(t *testing.T) {
+func Test_HTTP_CreateShiftWhitespaceEnd(t *testing.T) {
 	if _, code, err := PostURL("shifts?current_user_id=3", `
 		{
 		    "id": 3,
@@ -270,7 +270,7 @@ func Test_CreateShiftWhitespaceEnd(t *testing.T) {
 	}
 }
 
-func Test_CreateShiftLongBreak(t *testing.T) {
+func Test_HTTP_CreateShiftLongBreak(t *testing.T) {
 	if _, code, err := PostURL("shifts?current_user_id=3", `
 		{
 		    "id": 3,
@@ -290,7 +290,7 @@ func Test_CreateShiftLongBreak(t *testing.T) {
 	}
 }
 
-func Test_CreateShiftBadManagerID(t *testing.T) {
+func Test_HTTP_CreateShiftBadManagerID(t *testing.T) {
 	if _, code, err := PostURL("shifts?current_user_id=3", `
 		{
 		    "id": 3,
@@ -310,7 +310,7 @@ func Test_CreateShiftBadManagerID(t *testing.T) {
 	}
 }
 
-func Test_CreateShiftBadEmployeeID(t *testing.T) {
+func Test_HTTP_CreateShiftBadEmployeeID(t *testing.T) {
 	if _, code, err := PostURL("shifts?current_user_id=3", `
 		{
 		    "id": 3,
@@ -330,7 +330,7 @@ func Test_CreateShiftBadEmployeeID(t *testing.T) {
 	}
 }
 
-func Test_CreateShiftMalformedJSON(t *testing.T) {
+func Test_HTTP_CreateShiftMalformedJSON(t *testing.T) {
 	if _, code, err := PostURL("shifts?current_user_id=3", `
 		
 		    "break": 1,
@@ -349,7 +349,7 @@ func Test_CreateShiftMalformedJSON(t *testing.T) {
 
 
 // Update tests
-func Test_UpdateShiftAsManager(t *testing.T) {
+func Test_HTTP_UpdateShiftAsManager(t *testing.T) {
 	if _, code, err := PutURL("shifts/1?current_user_id=3", `
 		{
 		    "break": 1,
@@ -366,7 +366,7 @@ func Test_UpdateShiftAsManager(t *testing.T) {
 	}
 }
 
-func Test_UpdateShiftAsEmployee(t *testing.T) {
+func Test_HTTP_UpdateShiftAsEmployee(t *testing.T) {
 	if _, code, err := PutURL("shifts/1?current_user_id=1", `
 		{
 		    "break": 1,
@@ -383,7 +383,7 @@ func Test_UpdateShiftAsEmployee(t *testing.T) {
 	}
 }
 
-func Test_UpdateShiftInvalidStartEnd(t *testing.T) {
+func Test_HTTP_UpdateShiftInvalidStartEnd(t *testing.T) {
 	if _, code, err := PutURL("shifts/1?current_user_id=3", `
 		{
 		    "break": 1,
@@ -400,7 +400,7 @@ func Test_UpdateShiftInvalidStartEnd(t *testing.T) {
 	}
 }
 
-func Test_UpdateShiftSetBreak(t *testing.T) {
+func Test_HTTP_UpdateShiftSetBreak(t *testing.T) {
 	if _, code, err := PutURL("shifts/1?current_user_id=3", `
 		{
 		    "break": 0.45
@@ -414,7 +414,7 @@ func Test_UpdateShiftSetBreak(t *testing.T) {
 	}
 }
 
-func Test_UpdateShiftSetBreakNegative(t *testing.T) {
+func Test_HTTP_UpdateShiftSetBreakNegative(t *testing.T) {
 	if _, code, err := PutURL("shifts/1?current_user_id=3", `
 		{
 		    "break": -0.45

@@ -156,6 +156,11 @@ func (ctx DShifts) CreateShift(shift Shift) (response *Shift, rerr *DError) {
 		}
 	}()
 
+	if shift.Break == nil {
+		b := 0.0
+		shift.Break = &b
+	}
+
 	if err := ctx.verifyShift(nil, &shift, db); err != nil {
 		return nil, err
 	}
@@ -305,6 +310,15 @@ func (ctx DShifts) verifyShift(id *int, shift *Shift , db *gorm.DB) *DError {
 		}  else if role == nil {
 			return NewNotFoundError(fmt.Sprintf("Error, employee_id %d does not exist.", *shift.ManagerID))
 		}
+
+		start, end := shift.StartTime, shift.EndTime
+		if start == nil {
+
+		}
+		if end == nil {
+
+		}
+		// Write a query just for getting both the start and the end, and then fill in whatever is missing from the update
 
 		// Verify that the new times do not overlap with any other times for that user.
 		/* TODO (@ecourant) I need to tweak this to make sure that during an update that the new times will still work (specifically when only the start or end time is provided in the update. */

@@ -7,7 +7,7 @@ import (
 )
 
 
-func Test_GetUsersWithoutCurrentID(t *testing.T) {
+func Test_HTTP_GetUsersWithoutCurrentID(t *testing.T) {
 	if _, code, err := GetURL("users"); err != nil {
 		t.Fatal(err)
 	} else {
@@ -17,7 +17,7 @@ func Test_GetUsersWithoutCurrentID(t *testing.T) {
 	}
 }
 
-func Test_GetUsersWithValidCurrentID(t *testing.T) {
+func Test_HTTP_GetUsersWithValidCurrentID(t *testing.T) {
 	if _, code, err := GetURL("users?current_user_id=1"); err != nil {
 		t.Fatal(err)
 	} else {
@@ -28,7 +28,7 @@ func Test_GetUsersWithValidCurrentID(t *testing.T) {
 	}
 }
 
-func Test_GetUsersWithNegativeCurrentID(t *testing.T) {
+func Test_HTTP_GetUsersWithNegativeCurrentID(t *testing.T) {
 	if _, code, err := GetURL("users?current_user_id=-1"); err != nil {
 		t.Fatal(err)
 	} else {
@@ -39,7 +39,7 @@ func Test_GetUsersWithNegativeCurrentID(t *testing.T) {
 	}
 }
 
-func Test_GetUsersWithNonIntegerCurrentID(t *testing.T) {
+func Test_HTTP_GetUsersWithNonIntegerCurrentID(t *testing.T) {
 	if _, code, err := GetURL("users?current_user_id=vdassda"); err != nil {
 		t.Fatal(err)
 	} else {
