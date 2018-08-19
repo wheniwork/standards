@@ -50,7 +50,7 @@ func rowToSummary(rows []summaryRow) []Summary {
 	return result
 }
 
-func (ctx DSummary) GetSummary(params filtering.RequestParams) ([]Summary, *DError) {
+func (ctx DSummary) GetSummary(id *int, params filtering.RequestParams) ([]Summary, *DError) {
 	db, err := gorm.Open("postgres", conf.Cfg.ConnectionString)
 	db.LogMode(true)
 	if err != nil {
@@ -66,6 +66,9 @@ func (ctx DSummary) GetSummary(params filtering.RequestParams) ([]Summary, *DErr
 		Order(params.Sorts).
 		Offset((params.Page * params.PageSize) - params.PageSize).
 		Limit(params.PageSize)
+	if id != nil {
+		db = db.Where("employee_id = ?", id)
+	}
 
 	if len(params.Filters) > 0 {
 		db = filtering.WhereFilters(db, params, ctx.Constraints())
