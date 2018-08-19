@@ -27,7 +27,7 @@ You will also want to run `Create Database.sql` on your PostgreSQL instance befo
 
 # REST API Documentation
 
-#### As an employee, I want to know when I am working, by being able to see all of the shifts assigned to me.
+### As an employee, I want to know when I am working, by being able to see all of the shifts assigned to me.
 One shift shows up in the response that does not have an employee, this is because the employee_id for that record is null, and will show up for all users.
 <details><summary>HTTP Request</summary>
 <p>
@@ -87,7 +87,7 @@ GET /api/shifts/mine?current_user_id=1
 </p>
 </details>
 
-#### As an employee, I want to know who I am working with, by being able to see the employees that are working during the same time period as me.
+### As an employee, I want to know who I am working with, by being able to see the employees that are working during the same time period as me.
 This will show any shifts that overlap with the shift ID you specified.
 <details><summary>HTTP Request</summary>
 <p>
@@ -156,7 +156,7 @@ GET /api/shifts/overlapping/1?current_user_id=1
 </p>
 </details>
 
-#### As an employee, I want to know how much I worked, by being able to get a summary of hours worked for each week.
+### As an employee, I want to know how much I worked, by being able to get a summary of hours worked for each week.
 This request will show hours scheduled/worked grouped by week. The employee_id is specified in the URL.
 <details><summary>HTTP Request</summary>
 <p>
@@ -213,7 +213,7 @@ GET /api/summaries/3?current_user_id=1
 </p>
 </details>
 
-#### As an employee, I want to be able to contact my managers, by seeing manager contact information for my shifts.
+### As an employee, I want to be able to contact my managers, by seeing manager contact information for my shifts.
 Manager information is returned as a sub-object with the response for shifts. Field: `manager_user`
 <details><summary>HTTP Request</summary>
 <p>
@@ -257,7 +257,7 @@ GET /api/shifts/mine?current_user_id=1
 </details>
 
 
-#### As a manager, I want to schedule my employees, by creating shifts for any employee.
+### As a manager, I want to schedule my employees, by creating shifts for any employee.
 Shifts can be created with a PUT or POST request to `/api/shifts`
 If the creation was successful it will return the created object.
 <details><summary>HTTP Request</summary>
@@ -332,7 +332,7 @@ POST /api/shifts?current_user_id=3
 </details>
 
 
-#### As a manager, I want to see the schedule, by listing shifts within a specific time period.
+### As a manager, I want to see the schedule, by listing shifts within a specific time period.
 There are 4 url params that are used for this request: `date_from`, `date_to`, `date_time_from` and `date_time_to`
 Only 1 from and 1 to are allowed per request. The `_time_` params will be converted to `timestamp` in SQL before filtering.
 But the normal params will be filtered as `date`. 
@@ -378,7 +378,7 @@ GET /api/shifts?current_user_id=1&date_from=2018-08-01&date_to=2018-08-06
 </details>
 
 
-#### As a manager, I want to be able to change a shift, by updating the time details.
+### As a manager, I want to be able to change a shift, by updating the time details.
 When updating a shift, the only required information is the shift ID. Only the fields that are being changed need to be included in the request.
 However; if a `manager_id` is not specified when updating a shift, the `current_user_id` will be set as the new `manager_id`.
 <details><summary>HTTP Request</summary>
@@ -412,7 +412,7 @@ PUT /api/shifts/1?current_user_id=3
 
 
 
-#### As a manager, I want to be able to assign a shift, by changing the employee that will work a shift.
+### As a manager, I want to be able to assign a shift, by changing the employee that will work a shift.
 When updating a shift, the only required information is the shift ID. Only the fields that are being changed need to be included in the request.
 However; if a `manager_id` is not specified when updating a shift, the `current_user_id` will be set as the new `manager_id`.
 When changing the `employee_id` for a shift, that shift will be validated the same way as when it was created.
@@ -447,7 +447,7 @@ PUT /api/shifts/1?current_user_id=3
 
 
 
-#### As a manager, I want to contact an employee, by seeing employee details.
+### As a manager, I want to contact an employee, by seeing employee details.
 `GET` requests should return the field `employee_user` which will include all of the user's details from the users table.
 <details><summary>HTTP Request</summary>
 <p>
