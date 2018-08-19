@@ -5,7 +5,13 @@ services:
 
 addons:
   postgresql: "10"
+  apt:
+      packages:
+      - postgresql-10
 
+env:
+  global:
+  - PGPORT=5432
 go:
 - "1.10.3"
 
