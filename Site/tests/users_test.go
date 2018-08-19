@@ -8,12 +8,9 @@ import (
 
 
 func Test_GetUsersWithoutCurrentID(t *testing.T) {
-	if body, code, err := GetURL("users"); err != nil {
+	if _, code, err := GetURL("users"); err != nil {
 		t.Fatal(err)
 	} else {
-		if *body != `{"message":"Error, current_user_id url param must be specified!","success":false}` {
-			t.Fatal("Error, should not be able to retrieve users without current_user_id.")
-		}
 		if *code != 403 {
 			t.Fatal("Error, request should fail as unauthorized.")
 		}
