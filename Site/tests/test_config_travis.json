@@ -1,0 +1,4 @@
+{
+  "connection_string": "postgresql://postgres@localhost:5432/postgres?sslmode=disable",
+  "listen_port": 8080
+}

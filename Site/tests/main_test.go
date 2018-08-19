@@ -10,7 +10,12 @@ import (
 )
 
 func TestMain(m *testing.M) {
-	if c, err := conf.LoadConfig("test_config.json"); err != nil {
+	path := "test_config.json"
+	if os.Getenv("TRAVIS") == "true" {
+		path = "test_config_travis.json"
+		fmt.Println("Running In Travis")
+	}
+	if c, err := conf.LoadConfig(path); err != nil {
 		panic(err)
 	} else {
 		conf.Cfg = *c

@@ -1,0 +1,9 @@
+language: go
+
+services:
+- postgresql
+
+go:
+- "1.10.3"
+
+
