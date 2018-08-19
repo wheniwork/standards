@@ -58,6 +58,7 @@ VALUES
        (3, 3, 'Sun, Aug 19 22:00:00.000 2018', 'Mon, Aug 20 02:00:00.00 2018'),
        (3, 3, 'Sun, Aug 22 08:00:00.000 2018', 'Mon, Aug 22 14:00:00.00 2018'),
        (3, 1, localtimestamp - INTERVAL '1 Hours', localtimestamp),
+       (3, null, localtimestamp - INTERVAL '1 Hours', localtimestamp),
        (3, 1, localtimestamp, localtimestamp + interval '1 hours'),
        (3, 2, localtimestamp - INTERVAL '1 Hours', localtimestamp),
        (3, 3, localtimestamp, localtimestamp + interval '1 hours');

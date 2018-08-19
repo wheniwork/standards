@@ -20,6 +20,8 @@
     var homeView = Template7.compile(Dom7("#homeView").html());
     var appView = Template7.compile(Dom7("#appView").html());
     var shiftsFiltersView = Template7.compile(Dom7("#shiftsFiltersView").html());
+    var shiftDetailsView = Template7.compile(Dom7("#shiftDetailsView").html());
+
 
     var current_user_id = -1;
     var current_user_name = "";
@@ -54,6 +56,7 @@
             return url;
         },
         Reset: function() {
+            this.show_only_my_shifts = true;
             this.date_from = new Date();
             this.date_to = new Date(new Date().setDate(current_date.getDate() + 7));
             this.page = 1;
@@ -93,6 +96,8 @@
         }
     };
 
+
+
     var shifts = [];
     var summaries = [];
     function parseDateToURLParam(date) {
@@ -125,6 +130,8 @@
                             {
                                 context: data
                             });
+                        } else {
+                            reject();
                         }
                     });
                 },
@@ -154,10 +161,12 @@
                                         });
                                 } else {
                                     app.dialog.alert(data.message);
+                                    reject();
                                 }
                             });
                         } else {
                             app.dialog.alert(shiftdata.message);
+                            reject();
                         }
                     });
                 },
@@ -168,13 +177,12 @@
                     resolve({
                         template: shiftsFiltersView
                     },
-                        {
-                            context: {
-                                current_user_name: current_user_name,
-                                is_manager: current_user_is_manager,
-                                shifts: shifts
-                            }
-                        });
+                    {
+                        context: {
+                            current_user_name: current_user_name,
+                            is_manager: current_user_is_manager,
+                        }
+                    });
                 },
                 on: {
                     pageBeforeIn: function (e, page) {
@@ -182,10 +190,41 @@
                             inputEl: '#shiftDateRange',
                             dateFormat: 'M dd yyyy',
                             rangePicker: true,
-                            closeOnSelect: true
+                            closeOnSelect: true,
+                            value:[
+                                current_shifts_filter.date_from,
+                                current_shifts_filter.date_to
+                            ]
                         });
+                        $("#showOnlyMyShifts")[0].checked = current_shifts_filter.show_only_my_shifts;
                     }
                 }
+            },
+            {
+                path: '/shiftDetailsView/',
+                async: function (routeTo, routeFrom, resolve, reject) {
+                    shifts = [];
+                    summaries = [];
+                    app.request.json(current_shifts_filter.GetShiftURL(), function (data) {
+                        if (data.success) {
+                            resolve({
+                                template: shiftDetailsView
+                            },
+                            {
+                                context: {
+                                    current_user_name: current_user_name,
+                                    is_manager: current_user_is_manager,
+                                    shifts: shifts,
+                                    summaries: summaries,
+                                    shift_message: current_shifts_filter.message,
+                                }
+                            });
+                        } else {
+                            app.dialog.alert(data.message);
+                            reject();
+                        }
+                    });
+                },
             },
         ],
         // ... other parameters

@@ -85,10 +85,17 @@
                                 <a href="#" class="item-content item-link">
                                     <div class="item-inner item-cell" style="color: black;">
                                         <div class="item-row">
+                                            {{#if employee_user}}
                                             <div class="item-cell"><b>Employee:</b> {{employee_user.name}}</div>
                                             <div class="item-cell" style="text-align: right;">
                                                 <span class="badge {{role_badge employee_user.role}}">{{title_case employee_user.role}}</span>
                                             </div>
+                                            {{else}}
+                                            <div class="item-cell"><b>Employee:</b> N/A</div>
+                                            <div class="item-cell" style="text-align: right;">
+                                                <span class="badge color-purple">Unassigned</span>
+                                            </div>
+                                            {{/if}}
                                         </div>
                                         <div class="item-row">
                                             <div class="item-cell"><b>From:</b> {{start_time}}</div>
@@ -203,6 +210,35 @@
                     <p class="row">
                         <button id="submitShiftFilter" class="col button button-big">Submit Filter</button>
                     </p>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="shiftDetailsView" typeof="text/template7">
+        <div class="page">
+            <div class="navbar">
+                <div class="navbar-inner sliding">
+                    <div class="title">Time Management Demo</div>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="list inset">
+                    <p style="font-size: 14px;">Please select a user to login as.</p>
+                    <ul>
+                        {{#results}}
+                        <li>
+                            <a href="#" class="item-content item-link login-select" user-id="{{id}}" user-name="{{name}}" user-role="{{role}}">
+                                <div class="item-inner item-cell" style="color: black;">
+                                    <div class="item-row">
+                                        <div class="item-cell">{{name}}</div>
+                                        <div class="item-cell" style="text-align: right;"><span class="badge {{role_badge role}}">{{title_case role}}</span></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        {{/results}}
+                    </ul>
                 </div>
             </div>
         </div>
