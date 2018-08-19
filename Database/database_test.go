@@ -5,7 +5,7 @@ import (
 	_ "github.com/lib/pq"
 	"database/sql"
 	"os"
-	"github.com/ecourant/standards/Site/conf"
+	"github.com/ecourant/standards/conf"
 )
 
 var (

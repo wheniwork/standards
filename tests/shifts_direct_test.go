@@ -2,7 +2,7 @@ package tests
 
 import (
 	"testing"
-	"github.com/ecourant/standards/Site/data"
+	"github.com/ecourant/standards/data"
 	)
 
 func getContext() data.DSession {

@@ -3,8 +3,8 @@ package controllers
 
 import (
 	"github.com/kataras/iris"
-	"github.com/ecourant/standards/Site/filtering"
-	"github.com/ecourant/standards/Site/data"
+	"github.com/ecourant/standards/filtering"
+	"github.com/ecourant/standards/data"
 )
 
 func Summaries(p iris.Party) {

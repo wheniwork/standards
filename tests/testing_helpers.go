@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"fmt"
 	"io/ioutil"
-	"github.com/ecourant/standards/Site/app"
+	"github.com/ecourant/standards/app"
 	"github.com/kataras/iris"
 		"bytes"
 )

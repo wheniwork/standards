@@ -3,7 +3,7 @@ package tests
 import (
 	"testing"
 	"os"
-	"github.com/ecourant/standards/Site/conf"
+	"github.com/ecourant/standards/conf"
 	"io/ioutil"
 	"database/sql"
 	"fmt"

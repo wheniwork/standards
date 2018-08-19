@@ -1,10 +1,10 @@
 package data
 
 import (
-	"github.com/ecourant/standards/Site/filtering"
+	"github.com/ecourant/standards/filtering"
 	"encoding/json"
 	"github.com/jinzhu/gorm"
-	"github.com/ecourant/standards/Site/conf"
+	"github.com/ecourant/standards/conf"
 )
 
 var (
