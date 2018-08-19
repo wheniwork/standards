@@ -149,6 +149,9 @@ GET /api/shifts/overlapping/1?current_user_id=1
 
 #### As an employee, I want to know how much I worked, by being able to get a summary of hours worked for each week.
 This request will show hours scheduled/worked grouped by week. The employee_id is specified in the URL.
+<details><summary>HTTP Request</summary>
+<p>
+
 ```http request
 GET /api/summaries/3?current_user_id=1
 
@@ -198,7 +201,8 @@ GET /api/summaries/3?current_user_id=1
     ]
 }
 ```     
-
+</p>
+</details>
 
 
 
