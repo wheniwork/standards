@@ -114,6 +114,18 @@
         },
     };
 
+    var current_non_overlapping_filter = {
+        id: -1,
+        base_url: "http://localhost:8080/api/shifts/nonoverlapping",
+        GetAvailableUsersURL: function () {
+            var url = this.base_url + "/" + this.id + "/users";
+            var params = ["current_user_id=" + current_user_id];
+            url = url + "?" + params.join("&");
+            console.log(url);
+            return url;
+        },
+    };
+
 
 
     var shifts = [];
@@ -121,6 +133,8 @@
     function parseDateToURLParam(date) {
         return encodeURI((date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear());
     }
+
+    var usersAvailableForShift = [];
 
     var app = new Framework7({
         ios: true,
@@ -265,6 +279,21 @@
                                     shifts: data.results.shifts
                                 }
                             });
+                            app.request.json(current_non_overlapping_filter.GetAvailableUsersURL(), function(users) {
+                                if (users.success) {
+                                    usersAvailableForShift = users.results;
+                                }
+                            });
+
+                            var pickerDevice = app.picker.create({
+                                inputEl: '#demo-picker-device',
+                                cols: [
+                                    {
+                                        textAlign: 'center',
+                                        values: ['iPhone 4', 'iPhone 4S', 'iPhone 5', 'iPhone 5S', 'iPhone 6', 'iPhone 6 Plus', 'iPad 2', 'iPad Retina', 'iPad Air', 'iPad mini', 'iPad mini 2', 'iPad mini 3']
+                                    }
+                                ]
+                            });
                         } else {
                             app.dialog.alert(data.message);
                             reject();
@@ -300,6 +329,7 @@
     $(document).on("click", ".shift-link", function() {
        id = $(this).attr("shift-id");
        current_overlapping_filter.id = parseInt(id);
+       current_non_overlapping_filter.id = current_overlapping_filter.id;
        app.router.navigate("/shiftDetailsView/");
     });
 
@@ -343,5 +373,13 @@
         setTimeout(function(){
             app.tab.show("#tab-2", false);
         }, 100);
+    });
+
+    $(document).on("click", ".change-employee", function() {
+       var shift_id = parseInt($(this).attr("shift-id"));
+       console.log("Changing user for shift ID: " + shift_id);
+
+
+        pickerDevice.open();
     });
 })();

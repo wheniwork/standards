@@ -164,18 +164,18 @@
             </div>
             {{#if is_manager}}
             <div class="fab fab-right-bottom color-green">
-                    <a href="#">
-                      <!-- First icon is visible when Speed Dial actions are closed -->
-                      <i class="icon f7-icons">add</i>
-                      <!-- Second icon is visible when Speed Dial actions are opened -->
-                      <i class="icon f7-icons">close</i>
-                    </a>
-                    <!-- Speed Dial action buttons -->
-                    <div class="fab-buttons fab-buttons-left">
-                      <a href="#" class="add-shift">Shift</a>
-                      <a href="#" class="add-user">User</a>
-                    </div>
-                  </div>
+                <a href="#">
+                    <!-- First icon is visible when Speed Dial actions are closed -->
+                    <i class="icon f7-icons">add</i>
+                    <!-- Second icon is visible when Speed Dial actions are opened -->
+                    <i class="icon f7-icons">close</i>
+                </a>
+                <!-- Speed Dial action buttons -->
+                <div class="fab-buttons fab-buttons-left">
+                    <a href="#" class="add-shift">Shift</a>
+                    <a href="#" class="add-user">User</a>
+                </div>
+            </div>
             {{/if}}
         </div>
     </template>
@@ -286,20 +286,23 @@
                 <div class="list inset">
                     <ul>
                         <li>
-                            <a href="#" class="item-content">
+                            <a href="#" class="item-content item-link change-employee" shift-id="{{detail.id}}">
                                 <div class="item-inner item-cell" style="color: black;">
-                                    <div class="item-row">
+                                    <div class="item-row item-input-wrap">
                                         {{#if detail.employee_user}}
-                                        <div class="item-cell">{{detail.employee_user.name}}</div>
+                                        <input class="item-cell" type="text" placeholder="{{detail.employee_user.name}}" readonly="readonly" id="demo-picker-device" value="{{detail.employee_user.name}}" />
                                         <div class="item-cell" style="text-align: right;">
-                                            <span class="badge {{role_badge detail.employee_user.role}}">{{title_case detail.employee_user.role}}</span>
+                                            <span class="badge {{role_badge detail.employee_user.role}}">
+                                                {{title_case detail.employee_user.role}}
+                                            </span>
                                         </div>
                                         {{else}}
-                                        <div class="item-cell"><b>Employee:</b> N/A</div>
+                                        <input class="item-cell" type="text" placeholder="Assign Shift" readonly="readonly" id="demo-picker-device" />
                                         <div class="item-cell" style="text-align: right;">
                                             <span class="badge color-purple">Unassigned</span>
                                         </div>
                                         {{/if}}
+                                        
                                     </div>
                                 </div>
                             </a>
@@ -394,6 +397,7 @@
                         {{/if}}
                     </ul>
                 </div>
+
             </div>
         </div>
     </template>

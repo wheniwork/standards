@@ -63,6 +63,23 @@ func Shifts(p iris.Party) {
 		}
 	})
 
+	p.Get("/nonoverlapping/{id:int}/users", func(ctx iris.Context){
+		if id, err := ctx.Params().GetInt("id"); err != nil {
+			ctx.StatusCode(400)
+			ctx.JSON(ErrorAPIResponse{
+				Success: false,
+				Message: "Error, could not parse shift id.",
+			})
+		} else if result, err := ctx.Values().Get("Session").(data.DSession).Shifts().GetNonConflictingUsers(id); err != nil {
+			data.ErrorResponse(ctx, err)
+		} else {
+			ctx.JSON(APIResponse{
+				Success: true,
+				Results: result,
+			})
+		}
+	})
+
 	p.Post("/", func(ctx iris.Context) {
 		newItem := data.Shift{}
 		if err := ctx.ReadJSON(&newItem); err != nil {

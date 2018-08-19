@@ -54,6 +54,11 @@ type shiftDetailRow struct {
 	Shifts       *string `json:"shifts,omitempty" query:"8" name:"Shifts"`
 }
 
+type UsersAvailable struct {
+	ID             int    `json:"id"`
+	UsersAvailable []User `json:"users_available"`
+}
+
 // Parse the row object and return the resulting shift object with any extra details.
 func rowsToShifts(rows []shiftRow) []Shift {
 	result := make([]Shift, len(rows))
@@ -161,6 +166,39 @@ func (ctx DShifts) GetShiftDetails(params filtering.RequestParams, id int) (*Shi
 
 	db.Scan(&result)
 	return &rowsToShiftDetails(result)[0], nil
+}
+
+func (ctx DShifts) GetNonConflictingUsers(id int) ([]UsersAvailable, *DError) {
+	db, err := gorm.Open("postgres", conf.Cfg.ConnectionString)
+	db.LogMode(true)
+	if err != nil {
+		return nil, NewServerError("Error, could not retrieve shifts at this time.", err)
+	}
+	defer db.Close()
+
+	result := make([]struct {
+		ID             int
+		UsersAvailable string
+	}, 0)
+
+	db = db.
+		Table("public.vw_shifts_available_users").
+		Select("id, users_available").
+		Where("id = ?", id)
+
+	db.Scan(&result)
+	final := make([]UsersAvailable, len(result))
+	for i, row := range result {
+		item := UsersAvailable{
+			ID:             row.ID,
+			UsersAvailable: make([]User, 0),
+		}
+		if row.UsersAvailable != "[]" {
+			json.Unmarshal([]byte(row.UsersAvailable), &item.UsersAvailable)
+		}
+		final[i] = item
+	}
+	return final, nil
 }
 
 func (ctx DShifts) CreateShift(shift Shift) (response *Shift, rerr *DError) {

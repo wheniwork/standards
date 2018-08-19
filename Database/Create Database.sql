@@ -65,8 +65,11 @@ CREATE TABLE public.shifts (
   CHECK (break * INTERVAL '1 Hour' < (end_time - start_time))
 );
 INSERT INTO public.shifts (manager_id, employee_id, start_time, end_time)
-VALUES (3, 1, 'Sun, Aug 19 18:00:00.000 2018', 'Mon, Aug 19 20:00:00.00 2018'),
-       (3, 2, 'Sun, Aug 19 20:00:00.000 2018', 'Mon, Aug 19 22:00:00.00 2018'),
+VALUES (3, 1, 'Sun, Aug 17 16:00:00.000 2018', 'Mon, Aug 17 18:00:00.00 2018'),
+       (3, 2, 'Sun, Aug 17 16:00:00.000 2018', 'Mon, Aug 17 18:00:00.00 2018'),
+       (3, 3, 'Sun, Aug 17 16:00:00.000 2018', 'Mon, Aug 17 18:00:00.00 2018'),
+       (3, 1, 'Sun, Aug 17 18:00:00.000 2018', 'Mon, Aug 17 20:00:00.00 2018'),
+       (3, 2, 'Sun, Aug 17 20:00:00.000 2018', 'Mon, Aug 17 22:00:00.00 2018'),
        (3, 3, 'Sun, Aug 19 22:00:00.000 2018', 'Mon, Aug 20 02:00:00.00 2018'),
        (3, 3, 'Sun, Aug 22 08:00:00.000 2018', 'Mon, Aug 22 14:00:00.00 2018'),
        (3, 1, localtimestamp - INTERVAL '1 Hours', localtimestamp),
@@ -174,7 +177,7 @@ CREATE VIEW public.vw_shifts_detailed_api AS
   FROM public.shifts s
          INNER JOIN public.users manager ON manager.id = s.manager_id
          LEFT JOIN public.users employee ON employee.id = s.employee_id
-         LEFT JOIN public.shifts s2 ON s2.start_time < s.end_time AND s2.end_time > s.start_time AND s2.id != s.id
+         LEFT JOIN public.shifts s2 ON (s2.start_time < s.end_time AND s2.start_time >= s.start_time) AND (s2.end_time > s.start_time AND s2.end_time <= s.end_time) AND s2.id != s.id
          LEFT JOIN public.users semployee ON semployee.id = s2.employee_id
   GROUP BY s.id,
            s.employee_id,
@@ -198,6 +201,26 @@ CREATE VIEW public.vw_shifts_detailed_api AS
            employee.role,
            employee.created_at,
            employee.updated_at;
+
+DROP VIEW IF EXISTS public.vw_shifts_available_users;
+CREATE VIEW public.vw_shifts_available_users AS
+  SELECT shift.id,
+         to_json(array_agg(row (u.id,
+                               u.name,
+                               u.email,
+                               u.phone,
+                               u.role,
+                               to_char(u.created_at,
+                                       'Dy, Mon DD HH24:MI:SS.MS YYYY'),
+                               to_char(u.updated_at,
+                                       'Dy, Mon DD HH24:MI:SS.MS YYYY')) :: public.user)) AS users_available
+  FROM (SELECT s.id, array_agg((SELECT DISTINCT s2.employee_id)) AS employees_overlapping
+        FROM public.shifts s
+               LEFT JOIN public.shifts s2 ON (s2.start_time < s.end_time AND s2.start_time >= s.start_time) AND (s2.end_time > s.start_time AND s2.end_time <= s.end_time) AND s2.id != s.id AND s2.employee_id IS NOT NULL
+        WHERE s.employee_id IS NOT NULL
+        GROUP BY s.id) shift
+         INNER JOIN users u ON u.id != ALL (shift.employees_overlapping)
+  GROUP BY shift.id;
 
 -- This view is insane.
 -- For all of the shifts it looks at the expected hours to be worked.
