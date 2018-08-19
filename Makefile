@@ -1,8 +1,8 @@
 default: test
 
 build:
-	go build Site
+	go build
 
 test: build
 	go get github.com/kr/pretty
-	go test -v ./ 
+	go test -v ./
