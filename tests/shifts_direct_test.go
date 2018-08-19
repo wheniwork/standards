@@ -124,3 +124,93 @@ func Test_UpdateShiftConflicting(t *testing.T) {
 		}
 	}
 }
+
+func Test_UpdateShiftRemoveEmployee(t *testing.T) {
+	EmployeeID, ManagerID := 3, 3
+	StartTime, EndTime := "03-03-2018 8:00AM", "03-03-2018 10:00AM"
+	id := 0
+	if result, err := getContext().Shifts().CreateShift(data.Shift{
+		EmployeeID: &EmployeeID,
+		ManagerID:  &ManagerID,
+		StartTime:  &StartTime,
+		EndTime:    &EndTime,
+	}); err != nil {
+		t.Fatal(err)
+	} else {
+		if result == nil {
+			t.Fatal("Error, should have failed to create shift.")
+		} else {
+			id = *result.ID
+		}
+	}
+	EmployeeID = -1
+	if result, err := getContext().Shifts().UpdateShift(id, data.Shift{
+		EmployeeID: &EmployeeID,
+		ManagerID:  &ManagerID,
+		StartTime:  &StartTime,
+		EndTime:    &EndTime,
+	}); err != nil {
+		t.Fatal(err)
+	} else {
+		if result == nil {
+			t.Fatal("Error, should have succeeded in updating shift..")
+		} else if result.EmployeeID != nil {
+			t.Fatal("Error, employee should be nil.")
+		}
+	}
+}
+
+func Test_UpdateShiftAddBreak(t *testing.T) {
+	EmployeeID, ManagerID := 3, 3
+	StartTime, EndTime := "03-04-2018 8:00AM", "03-04-2018 10:00AM"
+	id := 0
+	if result, err := getContext().Shifts().CreateShift(data.Shift{
+		EmployeeID: &EmployeeID,
+		ManagerID:  &ManagerID,
+		StartTime:  &StartTime,
+		EndTime:    &EndTime,
+	}); err != nil {
+		t.Fatal(err)
+	} else {
+		if result == nil {
+			t.Fatal("Error, should have failed to create shift.")
+		} else {
+			id = *result.ID
+		}
+	}
+	Break := 0.5
+	if result, err := getContext().Shifts().UpdateShift(id, data.Shift{
+		Break: &Break,
+	}); err != nil {
+		t.Fatal(err)
+	} else {
+		if result == nil {
+			t.Fatal("Error, should have succeeded in updating shift..")
+		} else if result.Break != nil && *result.Break != Break {
+			t.Fatal("Error, break should be updated.")
+		}
+	}
+}
+
+func Test_DeleteShift(t *testing.T) {
+	EmployeeID, ManagerID := 3, 3
+	StartTime, EndTime := "03-05-2018 8:00AM", "03-05-2018 10:00AM"
+	id := 0
+	if result, err := getContext().Shifts().CreateShift(data.Shift{
+		EmployeeID: &EmployeeID,
+		ManagerID:  &ManagerID,
+		StartTime:  &StartTime,
+		EndTime:    &EndTime,
+	}); err != nil {
+		t.Fatal(err)
+	} else {
+		if result == nil {
+			t.Fatal("Error, should have failed to create shift.")
+		} else {
+			id = *result.ID
+		}
+	}
+	if err := getContext().Shifts().DeleteShift(id); err != nil {
+		t.Fatal(err)
+	}
+}

@@ -243,7 +243,7 @@ func (ctx DShifts) DeleteShift(id int) (rerr *DError) {
 			return
 		}
 	}()
-	if err := db.Exec("DELETE FROM public.shifts WHERE id = ?").Error; err != nil {
+	if err := db.Exec("DELETE FROM public.shifts WHERE id = ?;", id).Error; err != nil {
 		db.Rollback()
 		return NewServerError(fmt.Sprintf("Error, failed to delete shift ID %d.", id), err)
 	}
