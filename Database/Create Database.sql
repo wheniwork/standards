@@ -124,13 +124,14 @@ CREATE VIEW public.vw_shifts_detailed_api AS
   SELECT s.id,
          s.employee_id,
          s.manager_id,
+         to_char(date_part('epoch', ((s.end_time - (s.break * INTERVAL '1 Hour')) - s.start_time)) * INTERVAL '1 second', 'FMHH24 Hour(s) FMMI ') || 'Minute(s)' AS hours_formatted,
          to_json(row (manager.id,
                      manager.name,
                      manager.email,
                      manager.phone,
                      manager.role,
                      to_char(manager.created_at, 'Dy, Mon DD HH24:MI:SS.MS YYYY'),
-                     to_char(manager.updated_at, 'Dy, Mon DD HH24:MI:SS.MS YYYY')) :: public.user) AS manager_user,
+                     to_char(manager.updated_at, 'Dy, Mon DD HH24:MI:SS.MS YYYY')) :: public.user)                                                               AS manager_user,
          CASE
            WHEN s.employee_id IS NOT NULL THEN to_json(row (employee.id,
                                                            employee.name,
@@ -141,12 +142,12 @@ CREATE VIEW public.vw_shifts_detailed_api AS
                                                                    'Dy, Mon DD HH24:MI:SS.MS YYYY'),
                                                            to_char(employee.updated_at,
                                                                    'Dy, Mon DD HH24:MI:SS.MS YYYY')) :: public.user)
-           ELSE NULL END                                                                           AS employee_user,
+           ELSE NULL END                                                                                                                                         AS employee_user,
          s.break,
-         to_char(s.start_time, 'Dy, Mon DD HH24:MI:SS.MS YYYY')                                    AS start_time,
-         to_char(s.end_time, 'Dy, Mon DD HH24:MI:SS.MS YYYY')                                      AS end_time,
-         to_char(s.created_at, 'Dy, Mon DD HH24:MI:SS.MS YYYY')                                    AS created_at,
-         to_char(s.updated_at, 'Dy, Mon DD HH24:MI:SS.MS YYYY')                                    AS updated_at,
+         to_char(s.start_time, 'Dy, Mon DD HH24:MI:SS.MS YYYY')                                                                                                  AS start_time,
+         to_char(s.end_time, 'Dy, Mon DD HH24:MI:SS.MS YYYY')                                                                                                    AS end_time,
+         to_char(s.created_at, 'Dy, Mon DD HH24:MI:SS.MS YYYY')                                                                                                  AS created_at,
+         to_char(s.updated_at, 'Dy, Mon DD HH24:MI:SS.MS YYYY')                                                                                                  AS updated_at,
          CASE
            WHEN SUM(COALESCE(s2.id, 0)) > 0 THEN to_json(array_agg(
                                                            row (s2.id,
@@ -169,7 +170,7 @@ CREATE VIEW public.vw_shifts_detailed_api AS
                                                                to_char(s2.created_at, 'Dy, Mon DD HH24:MI:SS.MS YYYY'),
                                                                to_char(s2.updated_at, 'Dy, Mon DD HH24:MI:SS.MS YYYY')
                                                                ) :: public.shift))
-           ELSE NULL END                                                                           AS shifts
+           ELSE NULL END                                                                                                                                         AS shifts
   FROM public.shifts s
          INNER JOIN public.users manager ON manager.id = s.manager_id
          LEFT JOIN public.users employee ON employee.id = s.employee_id

@@ -43,7 +43,8 @@ type shiftRow struct {
 
 type ShiftDetail struct {
 	Shift
-	ShiftItems []Shift `json:"shifts,omitempty" query:"8" name:"Shifts"`
+	HoursFormatted *string `json:"hours_formatted" query:"11" name:"Hours Formatted"`
+	ShiftItems     []Shift `json:"shifts,omitempty" query:"8" name:"Shifts"`
 }
 
 type shiftDetailRow struct {

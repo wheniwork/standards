@@ -21,7 +21,7 @@
     var appView = Template7.compile(Dom7("#appView").html());
     var shiftsFiltersView = Template7.compile(Dom7("#shiftsFiltersView").html());
     var shiftDetailsView = Template7.compile(Dom7("#shiftDetailsView").html());
-
+    var summariesFiltersView = Template7.compile(Dom7("#summariesFiltersView").html());
 
     var current_user_id = -1;
     var current_user_name = "";
@@ -219,6 +219,34 @@
                 }
             },
             {
+                path: '/summariesFiltersView/',
+                async: function (routeTo, routeFrom, resolve, reject) {
+                    resolve({
+                            template: summariesFiltersView
+                        },
+                        {
+                            context: {
+                                current_user_name: current_user_name,
+                                is_manager: current_user_is_manager,
+                            }
+                        });
+                },
+                on: {
+                    pageBeforeIn: function (e, page) {
+                        var calendarRange = app.calendar.create({
+                            inputEl: '#summaryDateRange',
+                            dateFormat: 'M dd yyyy',
+                            rangePicker: true,
+                            closeOnSelect: true,
+                            value:[
+                                current_summary_filter.date_from,
+                                current_summary_filter.date_to
+                            ]
+                        });
+                    }
+                }
+            },
+            {
                 path: '/shiftDetailsView/',
                 async: function (routeTo, routeFrom, resolve, reject) {
                     shifts = [];
@@ -232,7 +260,8 @@
                                 context: {
                                     current_user_name: current_user_name,
                                     is_manager: current_user_is_manager,
-                                    results: data.results,
+                                    detail: data.results,
+                                    shifts: data.results.shifts
                                 }
                             });
                         } else {
@@ -257,11 +286,14 @@
         current_shifts_filter.Reset();
         current_summary_filter.Reset();
         app.router.navigate("/appView/");
-
     });
 
     $(document).on("click", ".filter-shifts", function () {      
         app.router.navigate("/shiftsFiltersView/");
+    });
+
+    $(document).on("click", ".filter-summaries", function () {
+        app.router.navigate("/summariesFiltersView/");
     });
 
     $(document).on("click", ".shift-link", function() {
@@ -288,5 +320,27 @@
             ignoreCache: true,
             force: true
         })
+    });
+
+    $(document).on("click", "#submitSummaryFilter", function () {
+        var shiftDateRange = $("#summaryDateRange").val();
+        if (shiftDateRange != "") {
+            var date_1 = new Date(shiftDateRange.split(" - ")[0]);
+            var date_2 = new Date(shiftDateRange.split(" - ")[1]);
+            if (date_1.getTime() < date_2.getTime()) {
+                current_summary_filter.date_from = date_1;
+                current_summary_filter.date_to = date_2;
+            } else {
+                current_summary_filter.date_from = date_2;
+                current_summary_filter.date_to = date_1;
+            }
+        }
+        app.router.back("/appView/", {
+            ignoreCache: true,
+            force: true
+        });
+        setTimeout(function(){
+            app.tab.show("#tab-2", false);
+        }, 100);
     });
 })();
