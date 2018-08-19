@@ -29,6 +29,9 @@ You will also want to run `Create Database.sql` on your PostgreSQL instance befo
 
 #### As an employee, I want to know when I am working, by being able to see all of the shifts assigned to me.
 One shift shows up in the response that does not have an employee, this is because the employee_id for that record is null, and will show up for all users.
+<details><summary>HTTP Request</summary>
+<p>
+
 ```http request
 GET /api/shifts/mine?current_user_id=1
 
@@ -81,10 +84,14 @@ GET /api/shifts/mine?current_user_id=1
     ]
 }
 ```
-
+</p>
+</details>
 
 #### As an employee, I want to know who I am working with, by being able to see the employees that are working during the same time period as me.
 This will show any shifts that overlap with the shift ID you specified.
+<details><summary>HTTP Request</summary>
+<p>
+
 ```http request
 GET /api/shifts/overlapping/1?current_user_id=1
 
@@ -146,6 +153,8 @@ GET /api/shifts/overlapping/1?current_user_id=1
     ]
 }
 ```
+</p>
+</details>
 
 #### As an employee, I want to know how much I worked, by being able to get a summary of hours worked for each week.
 This request will show hours scheduled/worked grouped by week. The employee_id is specified in the URL.
@@ -201,6 +210,105 @@ GET /api/summaries/3?current_user_id=1
     ]
 }
 ```     
+</p>
+</details>
+
+#### As an employee, I want to be able to contact my managers, by seeing manager contact information for my shifts.
+Manager information is returned as a sub-object with the response for shifts. Field: `manager_user`
+<details><summary>HTTP Request</summary>
+<p>
+
+```http request
+GET /api/shifts/mine?current_user_id=1
+
+{
+    "success": true,
+    "results": [
+        {
+            "id": 114,
+            "manager_id": 3,
+            "manager_user": {
+                "id": 3,
+                "name": "Jenny",
+                "phone": "1-800-867-5309",
+                "role": "manager",
+                "created_at": "Sun, Aug 19 11:02:20.537 2018",
+                "updated_at": "Sun, Aug 19 11:02:20.537 2018"
+            },
+            "employee_id": 1,
+            "employee_user": {
+                "id": 1,
+                "name": "Elliot",
+                "email": "elliot@elliot.com",
+                "role": "employee",
+                "created_at": "Sun, Aug 19 11:02:20.537 2018",
+                "updated_at": "Sun, Aug 19 11:02:20.537 2018"
+            },
+            "break": 0,
+            "start_time": "Thu, Aug 02 19:31:46.631 2018",
+            "end_time": "Thu, Aug 02 20:31:46.631 2018",
+            "created_at": "Sun, Aug 19 11:02:25.736 2018",
+            "updated_at": "Sun, Aug 19 11:02:25.736 2018"
+        }
+    ]
+}
+```
+</p>
+</details>
+
+
+#### As a manager, I want to schedule my employees, by creating shifts for any employee.
+Shifts can be created with a PUT or POST request to `/api/shifts`
+If the creation was successful it will return the created object.
+<details><summary>HTTP Request</summary>
+<p>
+
+```http request
+POST /api/shifts?current_user_id=3
+{
+    "manager_id": 3,
+    "employee_id": 1,
+    "break": 0,
+    "start_time": "Thu, Aug 1 19:31:46.631 2018",
+    "end_time": "Thu, Aug 1 20:31:46.631 2018"
+}
+
+
+
+{
+    "success": true,
+    "results": {
+        "id": 7,
+        "manager_id": 3,
+        "employee_id": 1,
+        "break": 0,
+        "start_time": "Wed, Aug 01 19:31:46.631 2018",
+        "end_time": "Wed, Aug 01 20:31:46.631 2018",
+        "created_at": "Sun, Aug 19 11:50:15.112 2018",
+        "updated_at": "Sun, Aug 19 11:50:15.112 2018"
+    }
+}
+```
+
+
+If the creation was not successful, an error message will be returned. For example; if the start time comes after the end time.
+```http request
+POST /api/shifts?current_user_id=3
+{
+    "manager_id": 3,
+    "employee_id": 1,
+    "break": 0,
+    "start_time": "Thu, Aug 3 19:31:46.631 2018",
+    "end_time": "Thu, Aug 1 20:31:46.631 2018"
+}
+
+
+
+{
+    "message": "Error, (start_time: Thu, Aug 3 19:31:46.631 2018) must come before (end_time: Thu, Aug 1 20:31:46.631 2018).",
+    "success": false
+}
+```
 </p>
 </details>
 
