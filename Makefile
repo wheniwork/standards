@@ -5,4 +5,4 @@ build:
 
 test: build
 	go get github.com/kr/pretty
-	go test -v ./
+	go test -v ./...

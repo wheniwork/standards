@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/ECourant/standards.svg?branch=master)](https://travis-ci.com/ECourant/standards)
+
 ### Elliot's Sample Project For When I Work
 
 This project requires Golang 1.10 and PostgreSQL 10. 
