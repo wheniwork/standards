@@ -257,7 +257,6 @@ func (ctx DShifts) DeleteShift(id int) (rerr *DError) {
 	return nil
 }
 
-// TODO (@ecourant) break up into smaller functions.
 func (ctx DShifts) verifyShift(id *int, shift *Shift , db *gorm.DB) *DError {
 	// Verify that the shift even exists.
 	if id != nil {
@@ -284,6 +283,13 @@ func (ctx DShifts) verifyShift(id *int, shift *Shift , db *gorm.DB) *DError {
 
 		if shift.EndTime == nil || strings.TrimSpace(*shift.EndTime) == "" {
 			return NewClientError("Error, end_time cannot be null or blank.", nil)
+		}
+	} else { // Sometimes during an update the times will come through as "" instead of nil.
+		if shift.StartTime != nil && strings.TrimSpace(*shift.StartTime) == "" {
+			shift.StartTime = nil
+		}
+		if shift.EndTime != nil && strings.TrimSpace(*shift.EndTime) == "" {
+			shift.EndTime = nil
 		}
 	}
 
@@ -312,16 +318,27 @@ func (ctx DShifts) verifyShift(id *int, shift *Shift , db *gorm.DB) *DError {
 		}
 
 		start, end := shift.StartTime, shift.EndTime
-		if start == nil {
 
+		actual := struct{
+			StartTime string
+			EndTime string
+		}{}
+		if id != nil && ((start == nil || strings.TrimSpace(*start) == "") || (end == nil || strings.TrimSpace(*end) == "")) {
+			// If this is an update and the start or end time is not provided, retrieve it so it can be validated.
+			db.
+				Table("public.vw_shifts_api").
+				Select("start_time, end_time").
+				Where("id = ?", *id).
+				First(&actual)
+			if start == nil || strings.TrimSpace(*start) == "" {
+				start = &actual.StartTime
+			}
+			if end == nil || strings.TrimSpace(*end) == "" {
+				end = &actual.EndTime
+			}
 		}
-		if end == nil {
-
-		}
-		// Write a query just for getting both the start and the end, and then fill in whatever is missing from the update
 
 		// Verify that the new times do not overlap with any other times for that user.
-		/* TODO (@ecourant) I need to tweak this to make sure that during an update that the new times will still work (specifically when only the start or end time is provided in the update. */
 		ids := make([]struct {
 			ID string
 		}, 0)
@@ -329,14 +346,15 @@ func (ctx DShifts) verifyShift(id *int, shift *Shift , db *gorm.DB) *DError {
 			Table("public.vw_shifts_api").
 			Select("id").
 			Where("employee_id = ?", *shift.EmployeeID).
-			Where("(start_time::timestamp BETWEEN ?::timestamp AND ?::timestamp) OR (end_time::timestamp BETWEEN ?::timestamp AND ?::timestamp)",
-				*shift.StartTime, *shift.EndTime, *shift.StartTime, *shift.EndTime)
+			Where("(start_time::timestamp >= ?::timestamp AND start_time::timestamp < ?::timestamp) OR (end_time::timestamp > ?::timestamp AND end_time::timestamp <= ?::timestamp)",
+				*start, *end, *start, *end)
 		if id != nil { // If this is an update, make sure we exclude the existing shift.
 			d = d.Where("id != ?", *id)
 		}
-		d.Scan(&ids)
+		if err := d.Scan(&ids).Error; err != nil {
+			return NewServerError("Error, could not validate conflicting shifts.", err)
+		}
 		if len(ids) > 0 {
-			db.Rollback()
 			conflictingShifts := make([]string, len(ids))
 			for i, shiftid := range ids {
 				conflictingShifts[i] = shiftid.ID
@@ -356,7 +374,6 @@ func (ctx DShifts) verifyShift(id *int, shift *Shift , db *gorm.DB) *DError {
 		db.Raw("SELECT ?::timestamp < ?::timestamp AS valid", *shift.StartTime, *shift.EndTime).Scan(&valid_start_end)
 		if len(valid_start_end) > 0 {
 			if !valid_start_end[0].Valid {
-				db.Rollback()
 				return NewClientError(fmt.Sprintf("Error, (start_time: %s) must come before (end_time: %s).", *shift.StartTime, *shift.EndTime), nil)
 			}
 		}
@@ -368,7 +385,6 @@ func (ctx DShifts) verifyShift(id *int, shift *Shift , db *gorm.DB) *DError {
 		}
 		if len(valid_start_end) > 0 {
 			if !valid_start_end[0].Valid {
-				db.Rollback()
 				if shift.StartTime != nil {
 					return NewClientError(fmt.Sprintf("Error, (start_time: %s) must come before end_time.", *shift.StartTime), nil)
 				} else {

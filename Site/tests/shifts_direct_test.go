@@ -79,7 +79,7 @@ func Test_CreateShiftUpdateEmployee(t *testing.T) {
 
 func Test_UpdateShiftConflicting(t *testing.T) {
 	EmployeeID, ManagerID := 3, 3
-	StartTime, EndTime := "Thu, Aug 1 20:00:00.00 2018", "Thu, Aug 1 20:31:46.631 2018"
+	StartTime, EndTime := "02-02-2018 8:00AM", "02-02-2018 10:00AM"
 	id := 0
 	if result, err := getContext().Shifts().CreateShift(data.Shift{
 		EmployeeID: &EmployeeID,
@@ -95,7 +95,7 @@ func Test_UpdateShiftConflicting(t *testing.T) {
 			id = *result.ID
 		}
 	}
-	StartTime, EndTime = "Thu, Aug 2 20:00:00.00 2018", "Thu, Aug 2 20:31:46.631 2018"
+	StartTime, EndTime = "02-02-2018 10:00AM", "02-02-2018 11:00AM"
 	if result, err := getContext().Shifts().CreateShift(data.Shift{
 		EmployeeID: &EmployeeID,
 		ManagerID: &ManagerID,
@@ -110,7 +110,7 @@ func Test_UpdateShiftConflicting(t *testing.T) {
 			id = *result.ID
 		}
 	}
-	StartTime, EndTime = "Thu, Aug 1 20:00:00.00 2018", "Thu, Aug 1 20:31:46.631 2018"
+	StartTime, EndTime = "02-02-2018 9:00AM", "02-02-2018 11:00AM"
 	if result, err := getContext().Shifts().UpdateShift(id, data.Shift{
 		EmployeeID: &EmployeeID,
 		ManagerID: &ManagerID,
