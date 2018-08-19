@@ -137,7 +137,7 @@ func (ctx DShifts) GetMyShifts(params filtering.RequestParams) ([]Shift, *DError
 	return rowsToShifts(result), nil
 }
 
-func (ctx DShifts) GetShiftDetails(params filtering.RequestParams, id int) ([]ShiftDetail, *DError) {
+func (ctx DShifts) GetShiftDetails(params filtering.RequestParams, id int) (*ShiftDetail, *DError) {
 	db, err := gorm.Open("postgres", conf.Cfg.ConnectionString)
 	db.LogMode(true)
 	if err != nil {
@@ -159,7 +159,7 @@ func (ctx DShifts) GetShiftDetails(params filtering.RequestParams, id int) ([]Sh
 	}
 
 	db.Scan(&result)
-	return rowsToShiftDetails(result), nil
+	return &rowsToShiftDetails(result)[0], nil
 }
 
 func (ctx DShifts) CreateShift(shift Shift) (response *Shift, rerr *DError) {
