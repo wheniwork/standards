@@ -127,7 +127,7 @@ func Test_UpdateShiftConflicting(t *testing.T) {
 
 func Test_CreateShiftConflicting(t *testing.T) {
 	EmployeeID, ManagerID := 3, 3
-	StartTime, EndTime := "02-02-2018 8:00AM", "02-02-2018 10:00AM"
+	StartTime, EndTime := "03-03-2018 8:00AM", "03-03-2018 10:00AM"
 	if result, err := getContext().Shifts().CreateShift(data.Shift{
 		EmployeeID: &EmployeeID,
 		ManagerID:  &ManagerID,
@@ -142,7 +142,7 @@ func Test_CreateShiftConflicting(t *testing.T) {
 
 		}
 	}
-	StartTime, EndTime = "02-02-2018 7:00AM", "02-02-2018 9:00AM"
+	StartTime, EndTime = "03-03-2018 7:00AM", "03-03-2018 9:00AM"
 	if _, err := getContext().Shifts().CreateShift(data.Shift{
 		EmployeeID: &EmployeeID,
 		ManagerID:  &ManagerID,
@@ -157,7 +157,7 @@ func Test_CreateShiftConflicting(t *testing.T) {
 
 func Test_UpdateShiftRemoveEmployee(t *testing.T) {
 	EmployeeID, ManagerID := 3, 3
-	StartTime, EndTime := "03-03-2018 8:00AM", "03-03-2018 10:00AM"
+	StartTime, EndTime := "03-04-2018 8:00AM", "03-04-2018 10:00AM"
 	id := 0
 	if result, err := getContext().Shifts().CreateShift(data.Shift{
 		EmployeeID: &EmployeeID,
