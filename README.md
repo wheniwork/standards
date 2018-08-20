@@ -8,21 +8,21 @@ The database change scripts currently don't target a specific database instance,
 
 I've also kept track of what needs to be done for this project and some brief notes on how to go about doing that in Issues and Projects. 
 
-If I have time I will also try to create a UI for the REST API using Framework7. I'm not sure how much time I will have to do that though and it will be the last thing I do. 
-
 I've setup Travis CI to make sure that everything works on a system that isn't my own. 
 
 #### Build
-```
+```bash
 go get -u github.com/ECourant/standards
 cd {path to github.com/ECourant/standards}
-go build
+go build -o timedemo
+timedemo
 ```
+Make sure that PostgreSQL is installed on your machine as well and is accepting connections.
+You can update the config file `config.json` to match your database settings on your machine.
 
-You will need to tweak the settings in `config.json` in the root directory of the project for your computer. 
+You can change the `listen_port` if you want, but I did hardcode the port into the web UI, so it will not work on other ports at this time.
+
 You will also want to run `Create Database.sql` on your PostgreSQL instance before running the website. This file can be found in the Database directory.
-
-
 
 
 # REST API Documentation
@@ -535,8 +535,12 @@ GET /api/users?current_user_id=3
 </details>
 
 # Notes
+> I did create a small web app for a UI. But I didn't have enough time to build out all of the functionality from the user stories into the UI. It pretty much has everything except being able to see non-manager contact info, and being able to update the times of existing shifts. Other than that I believe all the functionality is there in the UI. You can access the ui by launching the application and going to `http://localhost:8080/`. 
+
 > Currently the database is storing date/times in central daylight time. I struggled to come up with a good way to convert dates/times to RFC 2822 in Golang, so I opted to instead convert/format them in PostgreSQL. This means that all of the date/time fields are strings in Go but since no operation is being performed on the data itself there, this should be fine. I might change this later and add the formatting to the driver somehow instead? As long as it looks clean and wouldn't effect changes in the future.
 
 > I've taken some code from one of my other website projects that I was working on in Go to make the REST API a bit easier when it came to filtering/sorting/selecting fields to be returned. And the date range handling for Issue #6 I added into that filtering handler.
 
 > I had some issues with nil references in the shifts code. Kept running into this: https://golang.org/doc/faq#nil_error I was able to fix it but the code was so spaghetti I ended up discarding all of the changes because it also ended up introducing a bunch of other bugs. So the verifyShift section works but it's not as pretty as I'd like it to be.
+
+> There are a few things I'd do differently. Given more time I think I would have handled dates and times differently. I think I would add some kind of custom serializer for when it actually encodes to JSON to convert the dates and times to RFC 2822 there. That way I'm not doing a ton of `to_char()` functions in SQL. I'd also choose a different framework for the Web UI; I found it incredibly difficult building time pickers in the UI that were easy to use, and the resulting pickers are not fantastic by any means.
