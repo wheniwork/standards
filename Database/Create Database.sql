@@ -214,12 +214,11 @@ CREATE VIEW public.vw_shifts_available_users AS
                                        'Dy, Mon DD HH24:MI:SS.MS YYYY'),
                                to_char(u.updated_at,
                                        'Dy, Mon DD HH24:MI:SS.MS YYYY')) :: public.user)) AS users_available
-  FROM (SELECT s.id, array_agg((SELECT DISTINCT s2.employee_id)) AS employees_overlapping
+  FROM (SELECT s.id, CASE WHEN (array_agg((SELECT DISTINCT s2.employee_id))) = ARRAY[NULL::int] THEN ARRAY[0] ELSE array_agg((SELECT DISTINCT s2.employee_id)) END AS employees_overlapping
         FROM public.shifts s
                LEFT JOIN public.shifts s2 ON (s2.start_time < s.end_time AND s2.start_time >= s.start_time) AND (s2.end_time > s.start_time AND s2.end_time <= s.end_time) AND s2.id != s.id AND s2.employee_id IS NOT NULL
-        WHERE s.employee_id IS NOT NULL
         GROUP BY s.id) shift
-         INNER JOIN users u ON u.id != ALL (shift.employees_overlapping)
+         LEFT JOIN users u ON u.id != ALL (shift.employees_overlapping)
   GROUP BY shift.id;
 
 -- This view is insane.

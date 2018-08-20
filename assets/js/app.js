@@ -22,6 +22,8 @@
     var shiftsFiltersView = Template7.compile(Dom7("#shiftsFiltersView").html());
     var shiftDetailsView = Template7.compile(Dom7("#shiftDetailsView").html());
     var summariesFiltersView = Template7.compile(Dom7("#summariesFiltersView").html());
+    var changeEmployeeView = Template7.compile(Dom7("#changeEmployeeView").html());
+    var createShiftView = Template7.compile(Dom7("#createShiftView").html());
 
     var current_user_id = -1;
     var current_user_name = "";
@@ -56,7 +58,7 @@
             console.log(url);
             return url;
         },
-        Reset: function() {
+        Reset: function () {
             this.show_only_my_shifts = true;
             this.date_from = new Date();
             this.date_to = new Date(new Date().setDate(current_date.getDate() + 7));
@@ -88,7 +90,7 @@
             console.log(url);
             return url;
         },
-        Reset: function() {
+        Reset: function () {
             this.date_from = new Date(new Date().setDate(current_date.getDate() - 14));
             this.date_to = new Date(new Date().setDate(current_date.getDate() + 7));
             this.page = 1;
@@ -127,15 +129,18 @@
     };
 
 
-
     var shifts = [];
     var summaries = [];
+
+
+    var current_shift_detail;
+
     function parseDateToURLParam(date) {
         return encodeURI((date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear());
     }
 
     var usersAvailableForShift = [];
-
+    var pickerDevice;
     var app = new Framework7({
         ios: true,
         desktop: false,
@@ -157,11 +162,11 @@
                     app.request.json("http://localhost:8080/api/users?current_user_id=1&order= name", function (data) {
                         if (data.success) {
                             resolve({
-                                template: homeView
-                            },
-                            {
-                                context: data
-                            });
+                                    template: homeView
+                                },
+                                {
+                                    context: data
+                                });
                         } else {
                             reject();
                         }
@@ -208,14 +213,14 @@
                 path: '/shiftsFiltersView/',
                 async: function (routeTo, routeFrom, resolve, reject) {
                     resolve({
-                        template: shiftsFiltersView
-                    },
-                    {
-                        context: {
-                            current_user_name: current_user_name,
-                            is_manager: current_user_is_manager,
-                        }
-                    });
+                            template: shiftsFiltersView
+                        },
+                        {
+                            context: {
+                                current_user_name: current_user_name,
+                                is_manager: current_user_is_manager,
+                            }
+                        });
                 },
                 on: {
                     pageBeforeIn: function (e, page) {
@@ -224,7 +229,7 @@
                             dateFormat: 'M dd yyyy',
                             rangePicker: true,
                             closeOnSelect: true,
-                            value:[
+                            value: [
                                 current_shifts_filter.date_from,
                                 current_shifts_filter.date_to
                             ]
@@ -253,7 +258,7 @@
                             dateFormat: 'M dd yyyy',
                             rangePicker: true,
                             closeOnSelect: true,
-                            value:[
+                            value: [
                                 current_summary_filter.date_from,
                                 current_summary_filter.date_to
                             ]
@@ -268,31 +273,66 @@
                     summaries = [];
                     app.request.json(current_overlapping_filter.GetOverlappingURL(), function (data) {
                         if (data.success) {
+                            current_shift_detail = data.results;
                             resolve({
-                                template: shiftDetailsView
+                                    template: shiftDetailsView
+                                },
+                                {
+                                    context: {
+                                        current_user_name: current_user_name,
+                                        is_manager: current_user_is_manager,
+                                        detail: data.results,
+                                        shifts: data.results.shifts
+                                    }
+                                });
+                        } else {
+                            app.dialog.alert(data.message);
+                            reject();
+                        }
+                    });
+                },
+            },
+            {
+                path: '/changeEmployeeView/',
+                async: function (routeTo, routeFrom, resolve, reject) {
+                    shifts = [];
+                    summaries = [];
+                    app.request.json(current_non_overlapping_filter.GetAvailableUsersURL(), function (data) {
+                        if (data.success) {
+                            resolve({
+                                    template: changeEmployeeView
+                                },
+                                {
+                                    context: {
+                                        current_user_name: current_user_name,
+                                        is_manager: current_user_is_manager,
+                                        users: data.results.users_available
+                                    }
+                                });
+
+
+                        } else {
+                            app.dialog.alert(data.message);
+                            reject();
+                        }
+                    });
+                },
+            },
+            {
+                path: '/createShiftView/',
+                async: function (routeTo, routeFrom, resolve, reject) {
+                    shifts = [];
+                    summaries = [];
+                    app.request.json(current_non_overlapping_filter.GetAvailableUsersURL(), function (data) {
+                        if (data.success) {
+                            resolve({
+                                template: changeEmployeeView
                             },
                             {
                                 context: {
                                     current_user_name: current_user_name,
                                     is_manager: current_user_is_manager,
-                                    detail: data.results,
-                                    shifts: data.results.shifts
                                 }
-                            });
-                            app.request.json(current_non_overlapping_filter.GetAvailableUsersURL(), function(users) {
-                                if (users.success) {
-                                    usersAvailableForShift = users.results;
-                                }
-                            });
-
-                            var pickerDevice = app.picker.create({
-                                inputEl: '#demo-picker-device',
-                                cols: [
-                                    {
-                                        textAlign: 'center',
-                                        values: ['iPhone 4', 'iPhone 4S', 'iPhone 5', 'iPhone 5S', 'iPhone 6', 'iPhone 6 Plus', 'iPad 2', 'iPad Retina', 'iPad Air', 'iPad mini', 'iPad mini 2', 'iPad mini 3']
-                                    }
-                                ]
                             });
                         } else {
                             app.dialog.alert(data.message);
@@ -318,7 +358,7 @@
         app.router.navigate("/appView/");
     });
 
-    $(document).on("click", ".filter-shifts", function () {      
+    $(document).on("click", ".filter-shifts", function () {
         app.router.navigate("/shiftsFiltersView/");
     });
 
@@ -326,11 +366,11 @@
         app.router.navigate("/summariesFiltersView/");
     });
 
-    $(document).on("click", ".shift-link", function() {
-       id = $(this).attr("shift-id");
-       current_overlapping_filter.id = parseInt(id);
-       current_non_overlapping_filter.id = current_overlapping_filter.id;
-       app.router.navigate("/shiftDetailsView/");
+    $(document).on("click", ".shift-link", function () {
+        id = $(this).attr("shift-id");
+        current_overlapping_filter.id = parseInt(id);
+        current_non_overlapping_filter.id = current_overlapping_filter.id;
+        app.router.navigate("/shiftDetailsView/");
     });
 
     $(document).on("click", "#submitShiftFilter", function () {
@@ -370,16 +410,63 @@
             ignoreCache: true,
             force: true
         });
-        setTimeout(function(){
-            app.tab.show("#tab-2", false);
+        setTimeout(function () {
+            app.tab.show("#summary-tab", false);
         }, 100);
     });
 
-    $(document).on("click", ".change-employee", function() {
-       var shift_id = parseInt($(this).attr("shift-id"));
-       console.log("Changing user for shift ID: " + shift_id);
-
-
-        pickerDevice.open();
+    $(document).on("click", ".change-employee", function () {
+        if (current_user_is_manager) {
+            app.router.navigate("/changeEmployeeView/");
+        }
     });
+
+    $(document).on("click", "#submitEmployeeChange", function () {
+        var selValue = $('input[name=employee-radio]:checked').val();
+        console.log("New ID: " + selValue);
+        if (selValue != null) {
+            updateShiftEmployee(current_overlapping_filter.id, parseInt(selValue));
+        }
+    });
+
+
+
+
+
+    $(document).on("click", ".add-shift", function() {
+
+    });
+
+    function updateShiftEmployee(shift_id, employee_id) {
+        console.log("Setting employee_id of shift " + shift_id + " to " + employee_id);
+        $.ajax({
+            type: "PUT",
+            url: "http://localhost:8080/api/shifts/" + shift_id + "?current_user_id=" + current_user_id,
+            contentType: "application/json",
+            data: JSON.stringify({
+                employee_id: employee_id,
+            })
+        });
+        app.router.navigate("/changeEmployeeView/", { animate: false });
+        app.router.navigate("/shiftDetailsView/", {
+            animate: false,
+            ignoreCache: true,
+            force: true,
+            reloadCurrent: true,
+            reloadPrevious: true,
+            reloadAll: true
+        });
+        setTimeout(function() {
+            app.router.back("/shiftDetailsView/", {
+                animate: false,
+                ignoreCache: true,
+                force: true,
+                reloadCurrent: true,
+                reloadPrevious: true,
+                reloadAll: true
+            });
+        }, 50);
+
+
+    }
 })();

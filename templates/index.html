@@ -60,15 +60,15 @@
             <div class="toolbar tabbar">
                 <div class="toolbar-inner">
                     <!-- Links have "tab-link" class instead of just "link" to switch tabs -->
-                    <a href="#tab-1" class="tab-link shifts-tab tab-link-active">Shifts</a>
-                    <a href="#tab-2" class="tab-link summary-tab">Summary</a>
+                    <a href="#shifts-tab" class="tab-link shifts-tab tab-link-active">Shifts</a>
+                    <a href="#summary-tab" class="tab-link summary-tab">Summary</a>
                 </div>
             </div>
 
             <!-- Tabs -->
             <div class="tabs">
                 <!-- First tab, active -->
-                <div class="page-content tab tab-active" id="tab-1">
+                <div class="page-content tab tab-active" id="shifts-tab">
                     <div class="list inset">
                         <ul>
                             <li>
@@ -117,7 +117,7 @@
 
                 </div>
                 <!-- Second tab -->
-                <div class="page-content tab" id="tab-2">
+                <div class="page-content tab" id="summary-tab">
                     <div class="list inset">
                         <ul>
                             <li>
@@ -136,7 +136,7 @@
                         <ul>
                             {{#summaries}}
                             <li>
-                                <a href="#" class="item-content item-link">
+                                <a href="#" class="item-content">
                                     <div class="item-inner item-cell" style="color: black;">
                                         <div class="item-row">
                                             <div class="item-cell"><b>Week Of:</b> {{week_start}}</div>
@@ -173,7 +173,7 @@
                 <!-- Speed Dial action buttons -->
                 <div class="fab-buttons fab-buttons-left">
                     <a href="#" class="add-shift">Shift</a>
-                    <a href="#" class="add-user">User</a>
+                    <!-- <a href="#" class="add-user">User</a> -->
                 </div>
             </div>
             {{/if}}
@@ -274,6 +274,40 @@
         </div>
     </template>
 
+    <template id="changeEmployeeView" typeof="text/template7">
+        <div class="page">
+            <div class="navbar">
+                <div class="navbar-inner sliding">
+                    <div class="left"><a class="link back"><i class="icon icon-back"></i><span class="ios-only">Details</span></a></div>
+                    <div class="title">Change Employee</div>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="list inset">
+                    <ul>
+                        {{#users}}
+                        <li>
+                            <label class="item-radio item-content">
+                                <input type="radio" name="employee-radio" value="{{id}}" />
+                                <i class="icon icon-radio"></i>
+                                <div class="item-inner">
+                                    <div class="item-title">{{name}}</div>
+                                </div>
+                            </label>
+                        </li>
+                        {{/users}}
+                    </ul>
+                </div>
+                <div class="block" style="position: absolute; bottom: 0px; width: 100%;">
+                    <p class="row">
+                        <button id="submitEmployeeChange" class="col button button-big">Change Employee</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </template>
+
+
     <template id="shiftDetailsView" typeof="text/template7">
         <div class="page">
             <div class="navbar">
@@ -290,19 +324,14 @@
                                 <div class="item-inner item-cell" style="color: black;">
                                     <div class="item-row item-input-wrap">
                                         {{#if detail.employee_user}}
-                                        <input class="item-cell" type="text" placeholder="{{detail.employee_user.name}}" readonly="readonly" id="demo-picker-device" value="{{detail.employee_user.name}}" />
-                                        <div class="item-cell" style="text-align: right;">
-                                            <span class="badge {{role_badge detail.employee_user.role}}">
-                                                {{title_case detail.employee_user.role}}
-                                            </span>
-                                        </div>
-                                        {{else}}
+                                        <input class="item-cell" type="text" placeholder="{{detail.employee_user.name}}" readonly="readonly" id="demo-picker-device"
+                                            value="{{detail.employee_user.name}}" />                                        {{else}}
                                         <input class="item-cell" type="text" placeholder="Assign Shift" readonly="readonly" id="demo-picker-device" />
                                         <div class="item-cell" style="text-align: right;">
                                             <span class="badge color-purple">Unassigned</span>
                                         </div>
                                         {{/if}}
-                                        
+
                                     </div>
                                 </div>
                             </a>
@@ -398,6 +427,41 @@
                     </ul>
                 </div>
 
+            </div>
+        </div>
+    </template>
+
+    <template id="createShiftView" typeof="text/template7">
+        <div class="page">
+            <div class="navbar">
+                <div class="navbar-inner sliding">
+                    <div class="left"><a class="link back"><i class="icon icon-back"></i><span class="ios-only">Cancel</span></a></div>
+                    <div class="title">Create Shift</div>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="list inset">
+                    <ul>
+                        <li>
+                            <a href="#" class="item-content">
+                                <div class="item-inner item-cell" style="color: black;">
+                                    <div class="item-row">
+                                        <div class="item-cell">Filter Summaries By Date Range</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <div class="item-content item-input">
+                                <div class="item-inner">
+                                    <div class="item-input-wrap">
+                                        <input type="text" placeholder="Select A Date Range" readonly="readonly" id="summaryDateRange" />
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </template>
