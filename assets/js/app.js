@@ -299,6 +299,10 @@
                     summaries = [];
                     app.request.json(current_non_overlapping_filter.GetAvailableUsersURL(), function (data) {
                         if (data.success) {
+                            data.results.users_available.push({
+                                name: "Unassigned",
+                                id: -1
+                            });
                             resolve({
                                     template: changeEmployeeView
                                 },
