@@ -410,8 +410,11 @@ func (ctx DShifts) verifyShift(id *int, shift *Shift, db *gorm.DB) *DError {
 			Table("public.vw_shifts_api").
 			Select("id").
 			Where("employee_id = ?", *shift.EmployeeID).
-			Where("(start_time::timestamp >= ?::timestamp AND start_time::timestamp < ?::timestamp) OR (end_time::timestamp > ?::timestamp AND end_time::timestamp <= ?::timestamp)",
-				*start, *end, *start, *end)
+			//(s2.start_time < s.end_time AND s2.start_time >= s.start_time) AND (s2.end_time > s.start_time AND s2.end_time <= s.end_time)
+			Where("(?::timestamp < end_time::timestamp AND ?::timestamp >= start_time::timestamp) OR (?::timestamp > start_time::timestamp AND ?::timestamp <= end_time::timestamp)",
+				*start, *start, *end, *end)
+			// Where("(start_time::timestamp >= ?::timestamp AND start_time::timestamp < ?::timestamp) OR (end_time::timestamp > ?::timestamp AND end_time::timestamp <= ?::timestamp)",
+			// 	*start, *end, *start, *end)
 		if id != nil { // If this is an update, make sure we exclude the existing shift.
 			d = d.Where("id != ?", *id)
 		}

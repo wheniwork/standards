@@ -164,17 +164,11 @@
             </div>
             {{#if is_manager}}
             <div class="fab fab-right-bottom color-green">
-                <a href="#">
+                <a href="#" class="add-shift">
                     <!-- First icon is visible when Speed Dial actions are closed -->
                     <i class="icon f7-icons">add</i>
                     <!-- Second icon is visible when Speed Dial actions are opened -->
-                    <i class="icon f7-icons">close</i>
                 </a>
-                <!-- Speed Dial action buttons -->
-                <div class="fab-buttons fab-buttons-left">
-                    <a href="#" class="add-shift">Shift</a>
-                    <!-- <a href="#" class="add-user">User</a> -->
-                </div>
             </div>
             {{/if}}
         </div>
@@ -446,21 +440,95 @@
                             <a href="#" class="item-content">
                                 <div class="item-inner item-cell" style="color: black;">
                                     <div class="item-row">
-                                        <div class="item-cell">Filter Summaries By Date Range</div>
+                                        <div class="item-cell"><b>Start Of Shift</b></div>
                                     </div>
                                 </div>
                             </a>
                         </li>
                         <li>
-                            <div class="item-content item-input">
-                                <div class="item-inner">
+                            <a href="#" class="item-content">
+                                <div class="item-inner item-cell" style="color: black;">
                                     <div class="item-input-wrap">
-                                        <input type="text" placeholder="Select A Date Range" readonly="readonly" id="summaryDateRange" />
+                                        <input type="text" placeholder="Select Start Of Shift" readonly="readonly" id="create-shift-from-date" />
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         </li>
                     </ul>
+                </div>
+
+                <div class="list inset">
+                    <ul>
+                        <li>
+                            <a href="#" class="item-content">
+                                <div class="item-inner item-cell" style="color: black;">
+                                    <div class="item-row">
+                                        <div class="item-cell"><b>Start Of Shift</b></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="item-content">
+                                <div class="item-inner item-cell" style="color: black;">
+                                    <div class="item-input-wrap">
+                                        <input type="text" placeholder="Select End Of Shift" readonly="readonly" id="create-shift-to-date" />
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="list inset">
+                    <ul>
+                        <li>
+                            <a href="#" class="item-content">
+                                <div class="item-inner item-cell" style="color: black;">
+                                    <div class="item-row">
+                                        <div class="item-cell"><b>Employee</b></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="item-content">
+                                <div class="item-inner item-cell" style="color: black;">
+                                    <div class="item-input-wrap">
+                                        <input type="text" placeholder="Select Employee" readonly="readonly" id="create-shift-user" />
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="list inset">
+                    <ul>
+                        <li>
+                            <a href="#" class="item-content">
+                                <div class="item-inner item-cell" style="color: black;">
+                                    <div class="item-row">
+                                        <div class="item-cell"><b>Manager</b></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="item-content">
+                                <div class="item-inner item-cell" style="color: black;">
+                                    <div class="item-input-wrap">
+                                        <input type="text" placeholder="Select Manager" readonly="readonly" id="create-shift-manager" />
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="block" style="position: absolute; bottom: 0px; width: 100%;">
+                    <p class="row">
+                        <button id="createShift" class="col button button-big">Create Shift</button>
+                    </p>
                 </div>
             </div>
         </div>
