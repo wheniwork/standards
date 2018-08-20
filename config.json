@@ -1,0 +1,5 @@
+{
+  "connection_string": "postgresql://postgres:Spring!2016@localhost:5432/postgres?sslmode=disable",
+  "connection_string_travis": "",
+  "listen_port": 8080
+}

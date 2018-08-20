@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>s</title>
+    <link rel="stylesheet" href="/assets/css/framework7.css" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi"
+    />
+    <link rel="stylesheet" href="/assets/css/framework7-icons.css">
+
+</head>
+
+<body>
+    <div id="app">
+        <div class="view view-main view-init">
+        </div>
+    </div>
+
+    <template id="homeView" typeof="text/template7">
+        <div class="page">
+            <div class="navbar">
+                <div class="navbar-inner sliding">
+                    <div class="title">Time Management Demo</div>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="list inset">
+                    <p style="font-size: 14px;">Please select a user to login as.</p>
+                    <ul>
+                        {{#results}}
+                        <li>
+                            <a href="#" class="item-content item-link login-select" user-id="{{id}}" user-name="{{name}}" user-role="{{role}}">
+                                <div class="item-inner item-cell" style="color: black;">
+                                    <div class="item-row">
+                                        <div class="item-cell">{{name}}</div>
+                                        <div class="item-cell" style="text-align: right;">
+                                            <span class="badge {{role_badge role}}">{{title_case role}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        {{/results}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="appView" typeof="text/template7">
+        <div class="page">
+            <div class="navbar">
+                <div class="navbar-inner sliding">
+                    <div class="left"><a class="link back"><i class="icon icon-back"></i><span class="ios-only">User List</span></a></div>
+                    <div class="title">Time Management Menu</div>
+                </div>
+            </div>
+
+            <div class="toolbar tabbar">
+                <div class="toolbar-inner">
+                    <!-- Links have "tab-link" class instead of just "link" to switch tabs -->
+                    <a href="#shifts-tab" class="tab-link shifts-tab tab-link-active">Shifts</a>
+                    <a href="#summary-tab" class="tab-link summary-tab">Summary</a>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <!-- First tab, active -->
+                <div class="page-content tab tab-active" id="shifts-tab">
+                    <div class="list inset">
+                        <ul>
+                            <li>
+                                <a href="#" class="item-content item-link filter-shifts">
+                                    <div class="item-inner item-cell" style="color: black;">
+                                        <div class="item-row">
+                                            <div class="item-cell">Filter Shifts</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="list inset">
+                        <p style="font-size: 14px;">{{shift_message}}</p>
+                        <ul>
+                            {{#shifts}}
+                            <li>
+                                <a href="#" class="item-content item-link shift-link" shift-id="{{id}}">
+                                    <div class="item-inner item-cell" style="color: black;">
+                                        <div class="item-row">
+                                            {{#if employee_user}}
+                                            <div class="item-cell"><b>Employee:</b> {{employee_user.name}}</div>
+                                            <div class="item-cell" style="text-align: right;">
+                                                <span class="badge {{role_badge employee_user.role}}">{{title_case employee_user.role}}</span>
+                                            </div>
+                                            {{else}}
+                                            <div class="item-cell"><b>Employee:</b> N/A</div>
+                                            <div class="item-cell" style="text-align: right;">
+                                                <span class="badge color-purple">Unassigned</span>
+                                            </div>
+                                            {{/if}}
+                                        </div>
+                                        <div class="item-row">
+                                            <div class="item-cell"><b>From:</b> {{start_time}}</div>
+                                        </div>
+                                        <div class="item-row">
+                                            <div class="item-cell"><b>To:</b> {{end_time}}</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            {{/shifts}}
+                        </ul>
+                    </div>
+
+                </div>
+                <!-- Second tab -->
+                <div class="page-content tab" id="summary-tab">
+                    <div class="list inset">
+                        <ul>
+                            <li>
+                                <a href="#" class="item-content item-link filter-summaries">
+                                    <div class="item-inner item-cell" style="color: black;">
+                                        <div class="item-row">
+                                            <div class="item-cell">Filter Summaries</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="list inset">
+                        <p style="font-size: 14px;">{{summary_message}}</p>
+                        <ul>
+                            {{#summaries}}
+                            <li>
+                                <a href="#" class="item-content">
+                                    <div class="item-inner item-cell" style="color: black;">
+                                        <div class="item-row">
+                                            <div class="item-cell"><b>Week Of:</b> {{week_start}}</div>
+                                        </div>
+                                        <div class="item-row">
+                                            <div class="item-cell"><b>Scheduled:</b> {{total_scheduled_time_formatted}}</div>
+                                        </div>
+                                        <div class="item-row">
+                                            <div class="item-cell">
+                                                <b>Worked:</b> {{total_worked_time_formatted}}
+                                            </div>
+                                        </div>
+                                        <div class="item-row">
+                                            <div class="item-cell">
+                                                <b>Shifts:</b> {{total_shifts}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            {{/summaries}}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {{#if is_manager}}
+            <div class="fab fab-right-bottom color-green">
+                <a href="#" class="add-shift">
+                    <!-- First icon is visible when Speed Dial actions are closed -->
+                    <i class="icon f7-icons">add</i>
+                    <!-- Second icon is visible when Speed Dial actions are opened -->
+                </a>
+            </div>
+            {{/if}}
+        </div>
+    </template>
+
+    <template id="shiftsFiltersView" typeof="text/template7">
+        <div class="page">
+            <div class="navbar">
+                <div class="navbar-inner sliding">
+                    <div class="left"><a class="link back"><i class="icon icon-back"></i><span class="ios-only">Shifts</span></a></div>
+                    <div class="title">Time Management Menu</div>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="list inset">
+                    <p style="font-size: 14px;">Filters</p>
+                    <ul>
+                        <li>
+                            <label class="item-checkbox item-content">
+                                <input type="checkbox" id="showOnlyMyShifts" />
+                                <i class="icon icon-checkbox"></i>
+                                <div class="item-inner">
+                                    <div class="item-title">Show Only My Shifts</div>
+                                </div>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+                <div class="list inset">
+                    <ul>
+                        <li>
+                            <a href="#" class="item-content">
+                                <div class="item-inner item-cell" style="color: black;">
+                                    <div class="item-row">
+                                        <div class="item-cell">Filter Shifts By Date Range</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <div class="item-content item-input">
+                                <div class="item-inner">
+                                    <div class="item-input-wrap">
+                                        <input type="text" placeholder="Select A Date Range" readonly="readonly" id="shiftDateRange" />
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="block" style="position: absolute; bottom: 0px; width: 100%;">
+                    <p class="row">
+                        <button id="submitShiftFilter" class="col button button-big">Submit Filter</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="summariesFiltersView" typeof="text/template7">
+        <div class="page">
+            <div class="navbar">
+                <div class="navbar-inner sliding">
+                    <div class="left"><a class="link back"><i class="icon icon-back"></i><span class="ios-only">Summaries</span></a></div>
+                    <div class="title">Time Management Menu</div>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="list inset">
+                    <ul>
+                        <li>
+                            <a href="#" class="item-content">
+                                <div class="item-inner item-cell" style="color: black;">
+                                    <div class="item-row">
+                                        <div class="item-cell">Filter Summaries By Date Range</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <div class="item-content item-input">
+                                <div class="item-inner">
+                                    <div class="item-input-wrap">
+                                        <input type="text" placeholder="Select A Date Range" readonly="readonly" id="summaryDateRange" />
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="block" style="position: absolute; bottom: 0px; width: 100%;">
+                    <p class="row">
+                        <button id="submitSummaryFilter" class="col button button-big">Submit Filter</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="changeEmployeeView" typeof="text/template7">
+        <div class="page">
+            <div class="navbar">
+                <div class="navbar-inner sliding">
+                    <div class="left"><a class="link back"><i class="icon icon-back"></i><span class="ios-only">Details</span></a></div>
+                    <div class="title">Change Employee</div>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="list inset">
+                    <ul>
+                        {{#users}}
+                        <li>
+                            <label class="item-radio item-content">
+                                <input type="radio" name="employee-radio" value="{{id}}" />
+                                <i class="icon icon-radio"></i>
+                                <div class="item-inner">
+                                    <div class="item-title">{{name}}</div>
+                                </div>
+                            </label>
+                        </li>
+                        {{/users}}
+                    </ul>
+                </div>
+                <div class="block" style="position: absolute; bottom: 0px; width: 100%;">
+                    <p class="row">
+                        <button id="submitEmployeeChange" class="col button button-big">Change Employee</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </template>
+
+
+    <template id="shiftDetailsView" typeof="text/template7">
+        <div class="page">
+            <div class="navbar">
+                <div class="navbar-inner sliding">
+                    <div class="left"><a class="link back"><i class="icon icon-back"></i><span class="ios-only">Shifts</span></a></div>
+                    <div class="title">Shift Details</div>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="list inset">
+                    <ul>
+                        <li>
+                            <a href="#" class="item-content item-link change-employee" shift-id="{{detail.id}}">
+                                <div class="item-inner item-cell" style="color: black;">
+                                    <div class="item-row item-input-wrap">
+                                        {{#if detail.employee_user}}
+                                        <input class="item-cell" type="text" placeholder="{{detail.employee_user.name}}" readonly="readonly" id="demo-picker-device"
+                                            value="{{detail.employee_user.name}}" />                                        {{else}}
+                                        <input class="item-cell" type="text" placeholder="Assign Shift" readonly="readonly" id="demo-picker-device" />
+                                        <div class="item-cell" style="text-align: right;">
+                                            <span class="badge color-purple">Unassigned</span>
+                                        </div>
+                                        {{/if}}
+
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="item-content">
+                                <div class="item-inner item-cell" style="color: black;">
+                                    <div class="item-row">
+                                        <div class="item-cell">{{detail.manager_user.name}}</div>
+                                        <div class="item-cell" style="text-align: right;">
+                                            <span class="badge {{role_badge detail.manager_user.role}}">{{title_case detail.manager_user.role}}</span>
+                                        </div>
+                                    </div>
+                                    {{#if detail.manager_user.email}}
+                                    <div class="item-row">
+                                        <div class="item-cell" style="text-align: center;"><b>Email:</b> {{detail.manager_user.email}}</div>
+                                    </div>
+                                    {{/if}} {{#if detail.manager_user.phone}}
+                                    <div class="item-row">
+                                        <div class="item-cell" style="text-align: center;"><b>Phone:</b> {{detail.manager_user.phone}}</div>
+                                    </div>
+                                    {{/if}}
+                                </div>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="list inset">
+                    <ul>
+                        <li>
+                            <a href="#" class="item-content">
+                                <div class="item-inner item-cell" style="color: black;">
+                                    <div class="item-row">
+                                        <div class="item-cell"><b>Start:</b> {{detail.start_time}}</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="item-content">
+                                <div class="item-inner item-cell" style="color: black;">
+                                    <div class="item-row">
+                                        <div class="item-cell"><b>End:</b> {{detail.end_time}}</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="item-content">
+                                <div class="item-inner item-cell" style="color: black;">
+                                    <div class="item-row">
+                                        <div class="item-cell" style="text-align: center;"><b>{{detail.hours_formatted}}</b></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="list inset">
+                    <ul>
+                        {{#if shifts}} {{#shifts}}
+                        <li>
+                            <a href="#" class="item-content">
+                                <div class="item-inner item-cell" style="color: black;">
+                                    <div class="item-row">
+                                        {{#if employee_user}}
+                                        <div class="item-cell"><b>Coworker:</b> {{employee_user.name}}</div>
+                                        <div class="item-cell" style="text-align: right;">
+                                            <span class="badge {{role_badge employee_user.role}}">{{title_case employee_user.role}}</span>
+                                        </div>
+                                        {{else}}
+                                        <div class="item-cell"><b>Coworker:</b> N/A</div>
+                                        <div class="item-cell" style="text-align: right;">
+                                            <span class="badge color-purple">Unassigned</span>
+                                        </div>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        {{/shifts}} {{else}}
+                        <li>
+                            <a href="#" class="item-content">
+                                <div class="item-inner item-cell" style="color: black;">
+                                    <div class="item-row">
+                                        <div class="item-cell" style="text-align: center;"><b>No Coworkers</b></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        {{/if}}
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </template>
+
+    <template id="createShiftView" typeof="text/template7">
+        <div class="page">
+            <div class="navbar">
+                <div class="navbar-inner sliding">
+                    <div class="left"><a class="link back"><i class="icon icon-back"></i><span class="ios-only">Cancel</span></a></div>
+                    <div class="title">Create Shift</div>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="list inset">
+                    <ul>
+                        <li>
+                            <a href="#" class="item-content">
+                                <div class="item-inner item-cell" style="color: black;">
+                                    <div class="item-row">
+                                        <div class="item-cell"><b>Start Of Shift</b></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="item-content">
+                                <div class="item-inner item-cell" style="color: black;">
+                                    <div class="item-input-wrap">
+                                        <input type="text" placeholder="Select Start Of Shift" readonly="readonly" id="create-shift-from-date" />
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="list inset">
+                    <ul>
+                        <li>
+                            <a href="#" class="item-content">
+                                <div class="item-inner item-cell" style="color: black;">
+                                    <div class="item-row">
+                                        <div class="item-cell"><b>Start Of Shift</b></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="item-content">
+                                <div class="item-inner item-cell" style="color: black;">
+                                    <div class="item-input-wrap">
+                                        <input type="text" placeholder="Select End Of Shift" readonly="readonly" id="create-shift-to-date" />
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="list inset">
+                    <ul>
+                        <li>
+                            <a href="#" class="item-content">
+                                <div class="item-inner item-cell" style="color: black;">
+                                    <div class="item-row">
+                                        <div class="item-cell"><b>Employee</b></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="item-content">
+                                <div class="item-inner item-cell" style="color: black;">
+                                    <div class="item-input-wrap">
+                                        <input type="text" placeholder="Select Employee" readonly="readonly" id="create-shift-user" />
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="list inset">
+                    <ul>
+                        <li>
+                            <a href="#" class="item-content">
+                                <div class="item-inner item-cell" style="color: black;">
+                                    <div class="item-row">
+                                        <div class="item-cell"><b>Manager</b></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="item-content">
+                                <div class="item-inner item-cell" style="color: black;">
+                                    <div class="item-input-wrap">
+                                        <input type="text" placeholder="Select Manager" readonly="readonly" id="create-shift-manager" />
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="block" style="position: absolute; bottom: 0px; width: 100%;">
+                    <p class="row">
+                        <button id="createShift" class="col button button-big">Create Shift</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="application/javascript" src="/assets//js/framework7.js"></script>
+    <script type="application/javascript" src="/assets//js/app.js"></script>
+</body>
+
+</html>

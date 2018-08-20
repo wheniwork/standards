@@ -1,0 +1,38 @@
+language: go
+
+
+
+services:
+- postgresql
+
+addons:
+  postgresql: "10"
+  apt:
+      packages:
+      - postgresql-10
+      - postgresql-client-10
+before_install:
+- sudo sed -i -e '/local.*peer/s/postgres/all/' -e 's/peer\|md5/trust/g' /etc/postgresql/*/main/pg_hba.conf
+- sudo service postgresql restart
+- sleep 1
+
+before_script:
+- psql -c 'create database travis_ci_test;' -U postgres
+
+env:
+  global:
+  - PGPORT=5433
+  - PGDATABASE=postgres
+  - PGUSER=postgres
+  - PGPASSWORD=''
+  - PGHOST=localhost
+
+
+go:
+- "1.10.3"
+
+install:
+- go get -u
+
+
+
